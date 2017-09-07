@@ -1,12 +1,17 @@
 # verified-prime
 
-The file, "h-n.verified-prime.txt", contains a list of verified primes of
+The file, "h-n.verified-prime.txt":
+
+https://github.com/arcetri/verified-prime/blob/master/h-n.verified-prime.txt
+
+contains a list of verified primes of
 the form __h*2<sup>n</sup>-1__ where __h__ < __2<sup>n</sup>__ and that
 have been proven to be prime by at least three of more independent tests.
 
 An independent test means that proof of primality was performed on using
-a different code base and run on a different machone than any of the
-other tests.
+a different code base.
+Moreover the an independent test was run on different hardware
+from the other tests.
 
 Not only did we perform at least two different tests on these primes,
 others contributed their tests and helped further verify the primality
@@ -22,9 +27,9 @@ prime numbers with a large list of known prime numbers.
 When we were testing GoPrime (see the https://github.com/arcetri/GoPrime
 site), we collected lists of primes of the form  __h*2<sup>n</sup>-1__
 and tested our code against those lists.
-To our surprize we discovered some of these prime lists contained multiple
+To our surprise we discovered some of these prime lists contained multiple
 values that were not prime.
-In some cases the list contained values where primes as small as 3 were
+In some cases the those lists we found contained values where primes as small as 3 were
 a factor of the number!
 
 ## Usage
@@ -42,7 +47,7 @@ Most primality tests for numbers of the form __h*2<sup>n</sup>-1__
 require __h__ < __2<sup>n</sup>__ and so we placed the same restriction on
 this list.
 
-### Exmaple
+### Example
 
 The line:
 
@@ -61,9 +66,17 @@ There are many primes of the form  __h*2<sup>n</sup>-1__ that we skipped.
 
 ## Contribute
 
+We went to extraordinary effort to make sure that the list contains only
+primes form __h*2<sup>n</sup>-1__ where __h__ < __2<sup>n</sup>__.
+While we would find it very surprising,
+nevertheless it is possible that the list contains mistakes.
+
 If you discover that one of the values in our list is not prime, let us know
-by __giving us a factor of the number in question__
-or __by proving the number in question is not prime using a rigorous mathematical proof__.
+by giving us a __pull request__ to remove the non-prime from our list.
+Your pull request must include a note that either
+__gives us factors of the numbers being removed__
+or
+__gives us a rigorous mathematical proof that the numbers removed are not prime__.
 
 ### Please do not
 
@@ -87,4 +100,4 @@ If you send us your theory on how to find a prime, __we will silently ignore you
 This project is distributed under the terms of the Apache License Version 2.0, January 2004.
 See file "LICENSE" for further reference.
 
-If you do use this list, we would apprecaite if you would tell us and/or mention in papers that you used our list.
+If you do use this list, we would appreciate if you would tell us and/or mention in papers that you used our list.
