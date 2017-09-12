@@ -10,7 +10,7 @@ have been proven to be prime by at least three of more independent tests.
 
 An independent test means that proof of primality was performed on using
 a different code base.
-Moreover the an independent test was run on different hardware
+Moreover each independent test was run on different hardware
 from the other tests.
 
 Not only did we perform at least two different tests on these primes,
@@ -60,7 +60,7 @@ __1111*2<sup>11</sup>-1__ == 2275327 is a prime number.
 
 ### Important NOTE
 
-This list is not intended to be exhaustive.
+This list is __NOT__ intended to be exhaustive.
 There are many primes of the form  __h*2<sup>n</sup>-1__ that are __NOT__ found in the list.
 There are many primes of the form  __h*2<sup>n</sup>-1__ that we skipped.
 
@@ -84,16 +84,17 @@ We are not very interested in expanding this list.
 Adding more primes to our list will not significantly improve the usefulness of these test cases.
 
 __Please do not__ send us primes to add to the list.
-The effort to add additional primes and to verify that they are prime is not worth the effort.
-If you send us new primes to add to the list, __we will silently ignore your message__.
+It takes a lot of work to independely verify primes (more than once).
+The effort to add additional primes and to verify them is just not worth it.
+Sorry.
 
 __Please do not__ ask us to verify primes that you may have found.
-We do not have the time, nor the resources to verify your prime.
-If you ask us to verify your prime, __we will silently ignore your message__.
+We do not have the time, nor the resources, to verify your primes.
+Sorry.
 
 __Please do not__ tell is about your theory of how to find prime numbers.
-We do not have the time, nor the resources to look into new methods of finding primes.
-If you send us your theory on how to find a prime, __we will silently ignore your message__.
+We do not have the time, nor the resources, to look into new methods of finding primes.
+Sorry.
 
 ## License
 
