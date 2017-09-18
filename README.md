@@ -10,7 +10,7 @@ have been proven to be prime by at least three of more independent tests.
 
 An independent test means that proof of primality was performed on using
 a different code base.
-Moreover each independent test was run on different hardware
+Moreover, each independent test was run on different hardware
 from the other tests.
 
 Not only did we perform at least two different tests on these primes,
@@ -21,8 +21,7 @@ Primes were converted into canonical form where __h__ is an odd value.
 Where the original list value had __h__ even,
 __n__ was incremented and __h__ halved until __h__ was odd.
 
-As if this release, "h-n.verified-prime.txt" contains 146553
-unqiue and verified primes.
+As of this release, "h-n.verified-prime.txt" contains 146553 unique verified primes.
 
 ## Motivation
 
