@@ -17,7 +17,12 @@ Not only did we perform at least two different tests on these primes,
 others contributed their tests and helped further verify the primality
 of the values found in this list.
 
-As if this release, "h-n.verified-prime.txt" contains 233787 verified primes.
+Primes were converted into canonical form where __h__ is an odd value.
+Where the original list value had __h__ even,
+__n__ was incremented and __h__ halved until __h__ was odd.
+
+As if this release, "h-n.verified-prime.txt" contains 146553
+unqiue and verified primes.
 
 ## Motivation
 
