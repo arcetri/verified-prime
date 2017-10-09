@@ -23,6 +23,19 @@ __n__ was incremented and __h__ halved until __h__ was odd.
 
 As of this release, "h-n.verified-prime.txt" contains 146553 unique verified primes.
 
+# v1-data
+
+The v1-data subdirectory:
+
+https://github.com/arcetri/verified-prime
+
+contains information about a survey of v(1) values used for
+testing if a large integers of the form __h*2<sup>n</sup>-1__ are prime.
+
+Details on this survey may be found in:
+
+https://github.com/arcetri/verified-prime/v1-data/README.md
+
 ## Motivation
 
 The main motivation for this list is to provide those developing code to search for new
@@ -35,6 +48,9 @@ To our surprise we discovered some of these prime lists contained multiple
 values that were not prime.
 In some cases the those lists we found contained values where primes as small as 3 were
 a factor of the number!
+
+The v1-data subdirectory was created to support finding an optimal strategy for
+testing if a large integers of the form __h*2<sup>n</sup>-1__ are prime.
 
 ## Usage
 
