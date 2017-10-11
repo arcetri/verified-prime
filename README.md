@@ -23,11 +23,25 @@ __n__ was incremented and __h__ halved until __h__ was odd.
 
 As of this release, "h-n.verified-prime.txt" contains 146553 unique verified primes.
 
+The file h-0mod3-n.verified-prime.txt:
+
+https://github.com/arcetri/verified-prime/blob/master/h-0mod3-n.verified-prime.txt
+
+is a subset of "h-n.verified-prime.txt" containing verified primes
+where h is a multiple of 3.
+
+The file h-not0mod3-n.verified-prime.txt:
+
+https://github.com/arcetri/verified-prime/blob/master/h-not0mod3-n.verified-prime.txt
+
+is a subset of "h-n.verified-prime.txt" containing verified primes
+where h is a not multiple of 3.
+
 # v1-data
 
 The v1-data subdirectory:
 
-https://github.com/arcetri/verified-prime
+https://github.com/arcetri/verified-prime/v1-data
 
 contains information about a survey of v(1) values used for
 testing if a large integers of the form __h*2<sup>n</sup>-1__ are prime.
@@ -67,6 +81,9 @@ Most primality tests for numbers of the form __h*2<sup>n</sup>-1__
 require __h__ < __2<sup>n</sup>__ and so we placed the same restriction on
 this list.
 
+The files "h-0mod3-n.verified-prime.txt" and "h-not0mod3-n.verified-prime.txt"
+have the same format as "h-n.verified-prime.txt".
+
 ### Example
 
 The line:
@@ -104,7 +121,7 @@ We are not very interested in expanding this list.
 Adding more primes to our list will not significantly improve the usefulness of these test cases.
 
 __Please do not__ send us primes to add to the list.
-It takes a lot of work to independely verify primes (more than once).
+It takes a lot of work to independently verify primes (more than once).
 The effort to add additional primes and to verify them is just not worth it.
 Sorry.
 
