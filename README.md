@@ -6,7 +6,7 @@ https://github.com/arcetri/verified-prime/blob/master/h-n.verified-prime.txt
 
 contains a list of verified primes of
 the form __h*2<sup>n</sup>-1__ where __h__ < __2<sup>n</sup>__ and that
-have been proven to be prime by at least three of more independent tests.
+have been proven to be prime by at least three or more independent tests.
 
 An independent test means that proof of primality was performed on using
 a different code base.
