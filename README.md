@@ -41,14 +41,14 @@ where h is a not multiple of 3.
 
 The v1-data subdirectory:
 
-https://github.com/arcetri/verified-prime/v1-data
+https://github.com/arcetri/verified-prime/tree/master/v1-data
 
 contains information about a survey of v(1) values used for
 testing if a large integers of the form __h*2<sup>n</sup>-1__ are prime.
 
 Details on this survey may be found in:
 
-https://github.com/arcetri/verified-prime/v1-data/README.md
+https://github.com/arcetri/verified-prime/tree/master/v1-data/README.md
 
 ## Motivation
 
