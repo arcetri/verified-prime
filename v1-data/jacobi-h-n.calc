@@ -1,0 +1,168 @@
+#!/usr/bin/calc -q -s -f
+/*
+ * jacobi-h-n.calc - generate a jacboi +-0 string for each h n pairs
+ *
+ * usage:
+ *
+ *	jacobi-h-n.calc filename min max
+ *
+ *	filename	file containing lines of h n
+ *	min		minimum Jacobi 1st term
+ *	max		maximum Jacobi 1st term
+ *
+ * For each line from standard input, read h and n:
+ *
+ *	print a line containing h, n followed by +, -, or 0
+ *
+ * The +, - and 0 at the end of the line are depending on the Jacobi symbol:
+ *
+ *	if J(X, h*2^n-1) == -1 print -
+ *	if J(X, h*2^n-1) ==  1 print +
+ *	else print 0
+ *
+ * where X is all values over the range:
+ *
+ *	min <= X < max
+ *
+ * Copyright (C) 2019  Landon Curt Noll
+ *
+ * Calc is open software; you can redistribute it and/or modify it under
+ * the terms of the version 2.1 of the GNU Lesser General Public License
+ * as published by the Free Software Foundation.
+ *
+ * Calc is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General
+ * Public License for more details.
+ *
+ * A copy of version 2.1 of the GNU Lesser General Public License is
+ * distributed with calc under the filename COPYING-LGPL.  You should have
+ * received a copy with calc; if not, write to Free Software Foundation, Inc.
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * chongo <was here> /\oo/\     http://www.isthe.com/chongo/
+ * Share and enjoy!  :-)        http://www.isthe.com/chongo/tech/comp/calc/
+ */
+
+/* 
+ * setup 
+ */
+argc = argv();
+stdout = files(1);
+stderr = files(2);
+program = argv(0);
+
+/* 
+ * parse args 
+ */
+if (argc != 4) {
+    fprintf(stderr, "usage: %s filename min max\n", program);
+    exit "wrong number of arguments";
+}
+filename = argv(1);
+min = eval(argv(2));
+if (!isint(min) || min < 1) {
+    fprintf(stderr, "usage: %s min must be an integer >= 1\n", program);
+    exit "wrong number of arguments";
+}
+max = eval(argv(3));
+if (!isint(max) || max < min) {
+    fprintf(stderr, "usage: %s max must be an integer >= min\n", program);
+    exit "wrong number of arguments";
+}
+
+/* 
+ * open the file 
+ */
+stream = fopen(filename, "r");
+if (!isfile(stream)) {
+    fprintf(stderr, "error(%d): %s\n", errno(stream), strerror(stream));
+    exit "unable to open file";
+}
+
+/* 
+ * read h n from file until EOF 
+ */
+while (!feof(stream)) {
+
+    /* 
+     * read h from file 
+     */
+    h_str = fgetfield(stream);
+    if (feof(stream)) {
+	exit;
+    } else if (isnull(h_str) == 1) {
+	exit "FATAL: h was null";
+    }
+    h = eval(h_str);
+    if (!isint(h)) {
+	exit "FATAL: h is not an integer";
+    }
+    orig_h = h;
+
+    /* 
+     * read n from file 
+     */
+    n_str = fgetfield(stream);
+    if (feof(stream)) {
+	exit;
+    } else if (isnull(n_str) == 1) {
+	exit "FATAL: n was null";
+    }
+    n = eval(n_str);
+    if (!isint(n)) {
+	exit "FATAL: n is not an integer";
+    }
+    orig_n = n;
+
+    /* 
+     * force h to be odd 
+     */
+    while (iseven(h)) {
+	h /= 2;
+	++n;
+    }
+
+    /*
+     * ignore if h >= 2^n
+     */
+    if (highbit(h) >= n) {
+	continue;
+    }
+
+    /* 
+     * ignore if h*2^n-1 is a multiple of 3 
+     */
+    if (((h%3 == 1) && (n%2 == 0)) || ((h%3 == 2) && (n%2 == 1))) {
+	continue;
+    }
+
+    /* 
+     * compute 2nd term of the Jacobi 
+     */
+    testval = h*2^n-1;
+
+    /* 
+     * print leading h and n in the line 
+     */
+    print orig_h, orig_n,;
+
+    /*
+     * The 1st term of the Jacobi, x, will range over [min,max]
+     */
+    for (x=min; x <= max; ++x) {
+
+	/* generate the jacobi symbol value */
+	jval = jacobi(x, testval);
+
+	/* print a +, - or 0 depending on the jacobi symbol value */
+	if (jval == 1) {
+	    fputc(stdout, "+");
+    	} else if (jval == -1) {
+	    fputc(stdout, "-");
+	} else {
+	    fputc(stdout, "0");
+	}
+    }
+    print;
+}
