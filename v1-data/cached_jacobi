@@ -1,9 +1,17 @@
-4.381102	 byusecount_129max-v1-search-0mod3.cached_jacobi
-7.564832	 linear_165max-v1-search-0mod3.cached_jacobi
-3.200000	 linear_165max-v1-search-not0mod3.cached_jacobi
-4.618883	 oddlinear_165max-v1-search-0mod3.cached_jacobi
-5.552297	 oddlinear_165max-v1-search-not0mod3.cached_jacobi
+# h = 0 mod 3 results
+
 4.348820	 smallestoddv1_byusecount_165max-v1-search-0mod3.cached_jacobi
 4.363651	 smallestoddv1_sorted_165max-v1-search-0mod3.cached_jacobi
-4.372544	 smallestv1_byusecount_129max-v1-search-0mod3.cached_jacobi
+4.618883	 oddlinear_165max-v1-search-0mod3.cached_jacobi
+7.564832	 linear_165max-v1-search-0mod3.cached_jacobi
+
+# h = 1 or 2 mod 3 results
+
+3.200000	 linear_165max-v1-search-not0mod3.cached_jacobi
 3.200000	 sorted_4max-v1-search-not0mod3.cached_jacobi
+5.552297	 oddlinear_165max-v1-search-not0mod3.cached_jacobi
+
+# other results 
+
+4.381102	 byusecount_129max-v1-search-0mod3.cached_jacobi
+4.372544	 smallestv1_byusecount_129max-v1-search-0mod3.cached_jacobi
