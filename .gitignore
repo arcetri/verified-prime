@@ -2,3 +2,5 @@ v1-data/*.out
 v1-data/*.1st_v1
 v1-data/*.cached_jacobi
 v1-data/*.jacobi_count
+v1-data/UNUSED
+v1-data/job.*
