@@ -4,10 +4,9 @@
  *
  * usage:
  *
- *	jacobi-h-n.calc filename min max
+ *	jacobi-h-n.calc filename max
  *
  *	filename	file containing lines of h n
- *	min		minimum Jacobi 1st term
  *	max		maximum Jacobi 1st term
  *
  * For each line from standard input, read h and n:
@@ -22,7 +21,7 @@
  *
  * where X is all values over the range:
  *
- *	min <= X < max
+ *	1 <= X < max
  *
  * Copyright (C) 2019  Landon Curt Noll
  *
@@ -44,35 +43,30 @@
  * Share and enjoy!  :-)        http://www.isthe.com/chongo/tech/comp/calc/
  */
 
-/* 
- * setup 
+/*
+ * setup
  */
 argc = argv();
 stdout = files(1);
 stderr = files(2);
 program = argv(0);
 
-/* 
- * parse args 
+/*
+ * parse args
  */
-if (argc != 4) {
-    fprintf(stderr, "usage: %s filename min max\n", program);
+if (argc != 3) {
+    fprintf(stderr, "usage: %s filename max\n", program);
     exit "wrong number of arguments";
 }
 filename = argv(1);
-min = eval(argv(2));
-if (!isint(min) || min < 1) {
-    fprintf(stderr, "usage: %s min must be an integer >= 1\n", program);
-    exit "wrong number of arguments";
-}
-max = eval(argv(3));
-if (!isint(max) || max < min) {
-    fprintf(stderr, "usage: %s max must be an integer >= min\n", program);
+max = eval(argv(2));
+if (!isint(max) || max < 5) {
+    fprintf(stderr, "usage: %s max must be an integer >= 5\n", program);
     exit "wrong number of arguments";
 }
 
-/* 
- * open the file 
+/*
+ * open the file
  */
 stream = fopen(filename, "r");
 if (!isfile(stream)) {
@@ -80,13 +74,13 @@ if (!isfile(stream)) {
     exit "unable to open file";
 }
 
-/* 
- * read h n from file until EOF 
+/*
+ * read h n from file until EOF
  */
 while (!feof(stream)) {
 
-    /* 
-     * read h from file 
+    /*
+     * read h from file
      */
     h_str = fgetfield(stream);
     if (feof(stream)) {
@@ -100,8 +94,8 @@ while (!feof(stream)) {
     }
     orig_h = h;
 
-    /* 
-     * read n from file 
+    /*
+     * read n from file
      */
     n_str = fgetfield(stream);
     if (feof(stream)) {
@@ -115,12 +109,19 @@ while (!feof(stream)) {
     }
     orig_n = n;
 
-    /* 
-     * force h to be odd 
+    /*
+     * force h to be odd
      */
     while (iseven(h)) {
-	h /= 2;
 	++n;
+	h /= 2;
+    }
+
+    /*
+     * ignore n if too small to make h*2^n-1 an odd prime
+     */
+    if (n < 2) {
+	continue;
     }
 
     /*
@@ -130,27 +131,29 @@ while (!feof(stream)) {
 	continue;
     }
 
-    /* 
-     * ignore if h*2^n-1 is a multiple of 3 
+    /*
+     * unless we are dealing with the prime 3, skip if h*2^n-1 is a multiple of 3
      */
-    if (((h%3 == 1) && (n%2 == 0)) || ((h%3 == 2) && (n%2 == 1))) {
-	continue;
+    if (h != 1 && n != 2) {
+	if (((h%3 == 1) && (n%2 == 0)) || ((h%3 == 2) && (n%2 == 1))) {
+	    continue;
+	}
     }
 
-    /* 
-     * compute 2nd term of the Jacobi 
+    /*
+     * compute 2nd term of the Jacobi
      */
     testval = h*2^n-1;
 
-    /* 
-     * print leading h and n in the line 
+    /*
+     * print leading h and n in the line
      */
     print orig_h, orig_n,;
 
     /*
      * The 1st term of the Jacobi, x, will range over [min,max]
      */
-    for (x=min; x <= max; ++x) {
+    for (x=1; x <= max; ++x) {
 
 	/* generate the jacobi symbol value */
 	jval = jacobi(x, testval);

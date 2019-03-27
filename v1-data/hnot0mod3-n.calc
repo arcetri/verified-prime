@@ -11,7 +11,7 @@
  * Generate pairs of h and n such that:
  *
  *	limit_n = start_n + count - 1
- *	start_h = 3*(limit_n+2)
+ *	start_h = 3*start_n
  *	limit_h = start_h + 6*count - 1
  *
  *	start_n <= n <= limit_n
@@ -76,18 +76,19 @@ if (!isint(count) || count < 1) {
 }
 
 /*
+ * h must be odd, so increase start_n if even
+ */
+start_h = 3*start_n;
+while (iseven(start_h)) {
+    ++start_n;
+    start_h /= 2;
+}
+
+/*
  * setup range
  */
 limit_n = start_n + count - 1;
-start_h = 3*(limit_n+2);
 limit_h = start_h + 6*count - 1;
-
-/*
- * h must be odd, so increate start_h if even
- */
-if (iseven(start_h)) {
-    ++start_h;
-}
 
 /*
  * cycle through the range of n
@@ -114,10 +115,12 @@ for (n=start_n; n <= limit_n; ++n) {
 	}
 
 	/*
-	 * skip if h*2^n-1 is a multiple of 3
+	 * unless we are dealing with the prime 3, skip if h*2^n-1 is a multiple of 3
 	 */
-	if (((h%3 == 1) && (n%2 == 0)) || ((h%3 == 2) && (n%2 == 1))) {
-	    continue;
+	if (h != 1 && n != 2) {
+	    if (((h%3 == 1) && (n%2 == 0)) || ((h%3 == 2) && (n%2 == 1))) {
+		continue;
+	    }
 	}
 
 	/* print h n pair */
