@@ -69,6 +69,13 @@ fi
 #
 for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
 
+    # firewall - do not override
+    #
+    if [[ -d "$dir" ]]; then
+	echo "$0: FATAL: job directory exists: $dir" 1>&2
+	exit 5
+    fi
+
     # make the directory
     #
     echo "forming directory $dir"
@@ -79,6 +86,8 @@ for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
     fi
 
     # clean out job files in the directory
+    #
+    # NOTE: code not needed if firewall - do not override stops override
     #
     chmod 0755 "$dir"
     echo "cleaning directory $dir"

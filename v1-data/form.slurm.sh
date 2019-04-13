@@ -66,7 +66,7 @@ cat << EOF
 #SBATCH --qos=normal			# normal priority job queue
 #SBATCH --ntasks=1			# number of tasks to run
 #SBATCH --mem-per-cpu=1G		# virtual memory per process
-#SBATCH --time=0-00:10:00		# total time limit (D-HH:MM:SS)
+#SBATCH --time=0-00:20:00		# total time limit (D-HH:MM:SS)
 #SBATCH --output=jacobi.$ID		# stdout
 #SBATCH --error=stderr.$ID		# stderr
 #SBATCH --requeue			# job will be requeued after a node failure

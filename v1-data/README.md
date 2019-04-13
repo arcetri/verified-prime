@@ -24,8 +24,8 @@ We compiled two sets of 1000000 large integers of the form __h*2<sup>n</sup>-1__
 where __h*2<sup>n</sup>-1__ is not a multiple of 3, both having the following properties:
 
 ```
-4331116 <= n < 4332116
-12996351 <= h < 13002351
+4331116 <= n <= 4332115
+12996351 <= h <= 13002350
 h is odd
 ```
 
