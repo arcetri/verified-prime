@@ -38,8 +38,8 @@
 #include "jacobi-stat.h"
 
 /* forward static declarations */
-static int count_cmp(const void *a_arg, const void *b_arg);
-static int amount_cmp(const void *a_arg, const void *b_arg);
+static int reverse_count_cmp(const void *a_arg, const void *b_arg);
+static int value_cmp(const void *a_arg, const void *b_arg);
 
 /*
  * tally_init - initialize a Jacobi tally
@@ -65,7 +65,7 @@ tally_init(tally *tally_p)
     /*
      * allocate the array to the default size
      *
-     * Because the count array, when sorted_by_amount is true, starts with the amount value of 0.
+     * Because the count array, when sorted_by_value is true, starts with the value of 0.
      *
      * We start out with the DEF_MAX_V1+1+1 elements.  The +1 on count_alloc is because
      * we start with the element for 0.
@@ -76,9 +76,10 @@ tally_init(tally *tally_p)
 	errp(100, __func__, "count: cannot malloc %u objects", tally_p->count_alloc);
 	/*NOTREACHED*/
     }
+    /* setup pre-sorted by value */
     for (i=0; i < tally_p->count_alloc; ++i) {
 	tally_p->count[i].count = 0;
-	tally_p->count[i].amount = i;
+	tally_p->count[i].value = i;
     }
 
     /*
@@ -86,7 +87,7 @@ tally_init(tally *tally_p)
      */
     tally_p->non_zero_count = 0;
     tally_p->out_of_range = 0;
-    tally_p->sorted_by_amount = true;
+    tally_p->sorted_by_value = true;
     return;
 }
 
@@ -218,7 +219,7 @@ cache_config(cache *cache_p, ssize_t len)
  * is used for x == 0.  The largest value in cache is cache_p->jcache_use-1.
  */
 int8_t
-lookup_jacobi(char *jstr, size_t x, cache *cache_p)
+lookup_jacobi(const char *jstr, int64_t x, cache *cache_p)
 {
     /*
      * firewall
@@ -308,12 +309,12 @@ lookup_jacobi(char *jstr, size_t x, cache *cache_p)
  *
  * given:
  *	tally_p		pointer to a tally
- *	amount		the value to tally
+ *	value		the value to tally
  *
  * NOTE: This function does not return on error.
  */
 void
-tally_value(tally *tally_p, int64_t amount)
+tally_value(tally *tally_p, int64_t value)
 {
     /*
      * firewall
@@ -333,41 +334,41 @@ tally_value(tally *tally_p, int64_t amount)
     }
 
     /*
-     * be sure the tally is sorted by amount
+     * be sure the tally is sorted by value
      */
-    if (! tally_p->sorted_by_amount) {
-	sort_by_amount(tally_p);
-	if (! tally_p->sorted_by_amount) {
-	    err(104, __func__, "sort_by_amount did not set sorted_by_amount to true");
+    if (! tally_p->sorted_by_value) {
+	reverse_sort_by_count(tally_p);
+	if (! tally_p->sorted_by_value) {
+	    err(104, __func__, "reverse_sort_by_count did not set sorted_by_value to false");
 	    /*NOTREACHED*/
 	}
     }
 
     /*
-     * firewall - deal with out of range amount
+     * firewall - deal with out of range value
      */
-    if (amount >= tally_p->count_alloc) {
+    if (value >= tally_p->count_alloc) {
 	++tally_p->out_of_range;
 	return;
     }
 
     /*
-     * firewall - amount must match the amount in the count slot
+     * firewall - value must match the value in the count slot
      */
-    if (amount != tally_p->count[amount].amount) {
-	err(104, __func__, "missorted tally for amount: %"PRIu64" != count[%"PRIu64"].amount: %"PRIu64,
-		 amount, amount, tally_p->count[amount].amount);
+    if (value != tally_p->count[value].value) {
+	err(104, __func__, "missorted tally for value: %"PRIu64" != count[%"PRIu64"].value: %"PRIu64,
+		 value, value, tally_p->count[value].value);
 	/*NOTREACHED*/
     }
 
     /*
      * update count
      */
-     if (tally_p->count[amount].count == 0) {
+     if (tally_p->count[value].count == 0) {
 	 /* note that we are converting a 0 to a non-0 count */
          ++tally_p->non_zero_count;
      }
-     ++tally_p->count[amount].count;
+     ++tally_p->count[value].count;
      return;
 }
 
@@ -395,7 +396,7 @@ tally_value(tally *tally_p, int64_t amount)
  * NOTE: This function does not return on error.
  */
 bool
-v1_check(char *jstr, size_t x, cache *cache_p)
+v1_check(const char *jstr, int64_t x, cache *cache_p)
 {
     /*
      * firewall
@@ -446,19 +447,19 @@ v1_check(char *jstr, size_t x, cache *cache_p)
 
 
 /*
- * amount_cmp - compare amount values of count elements
+ * reverse_count_cmp - reverse compare count values
  *
  * given:
  *	a	first object
  *	b	second object
  *
  * returns:
- *	1	a > b
+ *	-1	a > b
  *	0	a == b
- *	-1	a < b
+ *	1	a < b
  */
 static int
-amount_cmp(const void *a_arg, const void *b_arg)
+reverse_count_cmp(const void *a_arg, const void *b_arg)
 {
     count *a;	// a_arg as a count pointer
     count *b;	// b_arg as a count pointer
@@ -472,9 +473,9 @@ amount_cmp(const void *a_arg, const void *b_arg)
     if (a_arg == NULL && b_arg == NULL) {
         return 0;
     } else if (a_arg == NULL) {
-        return 1;	// only a_arg is NULL, so a_arg is LESS important to restore (sorted later)
+        return -1;	// only a_arg is NULL, so a_arg is LESS important to restore (sorted later)
     } else if (b_arg == NULL) {
-        return -1;	// only b_arg is NULL, so a_arg is MORE important to restore (sorted earlier)
+        return 1;	// only b_arg is NULL, so a_arg is MORE important to restore (sorted earlier)
     }
     a = (count *)a_arg;
     b = (count *)b_arg;
@@ -482,10 +483,14 @@ amount_cmp(const void *a_arg, const void *b_arg)
     /*
      * compare
      */
-    if (a->amount > b->amount) {
-	return 1;
-    } else if (a->amount < b->amount) {
-	return -1;
+    if (a->count > b->count) {
+	return -1;	// reverse count order
+    } else if (a->count < b->count) {
+	return 1;	// reverse count order
+    } else if (a->value > b->value) {
+	return 1;	// forward value order when counts match
+    } else if (a->value < b->value) {
+	return -1;	// forward value order when counts match
     } else {
 	return 0;
     }
@@ -493,7 +498,7 @@ amount_cmp(const void *a_arg, const void *b_arg)
 
 
 /*
- * count_cmp - reverse compare amount values of count elements
+ * value_cmp - compare values
  *
  * given:
  *	a	first object
@@ -505,7 +510,7 @@ amount_cmp(const void *a_arg, const void *b_arg)
  *	-1	a > b
  */
 static int
-count_cmp(const void *a_arg, const void *b_arg)
+value_cmp(const void *a_arg, const void *b_arg)
 {
     count *a;	// a_arg as a count pointer
     count *b;	// b_arg as a count pointer
@@ -529,10 +534,14 @@ count_cmp(const void *a_arg, const void *b_arg)
     /*
      * reverse compare
      */
-    if (a->amount > b->amount) {
-	return -1;
-    } else if (a->amount < b->amount) {
-	return 1;
+    if (a->value > b->value) {
+	return 1;	// forward value order
+    } else if (a->value < b->value) {
+	return -1;	// forward value order
+    } else if (a->count > b->count) {
+	return 1;	// forward count order when values match
+    } else if (a->count < b->count) {
+	return -1;	// forward count order when values match
     } else {
 	return 0;
     }
@@ -540,18 +549,18 @@ count_cmp(const void *a_arg, const void *b_arg)
 
 
 /*
- * sort_by_amount - sort count array by amount
+ * sort_by_value - sort count array by value
  *
  * given:
  *	tally_p		pointer to a tally
  *
- * Sort the count array of a tally by the amount element.
+ * Reverse sort the count array of a tally by the count element.
  * Set the sort state.
  *
  * NOTE: This function does not return on error.
  */
 void
-sort_by_amount(tally *tally_p)
+sort_by_value(tally *tally_p)
 {
     /*
      * firewall
@@ -571,16 +580,20 @@ sort_by_amount(tally *tally_p)
     }
 
     /*
-     * sort by amount
+     * sort by value
      */
-    qsort(tally_p->count, tally_p->count_alloc, sizeof(tally_p->count[0]), amount_cmp);
-    tally_p->sorted_by_amount = true;
+    if (tally_p->sorted_by_value) {
+	dbg(DBG_LOW, "already sorted count array by value");
+	return;	// nothing more to do - already sorted
+    }
+    qsort(tally_p->count, tally_p->count_alloc, sizeof(tally_p->count[0]), value_cmp);
+    tally_p->sorted_by_value = true;
     return;
 }
 
 
 /*
- * reverse_sort_by_count - reverse  sort count array by count
+ * reverse_sort_by_count - reverse sort by count
  *
  * given:
  *	tally_p		pointer to a tally
@@ -611,9 +624,68 @@ reverse_sort_by_count(tally *tally_p)
     }
 
     /*
-     * sort by amount
+     * reverse sort by count
      */
-    qsort(tally_p->count, tally_p->count_alloc, sizeof(tally_p->count[0]), count_cmp);
-    tally_p->sorted_by_amount = false;
+    if (! tally_p->sorted_by_value) {
+	dbg(DBG_LOW, "already reverse sorted count array by value");
+	return;	// nothing more to do - already sorted
+    }
+    qsort(tally_p->count, tally_p->count_alloc, sizeof(tally_p->count[0]), reverse_count_cmp);
+    tally_p->sorted_by_value = false;
+    return;
+}
+
+
+/*
+ * write_tally - write tally to an open stream
+ *
+ * given:
+ *	tally_p		pointer to a tally
+ *	stream		stream open for writing
+ *
+ * NOTE: This function does not return on error.
+ */
+void
+write_tally(tally *tally_p, FILE *stream)
+{
+    int64_t i;
+
+    /*
+     * firewall
+     */
+    if (tally_p == NULL) {
+	err(108, __func__, "tally_p is NULL");
+	/*NOTREACHED*/
+    }
+    if (tally_p->count == NULL) {
+	err(108, __func__, "tally_p->count is NULL");
+	/*NOTREACHED*/
+    }
+    if (tally_p->count_alloc <= 0) {
+	err(108, __func__, "tally_p->count_alloc: %"PRIu64" <= 0",
+		 tally_p->count_alloc);
+	/*NOTREACHED*/
+    }
+    if (stream == NULL) {
+	err(108, __func__, "stream is NULL");
+	/*NOTREACHED*/
+    }
+
+    /*
+     * write header
+     */
+    fprintf(stream, "# non_zero_count = %"PRIu64"\n", tally_p->non_zero_count);
+    fprintf(stream, "# zero_count = %"PRIu64"\n", tally_p->count_alloc - tally_p->non_zero_count);
+    fprintf(stream, "# out_of_range = %"PRIu64"\n", tally_p->out_of_range);
+    fprintf(stream, "# count value\n");
+
+    /*
+     * write each count element
+     */
+    for (i=0; i < tally_p->count_alloc; ++i) {
+	fprintf(stream, "%"PRIu64" %"PRIu64"\n",
+		tally_p->count[i].count,
+		tally_p->count[i].value);
+    }
     return;
 }

@@ -165,6 +165,7 @@ extern void usage_msg(int exit_code, const char *name);
 #    define DBG_HIGH (5)	// verbose debugging
 #    define DBG_VHIGH (7)	// very verbose debugging
 #    define DBG_VVHIGH (9)	// very very verbose debugging
+#    define DBG_VVVHIGH (11)	// very very very verbose debugging
 #    define FORCED_EXIT (255)	// exit(255) on bad exit code
 
 #endif				/* INCLUDE_DEBUG_H */

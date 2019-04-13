@@ -36,8 +36,8 @@
 #include "debug.h"
 #include "jacobi-parse.h"
 
-char *jacobi_line_buffer = NULL;	// getline buffer, will be malloced
 unsigned long jacobi_lineno = 0;	// lines read
+static char *jacobi_line_buffer = NULL;	// getline buffer, will be malloced
 
 
 /*
@@ -87,11 +87,18 @@ read_line(char **lineptr, FILE *stream)
 	return 0;	// we are at EOF already
     }
     ret = getline(lineptr, &alloc_len, stream);
-    ++jacobi_lineno;
+    if (feof(stream)) {
+	return 0;	// EOF already
+    }
+    if (ferror(stream)) {
+	errp(90, __func__, "error on reading stream");
+	/*NOTREACHED*/
+    }
     if (ret < 0) {
 	errp(90, __func__, "getline returned < 0: %d", ret);
 	/*NOTREACHED*/
     }
+    ++jacobi_lineno;
     /* paranoia */
     if (*lineptr == NULL) {
 	err(90, __func__, "getline *lineptr is NULL");
@@ -167,16 +174,16 @@ read_line(char **lineptr, FILE *stream)
 ssize_t
 parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream)
 {
-     ssize_t len;		// length of line read, not counting newline
-     int sscanf_ret;		// sscanf() tokens parsed
-     uint64_t h = 0;		// parsed h value
-     uint64_t n = 0;		// parsed n value
-     size_t jacobi_len;		// length of Jacobi +-0 string
-     size_t scan_len;		// length of +-0's chars in Jacobi +-0 string
-     char *context = NULL;	// strtok_r context
-     char *token_h;		// pointer to 1st token (pointer to h)
-     char *token_n;		// pointer to 2nd token (pointer to n)
-     char *token_str;		// pointer to 3nd token (pointer to Jacobi +-0 string)
+    ssize_t len;		// length of line read, not counting newline
+    int sscanf_ret;		// sscanf() tokens parsed
+    uint64_t h = 0;		// parsed h value
+    uint64_t n = 0;		// parsed n value
+    size_t jacobi_len;		// length of Jacobi +-0 string
+    size_t scan_len;		// length of +-0's chars in Jacobi +-0 string
+    char *context = NULL;	// strtok_r context
+    char *token_h;		// pointer to 1st token (pointer to h)
+    char *token_n;		// pointer to 2nd token (pointer to n)
+    char *token_str;		// pointer to 3nd token (pointer to Jacobi +-0 string)
 
     /*
      * firewall
@@ -217,6 +224,7 @@ parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream
 	warn(__func__, "read_line returned <0: %d", len);
 	return len;
     }
+    dbg(DBG_VVVHIGH, "read %d characters: %s", len, jacobi_line_buffer);
 
     /*
      * convert line into 3 tokens
@@ -250,7 +258,7 @@ parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream
 	warn(__func__, "line %ld h < 1: %"PRIu64, jacobi_lineno, h);
 	return JACOBI_LINE_BADFMT;
     }
-    sscanf_ret = sscanf(token_n, "%"SCNu64, &h);
+    sscanf_ret = sscanf(token_n, "%"SCNu64, &n);
     if (sscanf_ret != 1) {
 	warn(__func__, "line %ld sscanf of n returned %d != 3",
 	     jacobi_lineno, sscanf_ret);
@@ -301,4 +309,17 @@ parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream
     *n_p = n;
     *j_str = token_str;
     return jacobi_len;
+}
+
+
+/*
+ * free_jacobi_line_buffer - free the line buffer if allocated
+ */
+void
+free_jacobi_line_buffer(void)
+{
+    if (jacobi_line_buffer != NULL) {
+	free(jacobi_line_buffer);
+    }
+    return;
 }

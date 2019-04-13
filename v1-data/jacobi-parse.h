@@ -35,9 +35,9 @@
 #define JACOBI_MIN_LEN		(3+2+1)	// Minimin v(1) is 3, need to Jacobi evaluate +2 beyond that,
 					// and the final +1 is because we force strings to start with 0
 
-extern char *jacobi_line_buffer;	// getline buffer, will be malloced
 extern unsigned long jacobi_lineno;	// lines read
 
 extern ssize_t parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream);
+extern void free_jacobi_line_buffer(void);
 
 #endif	/* INCLUDE_JACOBI_PARSE_H */
