@@ -40,12 +40,13 @@ SHELL_TOOLS= form.slurm.sh gen.all.sh gen.job.sh gen.primejob.sh \
     launch.jobset.sh jacobi.all.sh jacobi.jobset.sh jacobi.prime.sh \
     jacobi.tally.sh
 
-C_SRC= debug.c jacobi-parse.c jacobi-stat.c jacobi-gentally.c
+C_SRC= debug.c jacobi-parse.c jacobi-stat.c jacobi-gentally.c find-v1.c
 H_SRC= debug.h jacobi-parse.h jacobi-stat.h
 
-OBJS= debug.o jacobi-parse.o jacobi-stat.o jacobi-gentally.o
+GENTALLY_OBJS= debug.o jacobi-parse.o jacobi-stat.o
+OBJS= ${GENTALLY_OBJS} jacobi-gentally.o find-v1.o
 
-TARGETS= jacobi-gentally
+TARGETS= jacobi-gentally find-v1
 
 all: ${OBJS} ${TARGETS}
 
@@ -61,8 +62,14 @@ jacobi-stat.o: jacobi-stat.c debug.h jacobi-parse.h jacobi-stat.h
 jacobi-gentally.o: jacobi-gentally.c debug.h jacobi-parse.h jacobi-stat.h
 	${CC} ${CFLAGS} jacobi-gentally.c -c
 
-jacobi-gentally: debug.o jacobi-parse.o jacobi-stat.o jacobi-gentally.o
-	${CC} ${CFLAGS} ${OBJS} -o $@
+jacobi-gentally: ${GENTALLY_OBJS} jacobi-gentally.o
+	${CC} ${CFLAGS} ${GENTALLY_OBJS} jacobi-gentally.o -o $@
+
+find-v1.o: find-v1.c debug.h jacobi-parse.h jacobi-stat.h
+	${CC} ${CFLAGS} find-v1.c -c
+
+find-v1: ${GENTALLY_OBJS} find-v1.o
+	${CC} ${CFLAGS} ${GENTALLY_OBJS} find-v1.o -o $@
 
 configure:
 
