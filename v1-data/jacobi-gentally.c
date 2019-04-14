@@ -40,7 +40,7 @@
  */
 const char * usage =
 "usage: %s [-h] [-v lvl] tally.int tally.1stint tally.odd tally.1stodd\n"
-"				    tally.byuse tally.byv1 tally.byodduse tally.byoddv1\n"
+"				    tally.byfreq tally.byv1 tally.byoddfreq tally.byoddv1\n"
 "\n"
 "	-h		print usage message and exit\n"
 "	-v lvl		set debugging level (def: 0 ==> none)\n"
@@ -49,9 +49,9 @@ const char * usage =
 "	tally.1stint	tally of smallest valid v(1) for consecutive integers\n"
 "	tally.odd	tally of valid odd v(1) for consecutive odd integers\n"
 "	tally.1stodd	tally of smallest valid odd v(1) for consecutive odd integers\n"
-"	tally.byuse	tally of most common for 0mod3 case reverse sorted by use\n"
+"	tally.byfreq	tally of most common for 0mod3 case reverse sorted by frequency of use\n"
 "	tally.byv1	tally of most common for 0mod3 case sorted by v(1)\n"
-"	tally.byodduse	tally of most common odd for 0mod3 case reverse sorted by use\n"
+"	tally.byoddfreq	tally of most common odd for 0mod3 case reverse sorted by frequency of use\n"
 "	tally.byoddv1	tally of most common odd for 0mod3 case sorted by v(1)"
 ;
 
@@ -69,15 +69,15 @@ bool use_syslog = false;		// true ==> use syslog services msgs
  *
  *	job.h-0mod3.jobset/tally.1stint
  *
- * The best_v1_sorted_by_use[] is sorted in reverse order by count.
+ * The best_v1_sorted_by_freq[] is sorted in reverse order by count.
  * The best_v1_sorted_by_v1[] is sorted by valid v(1) value.
  *
- * The best_v1_sorted_by_odduse[] is odd sorted in reverse order by count.
+ * The best_v1_sorted_by_oddfreq[] is odd sorted in reverse order by count.
  * The best_v1_sorted_by_oddv1[] is odd sorted by valid v(1) value.
  *
  * NOTE The -1 value indicates end of list and is not part of the true list.
  */
-static int64_t best_v1_sorted_by_use[] = {
+static int64_t best_v1_sorted_by_freq[] = {
     3, 5, 9, 11, 15, 17, 21, 29, 20, 27, 35, 36, 39, 41, 45, 32, 51,
     44, 56, 49, 59, 57, 65, 55, 69, 71, 77, 66, 81, 95, 72, 80, 67, 99,
     84, 74, 90, 104, 105, 87, 116, 101, 109, 125, 111, 135,
@@ -89,7 +89,7 @@ static int64_t best_v1_sorted_by_v1[] = {
     87, 90, 95, 99, 101, 104, 105, 109, 111, 116, 125, 135,
     -1	// just be the last value
 };
-static int64_t best_v1_sorted_by_odduse[] = {
+static int64_t best_v1_sorted_by_oddfreq[] = {
     3, 5, 9, 11, 15, 17, 21, 29, 27, 35, 39, 41, 31, 45, 51, 55, 49,
     59, 69, 71, 57, 65, 85, 81, 95, 99, 77, 53, 67, 105, 101, 109, 125,
     87, 129, 83, 111, 155, 107, 135, 139, 141, 149, 165,
@@ -100,6 +100,8 @@ static int64_t best_v1_sorted_by_oddv1[] = {
     55, 57, 59, 65, 67, 69, 71, 77, 81, 83, 85, 87, 95, 99, 101, 105,
     107, 109, 111, 125, 129, 135, 139, 141, 149, 155, 165,
     -1	// just be the last value
+};
+static int64_t verified_prime_1st_v1_sorted_by_freq[] = {
 };
 
 int
@@ -134,20 +136,21 @@ main(int argc, char *argv[])
     tally tally_1stodd;			// tally of smallest valid odd v(1) - consecutive odd integers
     cache cache_1stodd;			// cache for tally.1stodd a line
     /**/
-    char *filename_best_by_use = NULL;	// tally.byuse filename - most common for 0mod3 reverse sorted by use
-    FILE *file_best_by_use = NULL;	// open stream for tally.byuse
-    tally tally_best_by_use;		// tally of valid v(1) - common for 0mod3 reverse sorted by use
-    cache cache_best_by_use;		// cache for tally.byuse a line
+    char *filename_best_by_freq = NULL;	// tally.byfreq filename - most common for 0mod3 reverse sorted by frequency of use
+    FILE *file_best_by_freq = NULL;	// open stream for tally.byfreq
+    tally tally_best_by_freq;		// tally of valid v(1) - common for 0mod3 reverse sorted by frequency of use
+    cache cache_best_by_freq;		// cache for tally.byfreq a line
     /**/
     char *filename_best_by_v1 = NULL;	// tally.byv1 filename - most common for 0mod3 sorted by v(1)
     FILE *file_best_by_v1 = NULL;	// open stream for tally.byv1
     tally tally_best_by_v1;		// tally of valid v(1) - common for 0mod3 sorted by v(1)
     cache cache_best_by_v1;		// cache for tally.byv1 a line
     /**/
-    char *filename_best_by_odduse = NULL; // tally.byodduse filename - most common odd for 0mod3 reverse sorted by use
-    FILE *file_best_by_odduse = NULL;	// open stream for tally.byodduse
-    tally tally_best_by_odduse;		// tally of valid odd v(1) - common for 0mod3 reverse sorted by use
-    cache cache_best_by_odduse;		// cache for tally.byuse a line
+    char *filename_best_by_oddfreq = NULL; // tally.byoddfreq filename - 
+    					   // most common odd for 0mod3 reverse sorted by frequency of use
+    FILE *file_best_by_oddfreq = NULL;	// open stream for tally.byoddfreq
+    tally tally_best_by_oddfreq;	// tally of valid odd v(1) - common for 0mod3 reverse sorted by frequency of use
+    cache cache_best_by_oddfreq;	// cache for tally.byfreq a line
     /**/
     char *filename_best_by_oddv1 = NULL; // tally.byoddv1 filename - most common odd for 0mod3 sorted by v(1)
     FILE *file_best_by_oddv1 = NULL;	// open stream for tally.byoddv1
@@ -193,12 +196,12 @@ main(int argc, char *argv[])
     dbg(DBG_LOW, "filename_tally_odd filename: %s", filename_tally_odd);
     filename_tally_1stodd = argv[3];
     dbg(DBG_LOW, "filename_tally_1stodd filename: %s", filename_tally_1stodd);
-    filename_best_by_use = argv[4];
-    dbg(DBG_LOW, "filename_best_by_use filename: %s", filename_best_by_use);
+    filename_best_by_freq = argv[4];
+    dbg(DBG_LOW, "filename_best_by_freq filename: %s", filename_best_by_freq);
     filename_best_by_v1 = argv[5];
     dbg(DBG_LOW, "filename_best_by_v1 filename: %s", filename_best_by_v1);
-    filename_best_by_odduse = argv[6];
-    dbg(DBG_LOW, "filename_best_by_odduse filename: %s", filename_best_by_odduse);
+    filename_best_by_oddfreq = argv[6];
+    dbg(DBG_LOW, "filename_best_by_oddfreq filename: %s", filename_best_by_oddfreq);
     filename_best_by_oddv1 = argv[7];
     dbg(DBG_LOW, "filename_best_by_oddv1 filename: %s", filename_best_by_oddv1);
 
@@ -225,9 +228,9 @@ main(int argc, char *argv[])
 	errp(2, __func__, "cannot open for writing: %s", filename_tally_1stodd);
 	/*NOTREACHED*/
     }
-    file_best_by_use = fopen(filename_best_by_use, "w");
-    if (file_best_by_use == NULL) {
-	errp(2, __func__, "cannot open for writing: %s", filename_best_by_use);
+    file_best_by_freq = fopen(filename_best_by_freq, "w");
+    if (file_best_by_freq == NULL) {
+	errp(2, __func__, "cannot open for writing: %s", filename_best_by_freq);
 	/*NOTREACHED*/
     }
     file_best_by_v1 = fopen(filename_best_by_v1, "w");
@@ -235,9 +238,9 @@ main(int argc, char *argv[])
 	errp(2, __func__, "cannot open for writing: %s", filename_best_by_v1);
 	/*NOTREACHED*/
     }
-    file_best_by_odduse = fopen(filename_best_by_odduse, "w");
-    if (file_best_by_odduse == NULL) {
-	errp(2, __func__, "cannot open for writing: %s", filename_best_by_odduse);
+    file_best_by_oddfreq = fopen(filename_best_by_oddfreq, "w");
+    if (file_best_by_oddfreq == NULL) {
+	errp(2, __func__, "cannot open for writing: %s", filename_best_by_oddfreq);
 	/*NOTREACHED*/
     }
     file_best_by_oddv1 = fopen(filename_best_by_oddv1, "w");
@@ -254,18 +257,18 @@ main(int argc, char *argv[])
     tally_init(&tally_1stint);
     tally_init(&tally_odd);
     tally_init(&tally_1stodd);
-    tally_init(&tally_best_by_use);
+    tally_init(&tally_best_by_freq);
     tally_init(&tally_best_by_v1);
-    tally_init(&tally_best_by_odduse);
+    tally_init(&tally_best_by_oddfreq);
     tally_init(&tally_best_by_oddv1);
     dbg(DBG_LOW, "about to initialize caches");
     cache_init(&cache_int);
     cache_init(&cache_1stint);
     cache_init(&cache_odd);
     cache_init(&cache_1stodd);
-    cache_init(&cache_best_by_use);
+    cache_init(&cache_best_by_freq);
     cache_init(&cache_best_by_v1);
-    cache_init(&cache_best_by_odduse);
+    cache_init(&cache_best_by_oddfreq);
     cache_init(&cache_best_by_oddv1);
 
     /*
@@ -301,9 +304,9 @@ main(int argc, char *argv[])
 	cache_config(&cache_1stint, parse_jacobi_line_ret);
 	cache_config(&cache_odd, parse_jacobi_line_ret);
 	cache_config(&cache_1stodd, parse_jacobi_line_ret);
-	cache_config(&cache_best_by_use, parse_jacobi_line_ret);
+	cache_config(&cache_best_by_freq, parse_jacobi_line_ret);
 	cache_config(&cache_best_by_v1, parse_jacobi_line_ret);
-	cache_config(&cache_best_by_odduse, parse_jacobi_line_ret);
+	cache_config(&cache_best_by_oddfreq, parse_jacobi_line_ret);
 	cache_config(&cache_best_by_oddv1, parse_jacobi_line_ret);
 
 	/*
@@ -393,16 +396,16 @@ main(int argc, char *argv[])
 	}
 
 	/*
-	 * loop over: common  for 0mod3 case reverse sorted by use
+	 * loop over: common  for 0mod3 case reverse sorted by frequency of use
 	 */
-	for (i=0; best_v1_sorted_by_use[i] > 0; ++i) {
+	for (i=0; best_v1_sorted_by_freq[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
-	    v1 = best_v1_sorted_by_use[i];
-	    if (v1_check(jstr, v1, &cache_best_by_use)) {
-		tally_value(&tally_best_by_use, v1);
+	    v1 = best_v1_sorted_by_freq[i];
+	    if (v1_check(jstr, v1, &cache_best_by_freq)) {
+		tally_value(&tally_best_by_freq, v1);
 		break;
 	    }
 	}
@@ -423,16 +426,16 @@ main(int argc, char *argv[])
 	}
 
 	/*
-	 * loop over: common odd for 0mod3 case reverse sorted by use
+	 * loop over: common odd for 0mod3 case reverse sorted by frequency of use
 	 */
-	for (i=0; best_v1_sorted_by_odduse[i] > 0; ++i) {
+	for (i=0; best_v1_sorted_by_oddfreq[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
-	    v1 = best_v1_sorted_by_odduse[i];
-	    if (v1_check(jstr, v1, &cache_best_by_odduse)) {
-		tally_value(&tally_best_by_odduse, v1);
+	    v1 = best_v1_sorted_by_oddfreq[i];
+	    if (v1_check(jstr, v1, &cache_best_by_oddfreq)) {
+		tally_value(&tally_best_by_oddfreq, v1);
 		break;
 	    }
 	}
@@ -466,9 +469,9 @@ main(int argc, char *argv[])
     reverse_sort_by_count(&tally_1stint);
     reverse_sort_by_count(&tally_odd);
     reverse_sort_by_count(&tally_1stodd);
-    reverse_sort_by_count(&tally_best_by_use);
+    reverse_sort_by_count(&tally_best_by_freq);
     reverse_sort_by_count(&tally_best_by_v1);
-    reverse_sort_by_count(&tally_best_by_odduse);
+    reverse_sort_by_count(&tally_best_by_oddfreq);
     reverse_sort_by_count(&tally_best_by_oddv1);
 
     /*
@@ -487,14 +490,14 @@ main(int argc, char *argv[])
     write_stats(&tally_1stodd, &cache_1stodd, file_tally_1stodd);
     fclose(file_tally_1stodd);
     /**/
-    write_stats(&tally_best_by_use, &cache_best_by_use, file_best_by_use);
-    fclose(file_best_by_use);
+    write_stats(&tally_best_by_freq, &cache_best_by_freq, file_best_by_freq);
+    fclose(file_best_by_freq);
     /**/
     write_stats(&tally_best_by_v1, &cache_best_by_v1, file_best_by_v1);
     fclose(file_best_by_v1);
     /**/
-    write_stats(&tally_best_by_odduse, &cache_best_by_odduse, file_best_by_odduse);
-    fclose(file_best_by_odduse);
+    write_stats(&tally_best_by_oddfreq, &cache_best_by_oddfreq, file_best_by_oddfreq);
+    fclose(file_best_by_oddfreq);
     /**/
     write_stats(&tally_best_by_oddv1, &cache_best_by_oddv1, file_best_by_oddv1);
     fclose(file_best_by_oddv1);
