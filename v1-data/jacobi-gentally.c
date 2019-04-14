@@ -69,39 +69,37 @@ bool use_syslog = false;		// true ==> use syslog services msgs
  *
  *	job.h-0mod3.jobset/tally.1stint
  *
- * The best_v1_sorted_by_freq[] is sorted in reverse order by count.
- * The best_v1_sorted_by_v1[] is sorted by valid v(1) value.
+ * The best_v1_reverse_sorted_by_freq[] is sorted in reverse order by count.
+ * The best_v1_reverse_sorted_by_v1[] is sorted by valid v(1) value.
  *
- * The best_v1_sorted_by_oddfreq[] is odd sorted in reverse order by count.
- * The best_v1_sorted_by_oddv1[] is odd sorted by valid v(1) value.
+ * The best_v1_reverse_sorted_by_oddfreq[] is odd sorted in reverse order by count.
+ * The best_v1_reverse_sorted_by_oddv1[] is odd sorted by valid v(1) value.
  *
  * NOTE The -1 value indicates end of list and is not part of the true list.
  */
-static int64_t best_v1_sorted_by_freq[] = {
+static int64_t best_v1_reverse_sorted_by_freq[] = {
     3, 5, 9, 11, 15, 17, 21, 29, 20, 27, 35, 36, 39, 41, 45, 32, 51,
     44, 56, 49, 59, 57, 65, 55, 69, 71, 77, 66, 81, 95, 72, 80, 67, 99,
     84, 74, 90, 104, 105, 87, 116, 101, 109, 125, 111, 135,
     -1	// just be the last value
 };
-static int64_t best_v1_sorted_by_v1[] = {
+static int64_t best_v1_reverse_sorted_by_v1[] = {
     3, 5, 9, 11, 15, 17, 20, 21, 27, 29, 32, 35, 36, 39, 41, 44, 45,
     49, 51, 55, 56, 57, 59, 65, 66, 67, 69, 71, 72, 74, 77, 80, 81, 84,
     87, 90, 95, 99, 101, 104, 105, 109, 111, 116, 125, 135,
     -1	// just be the last value
 };
-static int64_t best_v1_sorted_by_oddfreq[] = {
+static int64_t best_v1_reverse_sorted_by_oddfreq[] = {
     3, 5, 9, 11, 15, 17, 21, 29, 27, 35, 39, 41, 31, 45, 51, 55, 49,
     59, 69, 71, 57, 65, 85, 81, 95, 99, 77, 53, 67, 105, 101, 109, 125,
     87, 129, 83, 111, 155, 107, 135, 139, 141, 149, 165,
     -1	// just be the last value
 };
-static int64_t best_v1_sorted_by_oddv1[] = {
+static int64_t best_v1_reverse_sorted_by_oddv1[] = {
     3, 5, 9, 11, 15, 17, 21, 27, 29, 31, 35, 39, 41, 45, 49, 51, 53,
     55, 57, 59, 65, 67, 69, 71, 77, 81, 83, 85, 87, 95, 99, 101, 105,
     107, 109, 111, 125, 129, 135, 139, 141, 149, 155, 165,
     -1	// just be the last value
-};
-static int64_t verified_prime_1st_v1_sorted_by_freq[] = {
 };
 
 int
@@ -398,12 +396,12 @@ main(int argc, char *argv[])
 	/*
 	 * loop over: common  for 0mod3 case reverse sorted by frequency of use
 	 */
-	for (i=0; best_v1_sorted_by_freq[i] > 0; ++i) {
+	for (i=0; best_v1_reverse_sorted_by_freq[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
-	    v1 = best_v1_sorted_by_freq[i];
+	    v1 = best_v1_reverse_sorted_by_freq[i];
 	    if (v1_check(jstr, v1, &cache_best_by_freq)) {
 		tally_value(&tally_best_by_freq, v1);
 		break;
@@ -413,12 +411,12 @@ main(int argc, char *argv[])
 	/*
 	 * loop over: most common  for 0mod3 case sorted by v(1)
 	 */
-	for (i=0; best_v1_sorted_by_v1[i] > 0; ++i) {
+	for (i=0; best_v1_reverse_sorted_by_v1[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
-	    v1 = best_v1_sorted_by_v1[i];
+	    v1 = best_v1_reverse_sorted_by_v1[i];
 	    if (v1_check(jstr, v1, &cache_best_by_v1)) {
 		tally_value(&tally_best_by_v1, v1);
 		break;
@@ -428,12 +426,12 @@ main(int argc, char *argv[])
 	/*
 	 * loop over: common odd for 0mod3 case reverse sorted by frequency of use
 	 */
-	for (i=0; best_v1_sorted_by_oddfreq[i] > 0; ++i) {
+	for (i=0; best_v1_reverse_sorted_by_oddfreq[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
-	    v1 = best_v1_sorted_by_oddfreq[i];
+	    v1 = best_v1_reverse_sorted_by_oddfreq[i];
 	    if (v1_check(jstr, v1, &cache_best_by_oddfreq)) {
 		tally_value(&tally_best_by_oddfreq, v1);
 		break;
@@ -443,12 +441,12 @@ main(int argc, char *argv[])
 	/*
 	 * loop over: most common odd for 0mod3 case sorted by v(1)
 	 */
-	for (i=0; best_v1_sorted_by_oddv1[i] > 0; ++i) {
+	for (i=0; best_v1_reverse_sorted_by_oddv1[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
-	    v1 = best_v1_sorted_by_oddv1[i];
+	    v1 = best_v1_reverse_sorted_by_oddv1[i];
 	    if (v1_check(jstr, v1, &cache_best_by_oddv1)) {
 		tally_value(&tally_best_by_v1, v1);
 		break;
