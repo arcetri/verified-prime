@@ -40,12 +40,12 @@ SHELL_TOOLS= form.slurm.sh gen.all.sh gen.job.sh gen.primejob.sh \
     launch.jobset.sh jacobi.all.sh jacobi.jobset.sh jacobi.prime.sh \
     jacobi.tally.sh
 
-C_SRC= debug.c jacobi-parse.c jacobi-stat.c jacobi-data1.c
+C_SRC= debug.c jacobi-parse.c jacobi-stat.c jacobi-gentally.c
 H_SRC= debug.h jacobi-parse.h jacobi-stat.h
 
-OBJS= debug.o jacobi-parse.o jacobi-stat.o jacobi-data1.o
+OBJS= debug.o jacobi-parse.o jacobi-stat.o jacobi-gentally.o
 
-TARGETS= jacobi-data1
+TARGETS= jacobi-gentally
 
 all: ${OBJS} ${TARGETS}
 
@@ -58,10 +58,10 @@ jacobi-parse.o: jacobi-parse.c debug.h jacobi-parse.h
 jacobi-stat.o: jacobi-stat.c debug.h jacobi-parse.h jacobi-stat.h
 	${CC} ${CFLAGS} jacobi-stat.c -c
 
-jacobi-data1.o: jacobi-data1.c debug.h jacobi-parse.h jacobi-stat.h
-	${CC} ${CFLAGS} jacobi-data1.c -c
+jacobi-gentally.o: jacobi-gentally.c debug.h jacobi-parse.h jacobi-stat.h
+	${CC} ${CFLAGS} jacobi-gentally.c -c
 
-jacobi-data1: debug.o jacobi-parse.o jacobi-stat.o jacobi-data1.o
+jacobi-gentally: debug.o jacobi-parse.o jacobi-stat.o jacobi-gentally.o
 	${CC} ${CFLAGS} ${OBJS} -o $@
 
 configure:

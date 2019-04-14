@@ -26,7 +26,7 @@
 
 # setup
 #
-export JACOBI_DATA1="./jacobi-data1"
+export JACOBI_GENTALLY="./jacobi-gentally"
 export USAGE="usage: $0 [-h]"
 
 # parse args
@@ -44,8 +44,8 @@ export RANGE_H_NOT0MOD3="job.h-not0mod3.prime"
 
 # firewall
 #
-if [[ ! -x $JACOBI_DATA1 ]]; then
-    echo "$0: FATAL: cannot find executable: $JACOBI_DATA1" 1>&2
+if [[ ! -x $JACOBI_GENTALLY ]]; then
+    echo "$0: FATAL: cannot find executable: $JACOBI_GENTALLY" 1>&2
     exit 2
 fi
 if [[ ! -d "$RANGE_H_0MOD3" ]]; then
@@ -57,28 +57,28 @@ if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
     exit 4
 fi
 
-# jacobi-data1 processing for 0mod3
+# jacobi-gentally processing for 0mod3
 #
-echo "$JACOBI_DATA1" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byuse" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byodduse" "$RANGE_H_0MOD3/tally.byoddv1"
+echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byuse" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byodduse" "$RANGE_H_0MOD3/tally.byoddv1"
 find "$RANGE_H_0MOD3" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 (
-    "$JACOBI_DATA1" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byuse" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byodduse" "$RANGE_H_0MOD3/tally.byoddv1"
+    "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byuse" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byodduse" "$RANGE_H_0MOD3/tally.byoddv1"
     status="$?"
     if [[ $status -ne 0 ]]; then
-	echo "$0: Warning: $JACOBI_DATA1 on $RANGE_H_0MOD3 non-zero exit status: $status" 1>&2
+	echo "$0: Warning: $JACOBI_GENTALLY on $RANGE_H_0MOD3 non-zero exit status: $status" 1>&2
 	exit 1
     fi
 )
 
-# jacobi-data1 processing for not0mod3
+# jacobi-gentally processing for not0mod3
 #
-echo "$JACOBI_DATA1" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byuse" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byodduse" "$RANGE_H_NOT0MOD3/tally.byoddv1"
+echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byuse" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byodduse" "$RANGE_H_NOT0MOD3/tally.byoddv1"
 find "$RANGE_H_NOT0MOD3" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 (
-    "$JACOBI_DATA1" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byuse" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byodduse" "$RANGE_H_NOT0MOD3/tally.byoddv1"
+    "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byuse" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byodduse" "$RANGE_H_NOT0MOD3/tally.byoddv1"
     status="$?"
     if [[ $status -ne 0 ]]; then
-	echo "$0: Warning: $JACOBI_DATA1 on $RANGE_H_NOT0MOD3 non-zero exit status: $status" 1>&2
+	echo "$0: Warning: $JACOBI_GENTALLY on $RANGE_H_NOT0MOD3 non-zero exit status: $status" 1>&2
 	exit 1
     fi
 )

@@ -57,7 +57,7 @@ const char * usage =
 
 /* external variables */
 const char *program = NULL;		// our name
-const char version_string[] = "jacobi-data1 0.1";  // our package name and version
+const char version_string[] = "jacobi-gentally 1.0";  // our package name and version
 int debuglevel = DBG_NONE;		// print debug messages <= debuglevel
 bool use_syslog = false;		// true ==> use syslog services msgs
 
@@ -71,6 +71,7 @@ bool use_syslog = false;		// true ==> use syslog services msgs
  *
  * The best_v1_sorted_by_use[] is sorted in reverse order by count.
  * The best_v1_sorted_by_v1[] is sorted by valid v(1) value.
+ *
  * The best_v1_sorted_by_odduse[] is odd sorted in reverse order by count.
  * The best_v1_sorted_by_oddv1[] is odd sorted by valid v(1) value.
  *
