@@ -224,6 +224,19 @@ main(int argc, char *argv[])
 	for (v1=DEF_MIN_V1; v1 <= max_v1; ++v1) {
 
 	    /*
+	     * gather stats for the 3 other caches
+	     */
+	    if (! saw_valid_v1) {
+		(void) v1_check(jstr, v1, &cache_1stint);
+	    }
+	    if ((v1%2) == 1) {
+		(void) v1_check(jstr, v1, &cache_odd);
+		if (! saw_valid_odd_v1) {
+		    (void) v1_check(jstr, v1, &cache_1stodd);
+		}
+	    }
+
+	    /*
 	     * skip this v1 if NOT a valid v(1)
 	     */
 	    valid_v1 = v1_check(jstr, v1, &cache_int);
@@ -241,9 +254,9 @@ main(int argc, char *argv[])
 	     * if first for this line, tally of smallest valid v(1) for consecutive integers
 	     */
 	    if (! saw_valid_v1) {
-		saw_valid_v1 = true;
-		tally_value(&tally_1stint, v1);
 		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is first valid", h, n, v1);
+		tally_value(&tally_1stint, v1);
+		saw_valid_v1 = true;
 	    } else {
 		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is valid", h, n, v1);
 	    }
@@ -264,9 +277,9 @@ main(int argc, char *argv[])
 	     * if first for this line, tally of smallest valid v(1) for consecutive integers
 	     */
 	    if (! saw_valid_odd_v1) {
-		saw_valid_odd_v1 = true;
-		tally_value(&tally_1stodd, v1);
 		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is first odd valid", h, n, v1);
+		tally_value(&tally_1stodd, v1);
+		saw_valid_odd_v1 = true;
 	    } else {
 		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is odd valid", h, n, v1);
 	    }
@@ -279,23 +292,28 @@ main(int argc, char *argv[])
     }
 
     /*
-     * output reverse sort count array by count
+     * reverse sort count array by count
      */
     dbg(DBG_LOW, "about to reverse sort count array by count");
     reverse_sort_by_count(&tally_int);
-    write_tally(&tally_int, file_tally_int);
+    reverse_sort_by_count(&tally_1stint);
+    reverse_sort_by_count(&tally_odd);
+    reverse_sort_by_count(&tally_1stodd);
+
+    /*
+     * write information to tally files
+     */
+    dbg(DBG_LOW, "write information to tally files");
+    write_stats(&tally_int, &cache_int, file_tally_int);
     fclose(file_tally_int);
     /**/
-    reverse_sort_by_count(&tally_1stint);
-    write_tally(&tally_1stint, file_tally_1stint);
+    write_stats(&tally_1stint, &cache_1stint, file_tally_1stint);
     fclose(file_tally_1stint);
     /**/
-    reverse_sort_by_count(&tally_odd);
-    write_tally(&tally_odd, file_tally_odd);
+    write_stats(&tally_odd, &cache_odd, file_tally_odd);
     fclose(file_tally_odd);
     /**/
-    reverse_sort_by_count(&tally_1stodd);
-    write_tally(&tally_1stodd, file_tally_1stodd);
+    write_stats(&tally_1stodd, &cache_1stodd, file_tally_1stodd);
     fclose(file_tally_1stodd);
 
     /*

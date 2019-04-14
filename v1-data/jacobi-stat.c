@@ -134,10 +134,13 @@ cache_init(cache *cache_p)
      * clear cache stats
      */
     cache_p->jcache_use = 0;
+    cache_p->jacobi_w_cache_ops = 0;
+    cache_p->jacobi_wo_cache_ops = 0;
     cache_p->cache_load_count = 0;
     cache_p->cache_hit_count = 0;
     cache_p->out_of_range = 0;
     cache_p->invalid_str_value = 0;
+    cache_p->valid_v1_values = 0;
     return;
 }
 
@@ -190,13 +193,9 @@ cache_config(cache *cache_p, ssize_t len)
     memset(cache_p->jcache, INVALID_JACOBI_VALUE, len*sizeof(cache_p->jcache[0]));
 
     /*
-     * configure the cache stats
+     * configure the cache size
      */
     cache_p->jcache_use = (size_t) len;
-    cache_p->cache_load_count = 0;
-    cache_p->cache_hit_count = 0;
-    cache_p->out_of_range = 0;
-    cache_p->invalid_str_value = 0;
     return;
 }
 
@@ -243,6 +242,11 @@ lookup_jacobi(const char *jstr, int64_t x, cache *cache_p)
     }
 
     /*
+     * count this Jacobi operation as if we are not using a cache
+     */
+    ++cache_p->jacobi_wo_cache_ops;
+
+    /*
      * firewall - deal with out of range x
      *
      * NOTE: Because x is unsigned, we do not check for x < 0.
@@ -278,6 +282,7 @@ lookup_jacobi(const char *jstr, int64_t x, cache *cache_p)
      * The jacobi value has not yet been cached, so we fetch the Jacobi value
      * from the jstr.
      */
+     ++cache_p->jacobi_w_cache_ops;	// missed our cache, note a Jacobi evaluation
      switch (jstr[x]) {
      case '-':
 	cache_p->jcache[x] = -1;
@@ -442,6 +447,7 @@ v1_check(const char *jstr, int64_t x, cache *cache_p)
     /*
      * x is a valid v(1) to test h*2n-1
      */
+    ++cache_p->valid_v1_values;	// count this valid v(1) value
     return true;
 }
 
@@ -637,46 +643,87 @@ reverse_sort_by_count(tally *tally_p)
 
 
 /*
- * write_tally - write tally to an open stream
+ * write_stats - write tally and cache information to an open stream
  *
  * given:
  *	tally_p		pointer to a tally
+ *	cache_p		pointer to a cache
  *	stream		stream open for writing
  *
  * NOTE: This function does not return on error.
  */
 void
-write_tally(tally *tally_p, FILE *stream)
+write_stats(tally *tally_p, cache *cache_p, FILE *stream)
 {
+    int64_t count_sum;	// sum of all counts
     int64_t i;
 
     /*
      * firewall
      */
     if (tally_p == NULL) {
-	err(108, __func__, "tally_p is NULL");
+	err(109, __func__, "tally_p is NULL");
 	/*NOTREACHED*/
     }
     if (tally_p->count == NULL) {
-	err(108, __func__, "tally_p->count is NULL");
+	err(109, __func__, "tally_p->count is NULL");
 	/*NOTREACHED*/
     }
     if (tally_p->count_alloc <= 0) {
-	err(108, __func__, "tally_p->count_alloc: %"PRIu64" <= 0",
+	err(109, __func__, "tally_p->count_alloc: %"PRIu64" <= 0",
 		 tally_p->count_alloc);
 	/*NOTREACHED*/
     }
     if (stream == NULL) {
-	err(108, __func__, "stream is NULL");
+	err(109, __func__, "stream is NULL");
+	/*NOTREACHED*/
+    }
+    if (cache_p == NULL) {
+	err(108, __func__, "cache_p is NULL");
+	/*NOTREACHED*/
+    }
+    if (cache_p->jcache == NULL) {
+	err(108, __func__, "cache_p->jcache is NULL");
 	/*NOTREACHED*/
     }
 
     /*
-     * write header
+     * compute tally count sum
+     */
+    count_sum = 0;
+    for (i=0; i < tally_p->count_alloc; ++i) {
+	count_sum += tally_p->count[i].count;
+    }
+    count_sum += tally_p->out_of_range;
+
+    /*
+     * write cache information header
+     */
+    fprintf(stream, "# ave jacobi ops per valid v(1) with cache = %.3f\n",
+    		    (double)cache_p->jacobi_w_cache_ops / (double)cache_p->valid_v1_values);
+    fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.3f\n",
+    		    (double)cache_p->jacobi_wo_cache_ops / (double)cache_p->valid_v1_values);
+    fprintf(stream, "#\n");
+    fprintf(stream, "# Jacobi ops ignoring cache = %"PRIu64"\n", cache_p->jacobi_w_cache_ops);
+    fprintf(stream, "# Jacobi ops with cache     = %"PRIu64"\n", cache_p->jacobi_wo_cache_ops);
+    fprintf(stream, "# valid_v1_values           = %"PRIu64"\n", cache_p->valid_v1_values);
+    fprintf(stream, "#\n");
+    fprintf(stream, "# cache_load_count = %"PRIu64"\n", cache_p->cache_load_count);
+    fprintf(stream, "# cache_hit_count  = %"PRIu64"\n", cache_p->cache_hit_count);
+    fprintf(stream, "#\n");
+    fprintf(stream, "# out_of_range      = %"PRIu64"\n", cache_p->out_of_range);
+    fprintf(stream, "# invalid_str_value = %"PRIu64"\n", cache_p->invalid_str_value);
+    fprintf(stream, "#\n");
+
+    /*
+     * write tally information header
      */
     fprintf(stream, "# non_zero_count = %"PRIu64"\n", tally_p->non_zero_count);
-    fprintf(stream, "# zero_count = %"PRIu64"\n", tally_p->count_alloc - tally_p->non_zero_count);
-    fprintf(stream, "# out_of_range = %"PRIu64"\n", tally_p->out_of_range);
+    fprintf(stream, "# zero_count     = %"PRIu64"\n", tally_p->count_alloc - tally_p->non_zero_count);
+    fprintf(stream, "# out_of_range   = %"PRIu64"\n", tally_p->out_of_range);
+    fprintf(stream, "#\n");
+    fprintf(stream, "# count sum = %"PRIu64"\n", count_sum);
+    fprintf(stream, "#\n");
     fprintf(stream, "# count value\n");
 
     /*

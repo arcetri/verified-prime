@@ -91,10 +91,13 @@ typedef struct s_tally {
 typedef struct s_cache {
     size_t jcache_alloc;	// >0 ==> length of Jacobi symbol cache malloced/realloced in chars
     size_t jcache_use;		// >0 ==> length of Jacobi symbol cache being used in chars
-    int64_t cache_load_count;	// number of times a Jacobi symbol cache value was set from the Jacobi +-0 value string value
-    int64_t cache_hit_count;	// number of times a Jacobi symbol cache value != INVALID_JACOBI_VALUE found and used
+    int64_t jacobi_w_cache_ops;		// number of Jacobi symbol operations using cache
+    int64_t jacobi_wo_cache_ops;	// number of Jacobi symbol operations not using cache
+    int64_t cache_load_count;	// number of times a Jacobi symbol operations that cause our cache to be loaded
+    int64_t cache_hit_count;	// number of times a Jacobi symbol operations that hit an existing value in our cache
     int64_t out_of_range;	// number of times a value was out of range of the cache range
     int64_t invalid_str_value;	// number of times a Jacobi +-0 value string value was neither +, nor -. nor 0
+    int64_t valid_v1_values;	// number of times a valid v(1) value was found
     int8_t *jcache;		// != NULL ==> Jacobi symbol cache (-1, 0, or 1), initialized to INVALID_JACOBI_VALUE
 } cache;
 
@@ -109,6 +112,6 @@ extern void tally_value(tally *tally_p, int64_t value);
 extern bool v1_check(const char *jstr, int64_t x, cache *cache_p);
 extern void sort_by_value(tally *tally_p);
 extern void reverse_sort_by_count(tally *tally_p);
-extern void write_tally(tally *tally_p, FILE *stream);
+extern void write_stats(tally *tally_p, cache *cache_p, FILE *stream);
 
 #endif	/* INCLUDE_JACOBI_STAT_H */
