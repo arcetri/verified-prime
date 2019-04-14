@@ -482,28 +482,28 @@ main(int argc, char *argv[])
      * write information to tally files
      */
     dbg(DBG_LOW, "write information to tally files");
-    write_stats(&tally_int, &cache_int, file_tally_int);
+    write_stats(&tally_int, &cache_int, filename_tally_int, file_tally_int);
     fclose(file_tally_int);
     /**/
-    write_stats(&tally_1stint, &cache_1stint, file_tally_1stint);
+    write_stats(&tally_1stint, &cache_1stint, filename_tally_1stint, file_tally_1stint);
     fclose(file_tally_1stint);
     /**/
-    write_stats(&tally_odd, &cache_odd, file_tally_odd);
+    write_stats(&tally_odd, &cache_odd, filename_tally_odd, file_tally_odd);
     fclose(file_tally_odd);
     /**/
-    write_stats(&tally_1stodd, &cache_1stodd, file_tally_1stodd);
+    write_stats(&tally_1stodd, &cache_1stodd, filename_tally_1stodd, file_tally_1stodd);
     fclose(file_tally_1stodd);
     /**/
-    write_stats(&tally_best_by_freq, &cache_best_by_freq, file_best_by_freq);
+    write_stats(&tally_best_by_freq, &cache_best_by_freq, filename_best_by_freq, file_best_by_freq);
     fclose(file_best_by_freq);
     /**/
-    write_stats(&tally_best_by_v1, &cache_best_by_v1, file_best_by_v1);
+    write_stats(&tally_best_by_v1, &cache_best_by_v1, filename_best_by_v1, file_best_by_v1);
     fclose(file_best_by_v1);
     /**/
-    write_stats(&tally_best_by_oddfreq, &cache_best_by_oddfreq, file_best_by_oddfreq);
+    write_stats(&tally_best_by_oddfreq, &cache_best_by_oddfreq, filename_best_by_oddfreq, file_best_by_oddfreq);
     fclose(file_best_by_oddfreq);
     /**/
-    write_stats(&tally_best_by_oddv1, &cache_best_by_oddv1, file_best_by_oddv1);
+    write_stats(&tally_best_by_oddv1, &cache_best_by_oddv1, filename_best_by_oddv1, file_best_by_oddv1);
     fclose(file_best_by_oddv1);
 
     /*

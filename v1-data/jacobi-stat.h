@@ -114,6 +114,6 @@ extern void tally_value(tally *tally_p, int64_t value);
 extern bool v1_check(const char *jstr, int64_t x, bool h_zeromod3, cache *cache_p);
 extern void sort_by_value(tally *tally_p);
 extern void reverse_sort_by_count(tally *tally_p);
-extern void write_stats(tally *tally_p, cache *cache_p, FILE *stream);
+extern void write_stats(tally *tally_p, cache *cache_p, const char *filename, FILE *stream);
 
 #endif	/* INCLUDE_JACOBI_STAT_H */

@@ -711,12 +711,13 @@ reverse_sort_by_count(tally *tally_p)
  * given:
  *	tally_p		pointer to a tally
  *	cache_p		pointer to a cache
+ *	filename	name of the opened file
  *	stream		stream open for writing
  *
  * NOTE: This function does not return on error.
  */
 void
-write_stats(tally *tally_p, cache *cache_p, FILE *stream)
+write_stats(tally *tally_p, cache *cache_p, const char *filename, FILE *stream)
 {
     int64_t count_sum;	// sum of all counts
     int64_t i;
@@ -735,6 +736,10 @@ write_stats(tally *tally_p, cache *cache_p, FILE *stream)
     if (tally_p->count_alloc <= 0) {
 	err(109, __func__, "tally_p->count_alloc: %"PRIu64" <= 0",
 		 tally_p->count_alloc);
+	/*NOTREACHED*/
+    }
+    if (filename == NULL) {
+	err(109, __func__, "filename is NULL");
 	/*NOTREACHED*/
     }
     if (stream == NULL) {
@@ -762,6 +767,8 @@ write_stats(tally *tally_p, cache *cache_p, FILE *stream)
     /*
      * write cache information header
      */
+    fprintf(stream, "# filename = %s\n", filename);
+    fprintf(stream, "#\n");
     fprintf(stream, "# ave jacobi ops per valid v(1) with cache = %.3f\n",
 		    (double)cache_p->jacobi_w_cache_ops / (double)cache_p->valid_v1_values);
     fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.3f\n",
