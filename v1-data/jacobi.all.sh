@@ -1,6 +1,9 @@
 #!/bin/bash
 #
-# gen.all.sh - generate all job directories
+# jacobi.all.sh - tally Jacobi stats for all job directories
+#
+# usage:
+#	jacobi.all.sh [-h]
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -21,13 +24,38 @@
 # chongo <was here> /\oo/\     http://www.isthe.com/chongo/
 # Share and enjoy!  :-)        http://www.isthe.com/chongo/tech/comp/calc/
 
-# run gen.job.sh for our set of n values
+# setup
 #
-./gen.primejob.sh
-./gen.job.sh 4194304
-./gen.job.sh 4331116
-./gen.job.sh 4885002
-./gen.job.sh 5209020
-./gen.job.sh 6286862
-./gen.job.sh 7676777
-./gen.job.sh 8388608
+export JACOBI_TALLY_SH="./jacobi.tally.sh"
+export JACOBI_PRIME_SH="./jacobi.prime.sh"
+export USAGE="usage: $0 [-h]"
+
+# parse args
+#
+if [[ $1 == '-h' ]]; then
+    echo $USAGE 1>&2
+    exit 0
+elif [[ $# -ne 0 ]]; then
+    echo $USAGE 1>&2
+    exit 1
+fi
+export RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
+
+# firewall
+#
+if [[ ! -x $JACOBI_TALLY_SH ]]; then
+    echo "$0: FATAL: cannot find executable: $JACOBI_TALLY_SH" 1>&2
+    exit 2
+fi
+if [[ ! -x $JACOBI_PRIME_SH ]]; then
+    echo "$0: FATAL: cannot find executable: $JACOBI_PRIME_SH" 1>&2
+    exit 3
+fi
+
+"$JACOBI_PRIME_SH"
+"$JACOBI_TALLY_SH" 4331116
+"$JACOBI_TALLY_SH" 4885002
+"$JACOBI_TALLY_SH" 5209020
+"$JACOBI_TALLY_SH" 6286862
+"$JACOBI_TALLY_SH" 7676777
+"$JACOBI_TALLY_SH" 8388608

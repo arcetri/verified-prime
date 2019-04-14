@@ -180,7 +180,11 @@ main(int argc, char *argv[])
 	/*
 	 * handle line parse errors
 	 */
-	dbg(DBG_VHIGH, "parsed line number: %d", jacobi_lineno);
+	if (jacobi_lineno%100000 == 0) {
+	    dbg(DBG_LOW, "parsed line number: %d", jacobi_lineno);
+	} else {
+	    dbg(DBG_VHIGH, "parsed line number: %d", jacobi_lineno);
+	}
 	if (parse_jacobi_line_ret < JACOBI_MIN_LEN) {
 	    dbg(DBG_MED, "parse error: %d, skiping line: %d", parse_jacobi_line_ret, jacobi_lineno);
 	    continue;
