@@ -28,6 +28,7 @@
 #
 export JACOBI_TALLY_SH="./jacobi.tally.sh"
 export JACOBI_PRIME_SH="./jacobi.prime.sh"
+export JACOBI_JOBSET_SH="./jacobi.jobset.sh"
 export USAGE="usage: $0 [-h]"
 
 # parse args
@@ -39,7 +40,6 @@ elif [[ $# -ne 0 ]]; then
     echo $USAGE 1>&2
     exit 1
 fi
-export RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
 
 # firewall
 #
@@ -59,3 +59,4 @@ fi
 "$JACOBI_TALLY_SH" 6286862
 "$JACOBI_TALLY_SH" 7676777
 "$JACOBI_TALLY_SH" 8388608
+"$JACOBI_JOBSET_SH"

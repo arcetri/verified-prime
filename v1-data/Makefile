@@ -37,8 +37,8 @@ INSTALL= install
 DESTDIR= /usr/global/bin
 
 SHELL_TOOLS= form.slurm.sh gen.all.sh gen.job.sh gen.primejob.sh \
-    launch.jobset.sh jacobi.all.sh jacobi.prime.sh jacobi.tally.sh \
-    launch.jobset.sh
+    launch.jobset.sh jacobi.all.sh jacobi.jobset.sh jacobi.prime.sh \
+    jacobi.tally.sh
 
 C_SRC= debug.c jacobi-parse.c jacobi-stat.c jacobi-data1.c
 H_SRC= debug.h jacobi-parse.h jacobi-stat.h
