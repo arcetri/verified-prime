@@ -73,7 +73,7 @@ find . -path '*/job.h-0mod3.*/jacobi.*' -print0 | xargs0 cat |
 # jacobi-gentally processing for not0mod3
 #
 echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
-find . -path '*/job.h-0mod3.*/jacobi.*' -print0 | xargs0 cat |
+find . -path '*/job.h-not0mod3.*/jacobi.*' -print0 | xargs0 cat |
 (
     "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
     status="$?"
