@@ -1,5 +1,5 @@
 /*
- * jacobi-data1 - 1st phase of Jacobi v(1) analysis
+ * jacobi-gentally - Generate tally analysis files for Jacobi v(1) analysis
  *
  * Copyright (c) 2019 by Landon Curt Noll.  All Rights Reserved.
  *
@@ -109,9 +109,9 @@ main(int argc, char *argv[])
     extern int optind;		// index to the next argv argument
     int opt;			// getopt() return
     ssize_t parse_jacobi_line_ret;	// return from parse_jacobi_line()
-    uint64_t h = 0;			// h multiper from a h, n, Jacobi +-0 line
-    uint64_t n = 0;			// n multiper from a h, n, Jacobi +-0 line
-    const char *jstr = NULL;		// Jacobi +-0 string from a h, n, Jacobi +-0 line
+    uint64_t h = 0;		// h multiper from a h, n, Jacobi +-0 line
+    uint64_t n = 0;		// n multiper from a h, n, Jacobi +-0 line
+    const char *jstr = NULL;	// Jacobi +-0 string from a h, n, Jacobi line
     int i;
     /**/
     char *filename_tally_int = NULL;	// tally.int filename - valid v(1)
@@ -167,6 +167,7 @@ main(int argc, char *argv[])
 	    break;
 	case 'v':
 	    /* parse verbosity */
+	    errno = 0;
 	    debuglevel = strtol(optarg, NULL, 0);
 	    if (errno != 0) {
 		usage_err(1, __func__, "cannot parse -v arg: %s", optarg);
@@ -183,7 +184,7 @@ main(int argc, char *argv[])
     argc -= optind;
     argv += optind;
     if (argc != 8) {
-	usage_err(1, __func__, "expected 4 arguments");
+	usage_err(1, __func__, "expected 8 arguments");
 	/*NOTREACHED*/
     }
     filename_tally_int = argv[0];
@@ -355,7 +356,7 @@ main(int argc, char *argv[])
 	     */
 	    valid_v1 = v1_check(jstr, v1, h_zeromod3, &cache_int);
 	    if (!valid_v1) {
-		dbg(DBG_VVHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is NOT valid", h, n, v1);
+		dbg(DBG_VVHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is NOT valid", h, n, v1);
 		continue;
 	    }
 
@@ -368,11 +369,11 @@ main(int argc, char *argv[])
 	     * if first for this line, tally of smallest valid v(1) for consecutive integers
 	     */
 	    if (! saw_valid_v1) {
-		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is first valid", h, n, v1);
+		dbg(DBG_VHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is first valid", h, n, v1);
 		tally_value(&tally_1stint, v1);
 		saw_valid_v1 = true;
 	    } else {
-		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is valid", h, n, v1);
+		dbg(DBG_VHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is valid", h, n, v1);
 	    }
 
 	    /*
@@ -391,11 +392,11 @@ main(int argc, char *argv[])
 	     * if first for this line, tally of smallest valid v(1) for consecutive integers
 	     */
 	    if (! saw_valid_odd_v1) {
-		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is first odd valid", h, n, v1);
+		dbg(DBG_VHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is first odd valid", h, n, v1);
 		tally_value(&tally_1stodd, v1);
 		saw_valid_odd_v1 = true;
 	    } else {
-		dbg(DBG_VHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is odd valid", h, n, v1);
+		dbg(DBG_VHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is odd valid", h, n, v1);
 	    }
 	}
 
