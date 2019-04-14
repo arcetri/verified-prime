@@ -178,7 +178,7 @@ cache_config(cache *cache_p, ssize_t len)
      * expand the cache if needed
      */
     if ((size_t)len < cache_p->jcache_alloc) {
-    	cache_p->jcache = realloc(cache_p->jcache, len);
+	cache_p->jcache = realloc(cache_p->jcache, len);
 	if (cache_p->jcache == NULL) {
 	    errp(102, __func__, "cannot realloc jcache from %u to %d",
 	    	      cache_p->jcache_alloc, len);
@@ -700,9 +700,9 @@ write_stats(tally *tally_p, cache *cache_p, FILE *stream)
      * write cache information header
      */
     fprintf(stream, "# ave jacobi ops per valid v(1) with cache = %.3f\n",
-    		    (double)cache_p->jacobi_w_cache_ops / (double)cache_p->valid_v1_values);
+		    (double)cache_p->jacobi_w_cache_ops / (double)cache_p->valid_v1_values);
     fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.3f\n",
-    		    (double)cache_p->jacobi_wo_cache_ops / (double)cache_p->valid_v1_values);
+		    (double)cache_p->jacobi_wo_cache_ops / (double)cache_p->valid_v1_values);
     fprintf(stream, "#\n");
     fprintf(stream, "# Jacobi ops ignoring cache = %"PRIu64"\n", cache_p->jacobi_w_cache_ops);
     fprintf(stream, "# Jacobi ops with cache     = %"PRIu64"\n", cache_p->jacobi_wo_cache_ops);
