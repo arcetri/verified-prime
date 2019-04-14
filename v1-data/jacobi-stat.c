@@ -38,8 +38,15 @@
 #include "jacobi-stat.h"
 
 /* forward static declarations */
+static bool match_prime_v1(int64_t v1, bool h_zeromod3);
 static int reverse_count_cmp(const void *a_arg, const void *b_arg);
 static int value_cmp(const void *a_arg, const void *b_arg);
+
+/* known valid 1st v(1) for verified Riesel h*2^n-1 primes */
+static int64_t verified_prime_1st_v1_reverse_sorted_by_freq[] = {
+    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59, 65, 69, 81,
+    -1  // just be the last value
+};
 
 /*
  * tally_init - initialize a Jacobi tally
@@ -141,6 +148,8 @@ cache_init(cache *cache_p)
     cache_p->out_of_range = 0;
     cache_p->invalid_str_value = 0;
     cache_p->valid_v1_values = 0;
+    cache_p->match_prime_v1 = 0;
+    cache_p->nomatch_prime_v1 = 0;
     return;
 }
 
@@ -379,11 +388,56 @@ tally_value(tally *tally_p, int64_t value)
 
 
 /*
+ * match_prime_v1 - v(1) value matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
+ *
+ * given:
+ *	v1		valid v(1) value
+ *	h_zeromod3	true ==> h == 0 mod 3, falase otherwise
+ *
+ * retuns:
+ *	true		valid v(1) value matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
+ *	false		valid v(1) value does NOT match any valid v(1) for a verified Riesel h*2^n-1 prime
+ */
+static bool
+match_prime_v1(int64_t v1, bool h_zeromod3)
+{
+    int64_t verified_prime_1st_v1;	// valid 1st v(1) for a verified Riesel h*2^n-1 prime
+    int i;
+
+    /*
+     * case: h != 0 mod 3
+     *
+     * When h != 0 mod 3, the 1st valid v(1) value is 3 40% of the time, and 4 60% of the time.
+     * This goes for both verified primes and non-verified primes.
+     *
+     * In particular, when h != 0 mod 3 we should always return true
+     */
+    if (h_zeromod3) {
+
+	/*
+	 * case: h == 0 mod 3
+	 */
+	for (i=0; verified_prime_1st_v1_reverse_sorted_by_freq[i] > 0; ++i) {
+	    verified_prime_1st_v1 = verified_prime_1st_v1_reverse_sorted_by_freq[i];
+	    if (v1 == verified_prime_1st_v1) {
+		return true;	// matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
+	    }
+	}
+
+    } else {
+	return true;	// matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
+    }
+    return false;	// does NOT match any valid v(1) for a verified Riesel h*2^n-1 prime
+}
+
+
+/*
  * v1_check - determine if a v(1) value is valid for testing h*2^n-1
  *
  * given:
  *	jstr		pointer to a Jacobi +-0 string
  *	x		the v(1) value to test
+ *	h_zeromod3	true ==> h == 0 mod 3, falase otherwise
  *	cache_p		pointer to a cache that has been configurd
  *
  * returns:
@@ -401,7 +455,7 @@ tally_value(tally *tally_p, int64_t value)
  * NOTE: This function does not return on error.
  */
 bool
-v1_check(const char *jstr, int64_t x, cache *cache_p)
+v1_check(const char *jstr, int64_t x, bool h_zeromod3, cache *cache_p)
 {
     /*
      * firewall
@@ -442,6 +496,15 @@ v1_check(const char *jstr, int64_t x, cache *cache_p)
     if (lookup_jacobi(jstr, x+2, cache_p) != -1) {
 	/* Jacobi(x+2, h*2n-1) != -1 */
 	return false;
+    }
+
+    /*
+     * determine if this valid v(1) matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
+     */
+    if (match_prime_v1(x, h_zeromod3)) {
+	++cache_p->match_prime_v1;	// matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
+    } else {
+	++cache_p->nomatch_prime_v1;	// does NOT match any valid v(1) for a verified Riesel h*2^n-1 prime
     }
 
     /*
@@ -703,6 +766,13 @@ write_stats(tally *tally_p, cache *cache_p, FILE *stream)
 		    (double)cache_p->jacobi_w_cache_ops / (double)cache_p->valid_v1_values);
     fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.3f\n",
 		    (double)cache_p->jacobi_wo_cache_ops / (double)cache_p->valid_v1_values);
+    fprintf(stream, "#\n");
+    fprintf(stream, "# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = %.3f\n",
+		    (double)cache_p->match_prime_v1 /
+		    (double)(cache_p->match_prime_v1 + cache_p->nomatch_prime_v1));
+    fprintf(stream, "#\n");
+    fprintf(stream, "# match_prime_v1   = %"PRIu64"\n", cache_p->match_prime_v1);
+    fprintf(stream, "# nomatch_prime_v1 = %"PRIu64"\n", cache_p->nomatch_prime_v1);
     fprintf(stream, "#\n");
     fprintf(stream, "# Jacobi ops ignoring cache = %"PRIu64"\n", cache_p->jacobi_w_cache_ops);
     fprintf(stream, "# Jacobi ops with cache     = %"PRIu64"\n", cache_p->jacobi_wo_cache_ops);

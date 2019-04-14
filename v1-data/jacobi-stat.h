@@ -98,6 +98,8 @@ typedef struct s_cache {
     int64_t out_of_range;	// number of times a value was out of range of the cache range
     int64_t invalid_str_value;	// number of times a Jacobi +-0 value string value was neither +, nor -. nor 0
     int64_t valid_v1_values;	// number of times a valid v(1) value was found
+    int64_t match_prime_v1;	// valid v(1) value matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
+    int64_t nomatch_prime_v1;	// valid v(1) value does NOT match any valid v(1) for a verified Riesel h*2^n-1 prime
     int8_t *jcache;		// != NULL ==> Jacobi symbol cache (-1, 0, or 1), initialized to INVALID_JACOBI_VALUE
 } cache;
 
@@ -109,7 +111,7 @@ extern void cache_init(cache *cache);
 extern void cache_config(cache *cache_p, ssize_t len);
 extern int8_t lookup_jacobi(const char *jstr, int64_t x, cache *cache_p);
 extern void tally_value(tally *tally_p, int64_t value);
-extern bool v1_check(const char *jstr, int64_t x, cache *cache_p);
+extern bool v1_check(const char *jstr, int64_t x, bool h_zeromod3, cache *cache_p);
 extern void sort_by_value(tally *tally_p);
 extern void reverse_sort_by_count(tally *tally_p);
 extern void write_stats(tally *tally_p, cache *cache_p, FILE *stream);

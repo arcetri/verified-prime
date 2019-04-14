@@ -280,6 +280,12 @@ main(int argc, char *argv[])
 	bool valid_v1;		// true ==> v1 is a valid v(1) value
 	bool saw_valid_v1;	// true ==> we have seen a valid v(1) for this line
 	bool saw_valid_odd_v1;	// true ==> we have seen a valid odd v(1) for this line
+	bool h_zeromod3;	// true ==> h == 0 mod 3
+
+	/*
+	 * determine if h == 0 mod 3
+	 */
+	h_zeromod3 = ((h % 3) == 0);
 
 	/*
 	 * handle line parse errors
@@ -335,19 +341,19 @@ main(int argc, char *argv[])
 	     * gather stats for the 3 other caches
 	     */
 	    if (! saw_valid_v1) {
-		(void) v1_check(jstr, v1, &cache_1stint);
+		(void) v1_check(jstr, v1, h_zeromod3, &cache_1stint);
 	    }
 	    if ((v1%2) == 1) {
-		(void) v1_check(jstr, v1, &cache_odd);
+		(void) v1_check(jstr, v1, h_zeromod3, &cache_odd);
 		if (! saw_valid_odd_v1) {
-		    (void) v1_check(jstr, v1, &cache_1stodd);
+		    (void) v1_check(jstr, v1, h_zeromod3, &cache_1stodd);
 		}
 	    }
 
 	    /*
 	     * skip this v1 if NOT a valid v(1)
 	     */
-	    valid_v1 = v1_check(jstr, v1, &cache_int);
+	    valid_v1 = v1_check(jstr, v1, h_zeromod3, &cache_int);
 	    if (!valid_v1) {
 		dbg(DBG_VVHIGH, "h: "PRIu64" n: "PRIu64" v1: %d is NOT valid", h, n, v1);
 		continue;
@@ -402,7 +408,7 @@ main(int argc, char *argv[])
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_freq[i];
-	    if (v1_check(jstr, v1, &cache_best_by_freq)) {
+	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_freq)) {
 		tally_value(&tally_best_by_freq, v1);
 		break;
 	    }
@@ -417,7 +423,7 @@ main(int argc, char *argv[])
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_v1[i];
-	    if (v1_check(jstr, v1, &cache_best_by_v1)) {
+	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_v1)) {
 		tally_value(&tally_best_by_v1, v1);
 		break;
 	    }
@@ -432,7 +438,7 @@ main(int argc, char *argv[])
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_oddfreq[i];
-	    if (v1_check(jstr, v1, &cache_best_by_oddfreq)) {
+	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_oddfreq)) {
 		tally_value(&tally_best_by_oddfreq, v1);
 		break;
 	    }
@@ -447,7 +453,7 @@ main(int argc, char *argv[])
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_oddv1[i];
-	    if (v1_check(jstr, v1, &cache_best_by_oddv1)) {
+	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_oddv1)) {
 		tally_value(&tally_best_by_v1, v1);
 		break;
 	    }
