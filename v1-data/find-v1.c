@@ -39,12 +39,13 @@
  * usage
  */
 const char * usage =
-"usage: %s [-h] [-v lvl] [-o] v1\n"
+"usage: %s [-h] [-v lvl] [-s] [-o] v1\n"
 "\n"
 "	-h	print usage message and exit\n"
 "	-v lvl	set debugging level (def: 0 ==> none)\n"
 "\n"
-"	-o	only search for v(1) that are the first valud v(1)\n"
+"	-s	search only for v(1) that are the first valid v(1)\n"
+"	-o	search for odd v(1) only\n"
 "\n"
 "	v1	print h and n from stdin where v1 is a valid v(1) for\n"
 "		testing the primality of h*2^n-1"
@@ -62,7 +63,9 @@ main(int argc, char *argv[])
     extern char *optarg;		// an option argument
     extern int optind;			// index to the next argv argument
     int opt;				// getopt() return
-    bool first_only = false;		// true ==> only search for v(1) that are the first valud v(1)
+    bool first_only = false;		// true ==> only search for v(1) that are the first valid v(1)
+    bool odd_only = false;		// true ==> only search for odd v(1)
+    int step_v1 = 1;		// step size for v(1) search (1 or 2)
     ssize_t parse_jacobi_line_ret;	// return from parse_jacobi_line()
     uint64_t h = 0;			// h multiper from a h, n, Jacobi +-0 line
     uint64_t n = 0;			// n multiper from a h, n, Jacobi +-0 line
@@ -75,7 +78,7 @@ main(int argc, char *argv[])
      * parse command line
      */
     program = argv[0];	// save our program name
-    while ((opt = getopt(argc, argv, "hv:o")) != -1) {
+    while ((opt = getopt(argc, argv, "hv:so")) != -1) {
 	switch (opt) {
 	case 'h':
 	    usage_msg(0, program);
@@ -90,8 +93,12 @@ main(int argc, char *argv[])
 		/*NOTREACHED*/
 	    }
 	    break;
-	case 'o':
+	case 's':
 	    first_only = true;
+	    break;
+	case 'o':
+	    odd_only = true;
+	    step_v1 = 2;
 	    break;
 	default:
 	    usage_err(2, __func__, "unknown option: -%c", opt);
@@ -181,7 +188,14 @@ main(int argc, char *argv[])
 	 */
 	max_v1 = parse_jacobi_line_ret-1-2;		// maximum potential v(1) for this line
 	saw_valid_v1 = false;
-	for (v1=DEF_MIN_V1; v1 <= max_v1; ++v1) {
+	for (v1=DEF_MIN_V1; v1 <= max_v1; v1 += step_v1) {
+
+	    /*
+	     * if -o odd only, step up and even v1
+	     */
+	   if (odd_only && ((v1%2) == 0)) {
+		++v1;
+	   }
 
 	    /*
 	     * skip this v1 if NOT a valid v(1)
@@ -224,16 +238,32 @@ main(int argc, char *argv[])
      */
     if (found_v1 == 0) {
 	if (first_only) {
-	    dbg(DBG_LOW, "no 1st valid v(1) found: %d", find_v1);
+	    if (odd_only) {
+		dbg(DBG_LOW, "no 1st odd valid v(1) found: %d", find_v1);
+	    } else {
+		dbg(DBG_LOW, "no 1st valid v(1) found: %d", find_v1);
+	    }
 	} else {
-	    dbg(DBG_LOW, "no valid v(1) found: %d", find_v1);
+	    if (odd_only) {
+		dbg(DBG_LOW, "no odd valid v(1) found: %d", find_v1);
+	    } else {
+		dbg(DBG_LOW, "no valid v(1) found: %d", find_v1);
+	    }
 	}
 	exit(1);
     } else {
 	if (first_only) {
-	    dbg(DBG_LOW, "found %d 1st valid v(1): %d", found_v1, find_v1);
+	    if (odd_only) {
+		dbg(DBG_LOW, "found %d 1st odd valid v(1): %d", found_v1, find_v1);
+	    } else {
+		dbg(DBG_LOW, "found %d 1st valid v(1): %d", found_v1, find_v1);
+	    }
 	} else {
-	    dbg(DBG_LOW, "found %d valid v(1): %d", found_v1, find_v1);
+	    if (odd_only) {
+		dbg(DBG_LOW, "found %d odd valid v(1): %d", found_v1, find_v1);
+	    } else {
+		dbg(DBG_LOW, "found %d valid v(1): %d", found_v1, find_v1);
+	    }
 	}
     }
     exit(0);
