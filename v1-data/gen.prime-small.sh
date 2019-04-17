@@ -1,12 +1,11 @@
 #!/bin/bash
 #
-# gen.job.sh - generate SLURM job directories and input data files
+# gen.prime-small.sh - generate SLURM job input data for small verified primes
+#
+# A small verified prime is a prime of the form h*2^n-1 where n < 1000.
 #
 # usage:
-#	gen.job.sh [base_n [count]]
-#
-#	base_n		base value for n (def: 4331116)
-#	count		range for n [range_n, range_n+count-1] (def: 1000)
+#	gen.prime-small.sh
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -29,45 +28,41 @@
 
 # setup
 #
+export PRIME_H_0MOD3="job.h-0mod3.prime-small"
+export PRIME_H_NOT0MOD3="job.h-not0mod3.prime-small"
 export GEN_H0MOD3_CALC="./h0mod3-n.calc"
 export GEN_HNOT0MOD3_CALC="./hnot0mod3-n.calc"
+export VERIFIED_PRIME_H_0MOD3="../h-0mod3-n.verified-prime-small.txt"
+export VERIFIED_PRIME_H_NOT0MOD3="../h-not0mod3-n.verified-prime-small.txt"
 export FORM_SLURM="form.slurm.sh"
-
-# parse args
-#
-export BASE_N="4331116"
-export COUNT="1000"
-USAGE="usage: $0 [-h] [base_n [count]]"
-case "$#" in
-0) ;;
-1) if [[ $1 == '-h' ]]; then echo $USAGE 1>&2; exit 0; fi
-   BASE_N="$1" ;;
-2) if [[ $1 == '-h' ]]; then echo $USAGE 1>&2; exit 0; fi
-   BASE_N="$1"; COUNT="$2" ;;
-*) echo $USAGE 1>&2
-   exit 1 ;;
-esac
-export RANGE_H_0MOD3="job.h-0mod3.n-$BASE_N"
-export RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
+export COUNT=1000
 
 # firewall
 #
 if [[ ! -x $GEN_H0MOD3_CALC ]]; then
     echo "$0: FATAL: cannot find executable: $GEN_H0MOD3_CALC" 1>&2
-    exit 2
+    exit 1
 fi
 if [[ ! -x $GEN_HNOT0MOD3_CALC ]]; then
     echo "$0: FATAL: cannot find executable: $GEN_HNOT0MOD3_CALC" 1>&2
+    exit 2
+fi
+if [[ ! -r $VERIFIED_PRIME_H_0MOD3 ]]; then
+    echo "$0: FATAL: not a readable file: $VERIFIED_PRIME_H_0MOD3" 1>&2
     exit 3
+fi
+if [[ ! -r $VERIFIED_PRIME_H_NOT0MOD3 ]]; then
+    echo "$0: FATAL: not a readable file: $VERIFIED_PRIME_H_NOT0MOD3" 1>&2
+    exit 4
 fi
 if [[ ! -x $FORM_SLURM ]]; then
     echo "$0: FATAL: cannot find executable: $FORM_SLURM" 1>&2
-    exit 4
+    exit 5
 fi
 
 # initialize the job directories
 #
-for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
+for dir in "$PRIME_H_0MOD3" "$PRIME_H_NOT0MOD3"; do
 
     # firewall - do not override
     #
@@ -101,31 +96,27 @@ done
 
 # foreach directory, generate lists of h n files that are similar in length
 #
-echo "generaring list-h-n files in $RANGE_H_0MOD3"
-"$GEN_H0MOD3_CALC" "$BASE_N" "$COUNT" | split --lines="$COUNT" --suffix-length=5 - "$RANGE_H_0MOD3/list-h-n."
-find "$RANGE_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo "generaring list-h-n files in $PRIME_H_0MOD3"
+split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_0MOD3" "$PRIME_H_0MOD3/list-h-n."
+find "$PRIME_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 #
-echo "generaring list-h-n files in $RANGE_H_NOT0MOD3"
-"$GEN_HNOT0MOD3_CALC" "$BASE_N" "$COUNT" | split --lines="$COUNT" --suffix-length=5 - "$RANGE_H_NOT0MOD3/list-h-n."
-find "$RANGE_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo "generaring list-h-n files in $PRIME_H_NOT0MOD3"
+split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_NOT0MOD3" "$PRIME_H_NOT0MOD3/list-h-n."
+find "$PRIME_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 
 # form slurm jobs for each directory
 #
-for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
+for dir in "$PRIME_H_0MOD3" "$PRIME_H_NOT0MOD3"; do
 
     # determine full path of directory
     #
     export FULL_PATH=$(realpath "$dir")
 
-    # determine the type
-    #
-    TYPE=$(basename "$dir" | sed -e 's/job.//')
-
     # start the run.all.sh file
     #
     echo "#!/bin/bash" > "$dir/run.all.sh"
     echo "#" >> "$dir/run.all.sh"
-    echo "# run.all.sh - run all slurm jobs for $TYPE" >> "$dir/run.all.sh"
+    echo "# run.all.sh - run all slurm jobs for $dir" >> "$dir/run.all.sh"
     echo "#" >> "$dir/run.all.sh"
     echo "cd $FULL_PATH" >> "$dir/run.all.sh"
     chmod 0755 "$dir/run.all.sh"

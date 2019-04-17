@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# gen.all.sh - generate all job directories
+# gen.baseline.sh - generate baseline job directories
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -23,7 +23,6 @@
 
 # run gen.job.sh for our set of n values
 #
-./gen.primejob.sh
 ./gen.job.sh 4194304
 ./gen.job.sh 4331116
 ./gen.job.sh 4885002

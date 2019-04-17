@@ -31,6 +31,9 @@
 
 #include "debug.h"		// debug, warning, error and usage macros
 
+#if !defined(USE_SYSLOG)
+static bool use_syslog = false;		// avoid use of syslog services msgs
+#endif /* USE_SYSLOG */
 
 #ifndef DEBUG_LINT
 
@@ -69,12 +72,14 @@ msg(const char *fmt, ...)
      * print the message
      */
     if (use_syslog) {
+#if defined(USE_SYSLOG)
 	/*
 	 * Normally we should use LOG_DEBUG, but so often syslog
 	 * is configured to LOG_DEBUG messages that we elevate
 	 * to LOG_INFO priority to be heard.
 	 */
 	vsyslog(LOG_INFO, fmt, ap);
+#endif /* USE_SYSLOG */
     } else {
 	ret = vfprintf(stderr, fmt, ap);
 	if (ret <= 0) {
@@ -171,7 +176,9 @@ warn(const char *name, const char *fmt, ...)
      */
     if (name == NULL) {
 	if (use_syslog) {
+#if defined(USE_SYSLOG)
 	    syslog(LOG_WARNING, "Warning: %s called with NULL name", __func__);
+#endif /* USE_SYSLOG */
 	} else {
 	    fprintf(stderr, "Warning: %s called with NULL name\n", __func__);
 	}
@@ -179,7 +186,9 @@ warn(const char *name, const char *fmt, ...)
     }
     if (fmt == NULL) {
 	if (use_syslog) {
+#if defined(USE_SYSLOG)
 	    syslog(LOG_WARNING, "Warning: %s called with NULL fmt", __func__);
+#endif /* USE_SYSLOG */
 	} else {
 	    fprintf(stderr, "Warning: %s called with NULL fmt\n", __func__);
 	}
@@ -190,7 +199,9 @@ warn(const char *name, const char *fmt, ...)
      * issue the warning
      */
     if (use_syslog) {
+#if defined(USE_SYSLOG)
 	vsyslog(LOG_WARNING, fmt, ap);
+#endif /* USE_SYSLOG */
     } else {
 	fprintf(stderr, "Warning: %s: ", name);
 	ret = vfprintf(stderr, fmt, ap);
@@ -240,7 +251,9 @@ warnp(const char *name, const char *fmt, ...)
      */
     if (name == NULL) {
 	if (use_syslog) {
+#if defined(USE_SYSLOG)
 	    syslog(LOG_WARNING, "Warning: %s called with NULL name", __func__);
+#endif /* USE_SYSLOG */
 	} else {
 	    fprintf(stderr, "Warning: %s called with NULL name\n", __func__);
 	}
@@ -248,7 +261,9 @@ warnp(const char *name, const char *fmt, ...)
     }
     if (fmt == NULL) {
 	if (use_syslog) {
+#if defined(USE_SYSLOG)
 	    syslog(LOG_WARNING, "Warning: %s called with NULL fmt", __func__);
+#endif /* USE_SYSLOG */
 	} else {
 	    fprintf(stderr, "Warning: %s called with NULL fmt\n", __func__);
 	}
@@ -259,7 +274,9 @@ warnp(const char *name, const char *fmt, ...)
      * issue the warning
      */
     if (use_syslog) {
+#if defined(USE_SYSLOG)
 	vsyslog(LOG_WARNING, fmt, ap);
+#endif /* USE_SYSLOG */
     } else {
 	fprintf(stderr, "Warning: %s: ", name);
 	ret = vfprintf(stderr, fmt, ap);
@@ -330,7 +347,9 @@ err(int exitcode, const char *name, const char *fmt, ...)
      * issue the fatal error
      */
     if (use_syslog) {
+#if defined(USE_SYSLOG)
 	vsyslog(LOG_ERR, fmt, ap);
+#endif /* USE_SYSLOG */
     } else {
 	fprintf(stderr, "FATAL[%d]: %s: ", exitcode, name);
 	ret = vfprintf(stderr, fmt, ap);
@@ -407,8 +426,10 @@ errp(int exitcode, const char *name, const char *fmt, ...)
      * issue the fatal error with errno message
      */
     if (use_syslog) {
+#if defined(USE_SYSLOG)
 	vsyslog(LOG_ERR, fmt, ap);
 	syslog(LOG_ERR, "errno[%d]: %s\n", saved_errno, strerror(saved_errno));
+#endif /* USE_SYSLOG */
     } else {
 	fprintf(stderr, "FATAL[%d]: %s: ", exitcode, name);
 	ret = vfprintf(stderr, fmt, ap);
@@ -479,7 +500,9 @@ usage_err(int exitcode, const char *name, const char *fmt, ...)
      * issue the fatal error
      */
     if (use_syslog) {
+#if defined(USE_SYSLOG)
 	vsyslog(LOG_ERR, fmt, ap);
+#endif /* USE_SYSLOG */
     } else {
 	fprintf(stderr, "FATAL[%d]: %s: ", exitcode, name);
 	ret = vfprintf(stderr, fmt, ap);
@@ -562,8 +585,10 @@ usage_errp(int exitcode, const char *name, const char *fmt, ...)
      * issue the fatal error with errno message
      */
     if (use_syslog) {
+#if defined(USE_SYSLOG)
 	vsyslog(LOG_ERR, fmt, ap);
 	syslog(LOG_ERR, "errno[%d]: %s\n", saved_errno, strerror(saved_errno));
+#endif /* USE_SYSLOG */
     } else {
 	fprintf(stderr, "FATAL[%d]: %s: ", exitcode, name);
 	ret = vfprintf(stderr, fmt, ap);

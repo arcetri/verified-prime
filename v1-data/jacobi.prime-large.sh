@@ -1,12 +1,10 @@
 #!/bin/bash
 #
-# jacobi.tally.sh - tally Jacobi stats for a given n range
+# jacobi.prime-large.sh - tally Jacobi stats for verifed primes with n < 1000
 #
 # usage:
-#	jacobi.tally.sh [-h] base_n
+#	jacobi.prime-large.sh [-h]
 #
-#	base_n		base value for n
-
 # Copyright (C) 2019  Landon Curt Noll
 #
 # Calc is open software; you can redistribute it and/or modify it under
@@ -29,20 +27,20 @@
 # setup
 #
 export JACOBI_GENTALLY="./jacobi-gentally"
-export USAGE="usage: $0 [-h] base_n"
+export USAGE="usage: $0 [-h]"
 
 # parse args
 #
-if [[ $# -ne 1 ]]; then
-    echo $USAGE 1>&2
-    exit 1
-elif [[ $1 == '-h' ]]; then
+if [[ $1 == '-h' ]]; then
     echo $USAGE 1>&2
     exit 0
+elif [[ $# -ne 0 ]]; then
+    echo $USAGE 1>&2
+    exit 1
 fi
 export BASE_N="$1"
-export RANGE_H_0MOD3="job.h-0mod3.n-$BASE_N"
-export RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
+export RANGE_H_0MOD3="job.h-0mod3.prime-large"
+export RANGE_H_NOT0MOD3="job.h-not0mod3.prime-large"
 
 # firewall
 #
@@ -51,12 +49,18 @@ if [[ ! -x $JACOBI_GENTALLY ]]; then
     exit 2
 fi
 if [[ ! -d "$RANGE_H_0MOD3" ]]; then
-    echo "$0: FATAL: missing 0mod3 directory: $RANGE_H_0MOD3" 1>&2
-    exit 3
+    mkdir -p "$RANGE_H_0MOD3"
+    if [[ ! -d "$RANGE_H_0MOD3" ]]; then
+	echo "$0: FATAL: cannot form 0mod3 directory: $RANGE_H_0MOD3" 1>&2
+	exit 3
+    fi
 fi
 if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
-    echo "$0: FATAL: missing not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
-    exit 4
+    mkdir -p "$RANGE_H_NOT0MOD3"
+    if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
+	echo "$0: FATAL: cannot form not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
+	exit 4
+    fi
 fi
 
 # jacobi-gentally processing for 0mod3

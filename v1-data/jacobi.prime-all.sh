@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# jacobi.prime.sh - tally Jacobi stats for the prime job directories
+# jacobi.prime-all.sh - tally Jacobi stats for all verifed primes
 #
 # usage:
-#	jacobi.prime.sh [-h]
+#	jacobi.prime-all.sh [-h]
 #
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -39,8 +39,8 @@ elif [[ $# -ne 0 ]]; then
     exit 1
 fi
 export BASE_N="$1"
-export RANGE_H_0MOD3="job.h-0mod3.prime"
-export RANGE_H_NOT0MOD3="job.h-not0mod3.prime"
+export RANGE_H_0MOD3="job.h-0mod3.prime-all"
+export RANGE_H_NOT0MOD3="job.h-not0mod3.prime-all"
 
 # firewall
 #
@@ -49,18 +49,18 @@ if [[ ! -x $JACOBI_GENTALLY ]]; then
     exit 2
 fi
 if [[ ! -d "$RANGE_H_0MOD3" ]]; then
-    echo "$0: FATAL: missing 0mod3 directory: $RANGE_H_0MOD3" 1>&2
+    echo "$0: FATAL: cannot form 0mod3 directory: $RANGE_H_0MOD3" 1>&2
     exit 3
 fi
 if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
-    echo "$0: FATAL: missing not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
+    echo "$0: FATAL: cannot form not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
     exit 4
 fi
 
 # jacobi-gentally processing for 0mod3
 #
 echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1"
-find "$RANGE_H_0MOD3" -type f -name 'jacobi.*' -print0 | xargs0 cat |
+find "$RANGE_H_0MOD3/" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 (
     "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1"
     status="$?"
@@ -73,7 +73,7 @@ find "$RANGE_H_0MOD3" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 # jacobi-gentally processing for not0mod3
 #
 echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
-find "$RANGE_H_NOT0MOD3" -type f -name 'jacobi.*' -print0 | xargs0 cat |
+find "$RANGE_H_NOT0MOD3/" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 (
     "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
     status="$?"

@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <inttypes.h>
+#include <getopt.h>
 
 #include "debug.h"
 #include "jacobi-parse.h"
@@ -67,39 +68,77 @@ bool use_syslog = false;		// true ==> use syslog services msgs
  * Below are the counts associated with non-zero values from
  * all jobs run under:
  *
- *	job.h-0mod3.jobset/tally.1stint
+ *	baseline/job.h-0mod3.n-4194304/tally.1stint
+ *	baseline/job.h-0mod3.n-4331116/tally.1stint
+ *	baseline/job.h-0mod3.n-4885002/tally.1stint
+ *	baseline/job.h-0mod3.n-5209020/tally.1stint
+ *	baseline/job.h-0mod3.n-6286862/tally.1stint
+ *	baseline/job.h-0mod3.n-7676777/tally.1stint
+ *	baseline/job.h-0mod3.n-8388608/tally.1stint
+ *
+ * The best_v1_reverse_sorted_by_v1[] is sorted by valid v(1) value.
+ * For best_v1_reverse_sorted_by_v1[] (expect the for formatting and final -1) use:
+ *
+ *	cat job.h-0mod3.baseline/tally.1stint |
+ *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
+ *	    sort -n |
+ *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
+ *
+ * The best_v1_reverse_sorted_by_oddv1[] is odd sorted by valid v(1) value.
+ * For best_v1_reverse_sorted_by_oddv1[] (expect the for formatting and final -1) use:
+ *
+ *	cat job.h-0mod3.baseline/tally.1stodd |
+ *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
+ *	    sort -n |
+ *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
  *
  * The best_v1_reverse_sorted_by_freq[] is sorted in reverse order by count.
- * The best_v1_reverse_sorted_by_v1[] is sorted by valid v(1) value.
+ * For best_v1_reverse_sorted_by_freq[] (expect the for formatting and final -1) use:
+ *
+ *	cat job.h-0mod3.baseline/tally.1stint |
+ *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
+ *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
  *
  * The best_v1_reverse_sorted_by_oddfreq[] is odd sorted in reverse order by count.
- * The best_v1_reverse_sorted_by_oddv1[] is odd sorted by valid v(1) value.
+ * For best_v1_reverse_sorted_by_oddfreq[] (expect the for formatting and final -1) use:
+ *
+ *	cat job.h-0mod3.baseline/tally.1stodd |
+ *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
+ *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
  *
  * NOTE The -1 value indicates end of list and is not part of the true list.
  */
-static int64_t best_v1_reverse_sorted_by_freq[] = {
-    3, 5, 9, 11, 15, 17, 21, 29, 20, 27, 35, 36, 39, 41, 45, 32, 51,
-    44, 56, 49, 59, 57, 65, 55, 69, 71, 77, 66, 81, 95, 72, 80, 67, 99,
-    84, 74, 90, 104, 105, 87, 116, 101, 109, 125, 111, 135,
-    -1	// just be the last value
-};
+
+/* Known 1st v(1) sorted by v(1) */
 static int64_t best_v1_reverse_sorted_by_v1[] = {
     3, 5, 9, 11, 15, 17, 20, 21, 27, 29, 32, 35, 36, 39, 41, 44, 45,
     49, 51, 55, 56, 57, 59, 65, 66, 67, 69, 71, 72, 74, 77, 80, 81, 84,
     87, 90, 95, 99, 101, 104, 105, 109, 111, 116, 125, 135,
-    -1	// just be the last value
+    -1	// must be the last value
 };
-static int64_t best_v1_reverse_sorted_by_oddfreq[] = {
-    3, 5, 9, 11, 15, 17, 21, 29, 27, 35, 39, 41, 31, 45, 51, 55, 49,
-    59, 69, 71, 57, 65, 85, 81, 95, 99, 77, 53, 67, 105, 101, 109, 125,
-    87, 129, 83, 111, 155, 107, 135, 139, 141, 149, 165,
-    -1	// just be the last value
-};
+
+/* Odd Known 1st v(1) sorted by v(1) */
 static int64_t best_v1_reverse_sorted_by_oddv1[] = {
     3, 5, 9, 11, 15, 17, 21, 27, 29, 31, 35, 39, 41, 45, 49, 51, 53,
     55, 57, 59, 65, 67, 69, 71, 77, 81, 83, 85, 87, 95, 99, 101, 105,
     107, 109, 111, 125, 129, 135, 139, 141, 149, 155, 165,
-    -1	// just be the last value
+    -1	// must be the last value
+};
+
+/* Known 1st v(1) rev sorted by freq */
+static int64_t best_v1_reverse_sorted_by_freq[] = {
+    3, 5, 9, 11, 15, 17, 21, 29, 20, 27, 35, 36, 39, 41, 45, 32, 51,
+    44, 56, 49, 59, 57, 65, 55, 69, 71, 77, 66, 81, 95, 72, 80, 67, 99,
+    84, 74, 90, 104, 105, 87, 116, 101, 109, 125, 111, 135,
+    -1	// must be the last value
+};
+
+/* Odd Known 1st v(1) rev sorted by freq */
+static int64_t best_v1_reverse_sorted_by_oddfreq[] = {
+    3, 5, 9, 11, 15, 17, 21, 29, 27, 35, 39, 41, 31, 45, 51, 55, 49, 
+    59, 69, 71, 65, 57, 85, 81, 95, 99, 77, 53, 67, 105, 101, 109, 125, 
+    87, 129, 83, 111, 155, 107, 135, 139, 141, 149, 165,
+    -1	// must be the last value
 };
 
 int
@@ -144,7 +183,7 @@ main(int argc, char *argv[])
     tally tally_best_by_v1;		// tally of valid v(1) - common for 0mod3 sorted by v(1)
     cache cache_best_by_v1;		// cache for tally.byv1 a line
     /**/
-    char *filename_best_by_oddfreq = NULL; // tally.byoddfreq filename - 
+    char *filename_best_by_oddfreq = NULL; // tally.byoddfreq filename -
     					   // most common odd for 0mod3 reverse sorted by frequency of use
     FILE *file_best_by_oddfreq = NULL;	// open stream for tally.byoddfreq
     tally tally_best_by_oddfreq;	// tally of valid odd v(1) - common for 0mod3 reverse sorted by frequency of use

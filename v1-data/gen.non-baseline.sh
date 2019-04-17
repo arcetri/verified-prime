@@ -1,10 +1,6 @@
 #!/bin/bash
 #
-# launch.jobset.sh - launch SLURM jobs from a job directory
-#
-# usage:
-#
-#	launch.all job.dir
+# gen.non-baseline.sh - generate non-baseline job directories
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -25,33 +21,15 @@
 # chongo <was here> /\oo/\     http://www.isthe.com/chongo/
 # Share and enjoy!  :-)        http://www.isthe.com/chongo/tech/comp/calc/
 
-# parse args
+# run gen.job.sh for our set of n values
 #
-USAGE="usage: $0 [-h] job.dir"
-if [[ $# -ne 1 ]]; then
-    echo "$0: FATAL: expected 1 arg" 1>&2
-    echo $USAGE 1>&2
-    exit 1
-elif [[ $1 = "-h" ]]; then
-    echo $USAGE 1>&2
-    exit 0
-fi
-JOB_DIR="$1"
-
-# firewall
-#
-if [[ ! -d "$JOB_DIR" ]]; then
-    echo "$0: FATAL: missing directory: $JOB_DIR" 1>&2
-    exit 2
-fi
-if [[ ! -x "$JOB_DIR/run.all.sh" ]]; then
-    echo "$0: FATAL: missing executable: $JOB_DIR/run.all.sh" 1>&2
-    exit 3
-fi
-
-# launch
-#
-echo "launching jobs for $JOB_DIR"
-cd "$JOB_DIR"
-/bin/bash "./run.all.sh"
-exit $?
+./gen.job.sh 1391827
+./gen.job.sh 3727058
+./gen.job.sh 5718259
+./gen.job.sh 12776050
+./gen.job.sh 23059373
+./gen.job.sh 56126460
+./gen.job.sh 132174368
+./gen.prime-small.sh
+./gen.prime-large.sh
+./gen.prime-all.sh

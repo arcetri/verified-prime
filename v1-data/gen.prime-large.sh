@@ -1,9 +1,11 @@
 #!/bin/bash
 #
-# gen.primejob.sh - generate SLURM job input data for verified primes
+# gen.prime-large.sh - generate SLURM job input data for large verified primes
+#
+# A large verified prime is a prime of the form h*2^n-1 where n >= 1000.
 #
 # usage:
-#	gen.primejob.sh
+#	gen.prime-large.sh
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -26,12 +28,12 @@
 
 # setup
 #
-export PRIME_H_0MOD3="job.h-0mod3.prime"
-export PRIME_H_NOT0MOD3="job.h-not0mod3.prime"
+export PRIME_H_0MOD3="job.h-0mod3.prime-large"
+export PRIME_H_NOT0MOD3="job.h-not0mod3.prime-large"
 export GEN_H0MOD3_CALC="./h0mod3-n.calc"
 export GEN_HNOT0MOD3_CALC="./hnot0mod3-n.calc"
-export VERIFIED_PRIME_H_0MOD3="../h-0mod3-n.verified-prime.txt"
-export VERIFIED_PRIME_H_NOT0MOD3="../h-not0mod3-n.verified-prime.txt"
+export VERIFIED_PRIME_H_0MOD3="../h-0mod3-n.verified-prime-large.txt"
+export VERIFIED_PRIME_H_NOT0MOD3="../h-not0mod3-n.verified-prime-large.txt"
 export FORM_SLURM="form.slurm.sh"
 export COUNT=1000
 
@@ -95,12 +97,12 @@ done
 # foreach directory, generate lists of h n files that are similar in length
 #
 echo "generaring list-h-n files in $PRIME_H_0MOD3"
-split --lines="$COUNT" --suffix-length=5 "$VERIFIED_PRIME_H_0MOD3" "$PRIME_H_0MOD3/list-h-n."
-find "$PRIME_H_0MOD3" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_0MOD3" "$PRIME_H_0MOD3/list-h-n."
+find "$PRIME_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 #
 echo "generaring list-h-n files in $PRIME_H_NOT0MOD3"
-split --lines="$COUNT" --suffix-length=5 "$VERIFIED_PRIME_H_NOT0MOD3" "$PRIME_H_NOT0MOD3/list-h-n."
-find "$PRIME_H_NOT0MOD3" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_NOT0MOD3" "$PRIME_H_NOT0MOD3/list-h-n."
+find "$PRIME_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 
 # form slurm jobs for each directory
 #

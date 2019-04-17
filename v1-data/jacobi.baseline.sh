@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# jacobi.jobset.sh - tally Jacobi stats for all job directories
+# jacobi.baseline.sh - tally Jacobi stats for all job directories
 #
 # usage:
-#	jacobi.jobset.sh [-h]
+#	jacobi.baseline.sh [-h]
 #
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -39,8 +39,10 @@ elif [[ $# -ne 0 ]]; then
     exit 1
 fi
 export BASE_N="$1"
-export RANGE_H_0MOD3="job.h-0mod3.jobset"
-export RANGE_H_NOT0MOD3="job.h-not0mod3.jobset"
+export RANGE_H_0MOD3="job.h-0mod3.baseline"
+export RANGE_H_NOT0MOD3="job.h-not0mod3.baseline"
+# exponents that are the baseline job set
+export BASELINE="4194304 4331116 4885002 5209020 6286862 7676777 8388608"
 
 # firewall
 #
@@ -49,36 +51,62 @@ if [[ ! -x $JACOBI_GENTALLY ]]; then
     exit 2
 fi
 if [[ ! -d "$RANGE_H_0MOD3" ]]; then
-    echo "$0: FATAL: missing 0mod3 directory: $RANGE_H_0MOD3" 1>&2
-    exit 3
+    mkdir -p "$RANGE_H_0MOD3"
+    if [[ ! -d "$RANGE_H_0MOD3" ]]; then
+	echo "$0: FATAL: cannot form 0mod3 directory: $RANGE_H_0MOD3" 1>&2
+	exit 3
+    fi
 fi
 if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
-    echo "$0: FATAL: missing not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
-    exit 4
+    mkdir -p "$RANGE_H_NOT0MOD3"
+    if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
+	echo "$0: FATAL: cannot form not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
+	exit 4
+    fi
 fi
 
 # jacobi-gentally processing for 0mod3
 #
+for n in $BASELINE; do
+    if [[ -d "job.h-0mod3.n-$n" ]]; then
+	echo "using data from jacobi."'*'" files in job.h-0mod3.n-$n"
+    else
+	echo "$0: FATAL: missing directory: job.h-0mod3.n-$n"
+	exit 5
+    fi
+done
 echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1"
-find . -path '*/job.h-0mod3.*/jacobi.*' -print0 | xargs0 cat |
+for n in $BASELINE; do
+    find  "job.h-0mod3.n-$n/" -type f -name 'jacobi.*' -print
+done | xargs cat |
 (
     "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1"
     status="$?"
     if [[ $status -ne 0 ]]; then
 	echo "$0: Warning: $JACOBI_GENTALLY on $RANGE_H_0MOD3 non-zero exit status: $status" 1>&2
-	exit 1
+	exit 6
     fi
 )
 
 # jacobi-gentally processing for not0mod3
 #
+for n in $BASELINE; do
+    if [[ -d "job.h-not0mod3.n-$n" ]]; then
+	echo "using data from jacobi."'*'" files in job.h-not0mod3.n-$n"
+    else
+	echo "$0: FATAL: missing directory: job.h-not0mod3.n-$n"
+	exit 7
+    fi
+done
 echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
-find . -path '*/job.h-not0mod3.*/jacobi.*' -print0 | xargs0 cat |
+for n in $BASELINE; do
+    find  "job.h-not0mod3.n-$n/" -type f -name 'jacobi.*' -print
+done | xargs cat |
 (
     "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
     status="$?"
     if [[ $status -ne 0 ]]; then
 	echo "$0: Warning: $JACOBI_GENTALLY on $RANGE_H_NOT0MOD3 non-zero exit status: $status" 1>&2
-	exit 1
+	exit 8
     fi
 )

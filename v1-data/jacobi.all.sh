@@ -26,9 +26,11 @@
 
 # setup
 #
+export JACOBI_PRIME_ALL_SH="./jacobi.prime-all.sh"
+export JACOBI_PRIME_SMALL_SH="./jacobi.prime-small.sh"
+export JACOBI_PRIME_LARGE_SH="./jacobi.prime-large.sh"
 export JACOBI_TALLY_SH="./jacobi.tally.sh"
-export JACOBI_PRIME_SH="./jacobi.prime.sh"
-export JACOBI_JOBSET_SH="./jacobi.jobset.sh"
+export JACOBI_BASELINE_SH="./jacobi.baseline.sh"
 export USAGE="usage: $0 [-h]"
 
 # parse args
@@ -47,12 +49,19 @@ if [[ ! -x $JACOBI_TALLY_SH ]]; then
     echo "$0: FATAL: cannot find executable: $JACOBI_TALLY_SH" 1>&2
     exit 2
 fi
-if [[ ! -x $JACOBI_PRIME_SH ]]; then
-    echo "$0: FATAL: cannot find executable: $JACOBI_PRIME_SH" 1>&2
+if [[ ! -x $JACOBI_PRIME_ALL_SH ]]; then
+    echo "$0: FATAL: cannot find executable: $JACOBI_PRIME_ALL_SH" 1>&2
     exit 3
 fi
+if [[ ! -x $JACOBI_PRIME_SMALL_SH ]]; then
+    echo "$0: FATAL: cannot find executable: $JACOBI_PRIME_SMALL_SH" 1>&2
+    exit 4
+fi
+if [[ ! -x $JACOBI_PRIME_LARGE_SH ]]; then
+    echo "$0: FATAL: cannot find executable: $JACOBI_PRIME_LARGE_SH" 1>&2
+    exit 5
+fi
 
-"$JACOBI_PRIME_SH"
 "$JACOBI_TALLY_SH" 4194304
 "$JACOBI_TALLY_SH" 4331116
 "$JACOBI_TALLY_SH" 4885002
@@ -60,4 +69,14 @@ fi
 "$JACOBI_TALLY_SH" 6286862
 "$JACOBI_TALLY_SH" 7676777
 "$JACOBI_TALLY_SH" 8388608
-"$JACOBI_JOBSET_SH"
+"$JACOBI_BASELINE_SH"
+"$JACOBI_TALLY_SH" 1391827
+"$JACOBI_TALLY_SH" 3727058
+"$JACOBI_TALLY_SH" 5718259
+"$JACOBI_TALLY_SH" 12776050
+"$JACOBI_TALLY_SH" 23059373
+"$JACOBI_TALLY_SH" 56126460
+"$JACOBI_TALLY_SH" 132174368
+"$JACOBI_PRIME_SMALL_SH"
+"$JACOBI_PRIME_LARGE_SH"
+"$JACOBI_PRIME_ALL_SH"

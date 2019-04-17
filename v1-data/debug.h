@@ -35,14 +35,18 @@
 #include <string.h>
 #include <stdbool.h>
 #include <errno.h>
+#if defined(USE_SYSLOG)
 #include <syslog.h>
+#endif /* USE_SYSLOG */
 
 extern const char *usage;		// usage message
 
 extern const char *program;		// our name
 extern const char version_string[];	// our package name and version
 extern int debuglevel;			// print debug messages <= debuglevel
+#if defined(USE_SYSLOG)
 extern bool use_syslog;			// true ==> use syslog services msgs
+#endif /* USE_SYSLOG */
 
 /*
  * DEBUG_LINT - if defined, debug calls turn into fprintf to stderr calls
