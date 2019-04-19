@@ -1,4 +1,4 @@
-# filename = job.h-0mod3.baseline/tally.1stint
+# filename = baseline/job.h-0mod3.baseline/tally.1stint
 #
 # ave jacobi ops per valid v(1) with cache = 7.5579
 # ave jacobi ops per valid v(1) w/o cache  = 9.8786

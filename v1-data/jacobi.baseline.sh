@@ -39,8 +39,8 @@ elif [[ $# -ne 0 ]]; then
     exit 1
 fi
 export BASE_N="$1"
-export RANGE_H_0MOD3="job.h-0mod3.baseline"
-export RANGE_H_NOT0MOD3="job.h-not0mod3.baseline"
+export RANGE_H_0MOD3="baseline/job.h-0mod3.baseline"
+export RANGE_H_NOT0MOD3="baseline/job.h-not0mod3.baseline"
 # exponents that are the baseline job set
 export BASELINE="4194304 4331116 4885002 5209020 6286862 7676777 8388608"
 
