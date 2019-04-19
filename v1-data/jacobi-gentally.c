@@ -40,20 +40,23 @@
  * usage
  */
 const char * usage =
-"usage: %s [-h] [-v lvl] tally.int tally.1stint tally.odd tally.1stodd\n"
-"				    tally.byfreq tally.byv1 tally.byoddfreq tally.byoddv1\n"
+"usage: %s [-h] [-v lvl] global.stats tally.int tally.1stint tally.odd\n"
+"				    tally.1stodd tally.byfreq tally.byv1\n"
+"				    tally.byoddfreq tally.byoddv1 tally.prime\n"
 "\n"
 "	-h		print usage message and exit\n"
 "	-v lvl		set debugging level (def: 0 ==> none)\n"
 "\n"
+"	global.stats	global statistics for this run\n"
 "	tally.int	tally of valid v(1) for consecutive integers\n"
 "	tally.1stint	tally of smallest valid v(1) for consecutive integers\n"
 "	tally.odd	tally of valid odd v(1) for consecutive odd integers\n"
 "	tally.1stodd	tally of smallest valid odd v(1) for consecutive odd integers\n"
-"	tally.byfreq	tally of most common for 0mod3 case reverse sorted by frequency of use\n"
-"	tally.byv1	tally of most common for 0mod3 case sorted by v(1)\n"
-"	tally.byoddfreq	tally of most common odd for 0mod3 case reverse sorted by frequency of use\n"
-"	tally.byoddv1	tally of most common odd for 0mod3 case sorted by v(1)"
+"	tally.byfreq	tally of common for 0mod3 case reverse sorted by frequency of use\n"
+"	tally.byv1	tally of common for 0mod3 case sorted by v(1)\n"
+"	tally.byoddfreq	tally of common odd for 0mod3 case reverse sorted by frequency of use\n"
+"	tally.byoddv1	tally of common odd for 0mod3 case sorted by v(1)\n"
+"	tally.prime	tally of 1st valid v(1) from verified primes with h=0mod3, n>=1000"
 ;
 
 /* external variables */
@@ -106,6 +109,19 @@ bool use_syslog = false;		// true ==> use syslog services msgs
  *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
  *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
  *
+ * The best_v1_verified_prime[] is sorted in reverse order by count.
+ * For best_v1_verified_prime[] (expect the for formatting and final -2) use:
+ *
+ *	cat job.h-0mod3.prime-large/tally.1stint |
+ *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
+ *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
+ *
+ * NOTE: The best_v1_verified_prime list comes from the 1at valid (1) for large verified primes:
+ *
+ *	https://github.com/arcetri/verified-prime/blob/master/h-0mod3-n.verified-prime-large.txt
+ *
+ * where n >= 1000 and h = 0 mod 3.
+ *
  * NOTE The -1 value indicates end of list and is not part of the true list.
  */
 
@@ -135,11 +151,18 @@ static int64_t best_v1_reverse_sorted_by_freq[] = {
 
 /* Odd Known 1st v(1) rev sorted by freq */
 static int64_t best_v1_reverse_sorted_by_oddfreq[] = {
-    3, 5, 9, 11, 15, 17, 21, 29, 27, 35, 39, 41, 31, 45, 51, 55, 49, 
-    59, 69, 71, 65, 57, 85, 81, 95, 99, 77, 53, 67, 105, 101, 109, 125, 
+    3, 5, 9, 11, 15, 17, 21, 29, 27, 35, 39, 41, 31, 45, 51, 55, 49,
+    59, 69, 71, 65, 57, 85, 81, 95, 99, 77, 53, 67, 105, 101, 109, 125,
     87, 129, 83, 111, 155, 107, 135, 139, 141, 149, 165,
     -1	// must be the last value
 };
+
+/* 1st v(1) from large verified primes rev sorted by freq */
+static int64_t best_v1_verified_prime[] = {
+    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59, 65, 69, 81,
+    -1	// must be the last value
+};
+static int64_t largest_odd_v1_verified_prime = 81;	// largest in list above
 
 int
 main(int argc, char *argv[])
@@ -151,7 +174,12 @@ main(int argc, char *argv[])
     uint64_t h = 0;		// h multiper from a h, n, Jacobi +-0 line
     uint64_t n = 0;		// n multiper from a h, n, Jacobi +-0 line
     const char *jstr = NULL;	// Jacobi +-0 string from a h, n, Jacobi line
+    bool v1_found_in_loop = false;	// found a valid v(1) in a given loop
     int i;
+    /**/
+    char *filename_global_stats = NULL;	// global.stats filename
+    FILE *file_global_stats = NULL;	// open steam for global.stats
+    stats stats;			// global stastics structure
     /**/
     char *filename_tally_int = NULL;	// tally.int filename - valid v(1)
     FILE *file_tally_int = NULL;	// open stream for tally.int
@@ -173,26 +201,31 @@ main(int argc, char *argv[])
     tally tally_1stodd;			// tally of smallest valid odd v(1) - consecutive odd integers
     cache cache_1stodd;			// cache for tally.1stodd a line
     /**/
-    char *filename_best_by_freq = NULL;	// tally.byfreq filename - most common for 0mod3 reverse sorted by frequency of use
+    char *filename_best_by_freq = NULL;	// tally.byfreq filename - common for 0mod3 reverse sorted by frequency of use
     FILE *file_best_by_freq = NULL;	// open stream for tally.byfreq
     tally tally_best_by_freq;		// tally of valid v(1) - common for 0mod3 reverse sorted by frequency of use
     cache cache_best_by_freq;		// cache for tally.byfreq a line
     /**/
-    char *filename_best_by_v1 = NULL;	// tally.byv1 filename - most common for 0mod3 sorted by v(1)
+    char *filename_best_by_v1 = NULL;	// tally.byv1 filename - common for 0mod3 sorted by v(1)
     FILE *file_best_by_v1 = NULL;	// open stream for tally.byv1
     tally tally_best_by_v1;		// tally of valid v(1) - common for 0mod3 sorted by v(1)
     cache cache_best_by_v1;		// cache for tally.byv1 a line
     /**/
     char *filename_best_by_oddfreq = NULL; // tally.byoddfreq filename -
-    					   // most common odd for 0mod3 reverse sorted by frequency of use
+					   // common odd for 0mod3 reverse sorted by frequency of use
     FILE *file_best_by_oddfreq = NULL;	// open stream for tally.byoddfreq
     tally tally_best_by_oddfreq;	// tally of valid odd v(1) - common for 0mod3 reverse sorted by frequency of use
     cache cache_best_by_oddfreq;	// cache for tally.byfreq a line
     /**/
-    char *filename_best_by_oddv1 = NULL; // tally.byoddv1 filename - most common odd for 0mod3 sorted by v(1)
+    char *filename_best_by_oddv1 = NULL; // tally.byoddv1 filename - common odd for 0mod3 sorted by v(1)
     FILE *file_best_by_oddv1 = NULL;	// open stream for tally.byoddv1
     tally tally_best_by_oddv1;		// tally of valid odd v(1) - common for 0mod3 sorted by v(1)
     cache cache_best_by_oddv1;		// cache for tally.byv1 a line
+    /**/
+    char *filename_best_prime = NULL;	// tally.prime filename - smallest valid 1st v(1) for verifed primes h=0 mod 3, n>= 1000
+    FILE *file_best_prime = NULL;	// open stream for tally.prime
+    tally tally_best_prime;		// tally of v(1) from verifed primes - common for 0mod3 sorted by v(1)
+    cache cache_best_prime;		// cache for tally.prime a line
 
     /*
      * parse command line
@@ -222,26 +255,39 @@ main(int argc, char *argv[])
     /* advance over getopt() parsed args */
     argc -= optind;
     argv += optind;
-    if (argc != 8) {
-	usage_err(1, __func__, "expected 8 arguments");
+    if (argc != 10) {
+	usage_err(1, __func__, "expected 10 arguments");
 	/*NOTREACHED*/
     }
-    filename_tally_int = argv[0];
+    filename_global_stats = argv[0];
+    dbg(DBG_LOW, "global.stats filename: %s", filename_global_stats);
+    filename_tally_int = argv[1];
     dbg(DBG_LOW, "tally.int filename: %s", filename_tally_int);
-    filename_tally_1stint = argv[1];
+    filename_tally_1stint = argv[2];
     dbg(DBG_LOW, "filename_tally_1stint filename: %s", filename_tally_1stint);
-    filename_tally_odd = argv[2];
+    filename_tally_odd = argv[3];
     dbg(DBG_LOW, "filename_tally_odd filename: %s", filename_tally_odd);
-    filename_tally_1stodd = argv[3];
+    filename_tally_1stodd = argv[4];
     dbg(DBG_LOW, "filename_tally_1stodd filename: %s", filename_tally_1stodd);
-    filename_best_by_freq = argv[4];
+    filename_best_by_freq = argv[5];
     dbg(DBG_LOW, "filename_best_by_freq filename: %s", filename_best_by_freq);
-    filename_best_by_v1 = argv[5];
+    filename_best_by_v1 = argv[6];
     dbg(DBG_LOW, "filename_best_by_v1 filename: %s", filename_best_by_v1);
-    filename_best_by_oddfreq = argv[6];
+    filename_best_by_oddfreq = argv[7];
     dbg(DBG_LOW, "filename_best_by_oddfreq filename: %s", filename_best_by_oddfreq);
-    filename_best_by_oddv1 = argv[7];
+    filename_best_by_oddv1 = argv[8];
     dbg(DBG_LOW, "filename_best_by_oddv1 filename: %s", filename_best_by_oddv1);
+    filename_best_prime = argv[9];
+    dbg(DBG_LOW, "filename_best_prime filename: %s", filename_best_prime);
+
+    /*
+     * open for writing, the global stats file
+     */
+    file_global_stats = fopen(filename_global_stats, "w");
+    if (file_global_stats == NULL) {
+	errp(2, __func__, "cannot open for writing: %s", filename_global_stats);
+	/*NOTREACHED*/
+    }
 
     /*
      * open for writing, the tally files
@@ -286,10 +332,17 @@ main(int argc, char *argv[])
 	errp(2, __func__, "cannot open for writing: %s", filename_best_by_oddv1);
 	/*NOTREACHED*/
     }
+    file_best_prime = fopen(filename_best_prime, "w");
+    if (file_best_prime == NULL) {
+	errp(2, __func__, "cannot open for writing: %s", filename_best_prime);
+	/*NOTREACHED*/
+    }
 
     /*
-     * initialize tallies and caches
+     * initialize
      */
+    dbg(DBG_LOW, "about to initialize counters");
+    counter_init(&stats);
     dbg(DBG_LOW, "about to initialize tallies");
     tally_init(&tally_int);
     tally_init(&tally_1stint);
@@ -299,6 +352,7 @@ main(int argc, char *argv[])
     tally_init(&tally_best_by_v1);
     tally_init(&tally_best_by_oddfreq);
     tally_init(&tally_best_by_oddv1);
+    tally_init(&tally_best_prime);
     dbg(DBG_LOW, "about to initialize caches");
     cache_init(&cache_int);
     cache_init(&cache_1stint);
@@ -308,6 +362,7 @@ main(int argc, char *argv[])
     cache_init(&cache_best_by_v1);
     cache_init(&cache_best_by_oddfreq);
     cache_init(&cache_best_by_oddv1);
+    cache_init(&cache_best_prime);
 
     /*
      * process stdin for h, n, Jacobi +-0 lines
@@ -352,6 +407,7 @@ main(int argc, char *argv[])
 	cache_config(&cache_best_by_v1, parse_jacobi_line_ret);
 	cache_config(&cache_best_by_oddfreq, parse_jacobi_line_ret);
 	cache_config(&cache_best_by_oddv1, parse_jacobi_line_ret);
+	cache_config(&cache_best_prime, parse_jacobi_line_ret);
 
 	/*
 	 * loop over potential v(1) values in a linear fashion
@@ -438,10 +494,21 @@ main(int argc, char *argv[])
 		dbg(DBG_VHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is odd valid", h, n, v1);
 	    }
 	}
+	if (! saw_valid_v1) {
+	    ++stats.missed.valid_v1;
+	} else {
+	    ++stats.found.valid_v1;
+	}
+	if (! saw_valid_odd_v1) {
+	    ++stats.missed.valid_odd_v1;
+	} else {
+	    ++stats.found.valid_odd_v1;
+	}
 
 	/*
-	 * loop over: common  for 0mod3 case reverse sorted by frequency of use
+	 * loop over: common for 0mod3 case reverse sorted by frequency of use
 	 */
+	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_freq[i] > 0; ++i) {
 
 	    /*
@@ -450,13 +517,20 @@ main(int argc, char *argv[])
 	    v1 = best_v1_reverse_sorted_by_freq[i];
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_freq)) {
 		tally_value(&tally_best_by_freq, v1);
+		v1_found_in_loop = true;
 		break;
 	    }
 	}
+	if (! v1_found_in_loop) {
+	    ++stats.missed.best_by_freq;
+	} else {
+	    ++stats.found.best_by_freq;
+	}
 
 	/*
-	 * loop over: most common  for 0mod3 case sorted by v(1)
+	 * loop over: common for 0mod3 case sorted by v(1)
 	 */
+	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_v1[i] > 0; ++i) {
 
 	    /*
@@ -465,13 +539,20 @@ main(int argc, char *argv[])
 	    v1 = best_v1_reverse_sorted_by_v1[i];
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_v1)) {
 		tally_value(&tally_best_by_v1, v1);
+		v1_found_in_loop = true;
 		break;
 	    }
+	}
+	if (! v1_found_in_loop) {
+	    ++stats.missed.best_by_v1;
+	} else {
+	    ++stats.found.best_by_v1;
 	}
 
 	/*
 	 * loop over: common odd for 0mod3 case reverse sorted by frequency of use
 	 */
+	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_oddfreq[i] > 0; ++i) {
 
 	    /*
@@ -480,13 +561,20 @@ main(int argc, char *argv[])
 	    v1 = best_v1_reverse_sorted_by_oddfreq[i];
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_oddfreq)) {
 		tally_value(&tally_best_by_oddfreq, v1);
+		v1_found_in_loop = true;
 		break;
 	    }
 	}
+	if (! v1_found_in_loop) {
+	    ++stats.missed.best_by_oddfreq;
+	} else {
+	    ++stats.found.best_by_oddfreq;
+	}
 
 	/*
-	 * loop over: most common odd for 0mod3 case sorted by v(1)
+	 * loop over: common odd for 0mod3 case sorted by v(1)
 	 */
+	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_oddv1[i] > 0; ++i) {
 
 	    /*
@@ -494,9 +582,63 @@ main(int argc, char *argv[])
 	     */
 	    v1 = best_v1_reverse_sorted_by_oddv1[i];
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_oddv1)) {
-		tally_value(&tally_best_by_v1, v1);
+		tally_value(&tally_best_by_oddv1, v1);
+		v1_found_in_loop = true;
 		break;
 	    }
+	}
+	if (! v1_found_in_loop) {
+	    ++stats.missed.best_by_oddv1;
+	} else {
+	    ++stats.found.best_by_oddv1;
+	}
+
+	/*
+	 * loop over: 1st valid v(1) from verified primes with h=0mod3, n>=1000
+	 *
+	 * If our search falls off the best_v1_verified_prime[] list, then
+	 * we start searching for odd v(1) > the largest value in the list.
+	 */
+	v1_found_in_loop = false;
+	for (i=0; best_v1_verified_prime[i] > 0; ++i) {
+
+	    /*
+	     * if v(1) is valid, stop seaching
+	     */
+	    v1 = best_v1_verified_prime[i];
+	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_prime)) {
+		tally_value(&tally_best_prime, v1);
+		v1_found_in_loop = true;
+		break;
+	    }
+	}
+	/*
+	 * If we did not find a v(1) in best_v1_verified_prime[], then
+	 * start searching 2 above largest_odd_v1_verified_prime until
+	 * we find a valid v(1) or fall off the jstr list.
+	 */
+	if (! v1_found_in_loop) {
+	    dbg(DBG_HIGH, "verified prime v(1) beyond best_v1_verified_prime end: %d for "
+			  "h: %"PRIu64" n: %"PRIu64, largest_odd_v1_verified_prime, h, n);
+	    for (v1 = largest_odd_v1_verified_prime + 2; v1 <= max_v1; v1 += 2) {
+
+		/*
+		 * if v(1) is valid, stop seaching
+		 */
+		if (v1_check(jstr, v1, h_zeromod3, &cache_best_prime)) {
+		    tally_value(&tally_best_prime, v1);
+		    v1_found_in_loop = true;
+		    break;
+		}
+	    }
+	}
+	if (! v1_found_in_loop) {
+	    dbg(DBG_HIGH, "no valid v(1) found in best_v1_verified_prime[] nor "
+			  "odd values >=  %"PRId64" and <= %d for h: %"PRIu64" n: %"PRIu64,
+			  largest_odd_v1_verified_prime+2, max_v1, h, n);
+	    ++stats.missed.best_prime;
+	} else {
+	    ++stats.found.best_prime;
 	}
     }
     dbg(DBG_LOW, "stdin lines read: %d", jacobi_lineno);
@@ -517,34 +659,63 @@ main(int argc, char *argv[])
     reverse_sort_by_count(&tally_best_by_v1);
     reverse_sort_by_count(&tally_best_by_oddfreq);
     reverse_sort_by_count(&tally_best_by_oddv1);
+    reverse_sort_by_count(&tally_best_prime);
 
     /*
      * write information to tally files
      */
     dbg(DBG_LOW, "write information to tally files");
-    write_stats(&tally_int, &cache_int, filename_tally_int, file_tally_int);
+    write_stats(&tally_int, &cache_int,
+		&stats.with_cache[E_tally_int].jop, &stats.without_cache[E_tally_int].jop,
+		filename_tally_int, file_tally_int);
     fclose(file_tally_int);
     /**/
-    write_stats(&tally_1stint, &cache_1stint, filename_tally_1stint, file_tally_1stint);
+    write_stats(&tally_1stint, &cache_1stint,
+		&stats.with_cache[E_tally_1stint].jop, &stats.without_cache[E_tally_1stint].jop,
+		filename_tally_1stint, file_tally_1stint);
     fclose(file_tally_1stint);
     /**/
-    write_stats(&tally_odd, &cache_odd, filename_tally_odd, file_tally_odd);
+    write_stats(&tally_odd, &cache_odd,
+		&stats.with_cache[E_tally_odd].jop, &stats.without_cache[E_tally_odd].jop,
+		filename_tally_odd, file_tally_odd);
     fclose(file_tally_odd);
     /**/
-    write_stats(&tally_1stodd, &cache_1stodd, filename_tally_1stodd, file_tally_1stodd);
+    write_stats(&tally_1stodd, &cache_1stodd,
+		&stats.with_cache[E_tally_1stodd].jop, &stats.without_cache[E_tally_1stodd].jop,
+		filename_tally_1stodd, file_tally_1stodd);
     fclose(file_tally_1stodd);
     /**/
-    write_stats(&tally_best_by_freq, &cache_best_by_freq, filename_best_by_freq, file_best_by_freq);
+    write_stats(&tally_best_by_freq, &cache_best_by_freq,
+		&stats.with_cache[E_tally_freq].jop, &stats.without_cache[E_tally_freq].jop,
+		filename_best_by_freq, file_best_by_freq);
     fclose(file_best_by_freq);
     /**/
-    write_stats(&tally_best_by_v1, &cache_best_by_v1, filename_best_by_v1, file_best_by_v1);
+    write_stats(&tally_best_by_v1, &cache_best_by_v1,
+		&stats.with_cache[E_tally_v1].jop, &stats.without_cache[E_tally_v1].jop,
+		filename_best_by_v1, file_best_by_v1);
     fclose(file_best_by_v1);
     /**/
-    write_stats(&tally_best_by_oddfreq, &cache_best_by_oddfreq, filename_best_by_oddfreq, file_best_by_oddfreq);
+    write_stats(&tally_best_by_oddfreq, &cache_best_by_oddfreq,
+		&stats.with_cache[E_tally_oddfreq].jop, &stats.without_cache[E_tally_oddfreq].jop,
+		filename_best_by_oddfreq, file_best_by_oddfreq);
     fclose(file_best_by_oddfreq);
     /**/
-    write_stats(&tally_best_by_oddv1, &cache_best_by_oddv1, filename_best_by_oddv1, file_best_by_oddv1);
+    write_stats(&tally_best_by_oddv1, &cache_best_by_oddv1,
+		&stats.with_cache[E_tally_oddv1].jop, &stats.without_cache[E_tally_oddv1].jop,
+		filename_best_by_oddv1, file_best_by_oddv1);
     fclose(file_best_by_oddv1);
+    /**/
+    write_stats(&tally_best_prime, &cache_best_prime,
+		&stats.with_cache[E_tally_prime].jop, &stats.without_cache[E_tally_prime].jop,
+		filename_best_prime, file_best_prime);
+    fclose(file_best_prime);
+
+    /*
+     * write global stats
+     */
+    dbg(DBG_LOW, "write global stats");
+    write_global_stats(&stats, file_global_stats);
+    fclose(file_global_stats);
 
     /*
      * All Done!!! -- Jessica Noll, Age 2

@@ -1,12 +1,12 @@
 # filename = job.h-0mod3.prime-small/tally.byfreq
 #
-# ave jacobi ops per valid v(1) with cache = 4.451
-# ave jacobi ops per valid v(1) w/o cache  = 4.955
+# ave jacobi ops per valid v(1) with cache = 4.4506
+# ave jacobi ops per valid v(1) w/o cache  = 4.9551
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.000
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.0000
 #
-# match_prime_v1   = 37716
-# nomatch_prime_v1 = 0
+# match_prime_v1        = 37716
+# nomatch_prime_v1      = 0
 #
 # Jacobi ops ignoring cache = 167857
 # Jacobi ops with cache     = 186888

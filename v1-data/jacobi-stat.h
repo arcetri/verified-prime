@@ -104,8 +104,66 @@ typedef struct s_cache {
 } cache;
 
 /*
+ * v1_count - v(1) counters
+ */
+typedef struct s_v1_count {
+    int64_t valid_v1;		// count of when we found or missed a valid v(1) in integer search
+    int64_t valid_odd_v1;	// count of when we found or missed a valid v(1) in odd search
+    int64_t best_by_freq;	// count of when we found or missed a common for 0mod3 case reverse sorted by frequency of use
+    int64_t best_by_v1;		// count of when we found or missed a common for 0mod3 case sorted by v(1)
+    int64_t best_by_oddfreq;	// count of when we found or missed a common for 0mod3 case sorted by frequency of use
+    int64_t best_by_oddv1;	// count of when we found or missed a common odd for 0mod3 case sorted by v(1)
+    int64_t best_prime;		// count of when we found or missed a 1st valid v(1) from verified primes with h=0mod3, n>=1000
+} v1_count;
+
+#define LABEL_tally_int "valid v(1) for consecutive integers"
+#define LABEL_tally_1stint "smallest valid v(1) for consecutive integers"
+#define LABEL_tally_odd "valid odd v(1) for consecutive odd integers"
+#define LABEL_tally_1stodd "smallest valid odd v(1) for consecutive odd integers"
+#define LABEL_tally_freq "common for 0mod3 case reverse sorted by frequency of use"
+#define LABEL_tally_v1 "common for 0mod3 case sorted by v(1)"
+#define LABEL_tally_oddfreq "common odd for 0mod3 case reverse sorted by frequency of use"
+#define LABEL_tally_oddv1 "common odd for 0mod3 case sorted by v(1)"
+#define LABEL_tally_prime "1st valid v(1) from verified primes with h=0mod3, n>=1000"
+
+/*
+ * ave_jops - average number of Jacobi operations
+ */
+typedef struct s_ave_jop {
+    char *jop_label;		// pointer to a Jacobi operations average label
+    double jop;			// average number of Jacobi operations
+} ave_jop;
+
+/*
+ * e_tally - enumerate ave_jop array
+ */
+enum e_tally {
+    E_tally_int = 0,
+    E_tally_1stint,
+    E_tally_odd,
+    E_tally_1stodd,
+    E_tally_freq,
+    E_tally_v1,
+    E_tally_oddfreq,
+    E_tally_oddv1,
+    E_tally_prime,
+    E_TALLY_BEYOND,
+};
+
+/*
+ * stats - overall test stats
+ */
+typedef struct s_stats {
+    v1_count found;		// count of when we found a valid v(1) under a given situation
+    v1_count missed;		// count of when we missed a valid v(1) under a given situation
+    ave_jop with_cache[E_TALLY_BEYOND];	// average number of Jacobi ops for various situations with Jacobi cache
+    ave_jop without_cache[E_TALLY_BEYOND];	// average number of Jacobi ops for various situations with Jacobi cache
+} stats;
+
+/*
  * external functions
  */
+extern void counter_init(stats *stats_p);
 extern void tally_init(tally *tally_p);
 extern void cache_init(cache *cache);
 extern void cache_config(cache *cache_p, ssize_t len);
@@ -114,6 +172,9 @@ extern void tally_value(tally *tally_p, int64_t value);
 extern bool v1_check(const char *jstr, int64_t x, bool h_zeromod3, cache *cache_p);
 extern void sort_by_value(tally *tally_p);
 extern void reverse_sort_by_count(tally *tally_p);
-extern void write_stats(tally *tally_p, cache *cache_p, const char *filename, FILE *stream);
+extern void write_stats(tally *tally_p, cache *cache_p,
+	    double *ave_ops_cache_p, double *ave_ops_no_cache_p,
+	    const char *filename, FILE *stream);
+extern void write_global_stats(stats *stats_p, FILE *stream);
 
 #endif	/* INCLUDE_JACOBI_STAT_H */

@@ -59,10 +59,10 @@ fi
 
 # jacobi-gentally processing for 0mod3
 #
-echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1"
+echo "$JACOBI_GENTALLY" -v 3 "$RANGE_H_0MOD3/global.stats" "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1" "$RANGE_H_0MOD3/tally.prime"
 find "$RANGE_H_0MOD3/" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 (
-    "$JACOBI_GENTALLY" -v 1 "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1"
+    "$JACOBI_GENTALLY" -v 3 "$RANGE_H_0MOD3/global.stats" "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1" "$RANGE_H_0MOD3/tally.prime"
     status="$?"
     if [[ $status -ne 0 ]]; then
 	echo "$0: Warning: $JACOBI_GENTALLY on $RANGE_H_0MOD3 non-zero exit status: $status" 1>&2
@@ -72,10 +72,10 @@ find "$RANGE_H_0MOD3/" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 
 # jacobi-gentally processing for not0mod3
 #
-echo "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
+echo "$JACOBI_GENTALLY" -v 3 "$RANGE_H_NOT0MOD3/global.stats" "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1" "$RANGE_H_NOT0MOD3/tally.prime"
 find "$RANGE_H_NOT0MOD3/" -type f -name 'jacobi.*' -print0 | xargs0 cat |
 (
-    "$JACOBI_GENTALLY" -v 1 "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1"
+    "$JACOBI_GENTALLY" -v 3 "$RANGE_H_NOT0MOD3/global.stats" "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1" "$RANGE_H_NOT0MOD3/tally.prime"
     status="$?"
     if [[ $status -ne 0 ]]; then
 	echo "$0: Warning: $JACOBI_GENTALLY on $RANGE_H_NOT0MOD3 non-zero exit status: $status" 1>&2

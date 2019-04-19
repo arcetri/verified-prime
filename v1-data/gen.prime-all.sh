@@ -90,6 +90,8 @@ for dir in "$PRIME_H_0MOD3" "$PRIME_H_NOT0MOD3"; do
     find "$dir" -type f -name 'stderr.*' -delete
     find "$dir" -type f -name 'time.*' -delete
     find "$dir" -type f -name 'run.all.sh' -delete
+    find "$dir" -type f -name 'tally.*' -delete
+    find "$dir" -type f -name 'global.stats' -delete
 done
 
 # foreach directory, generate lists of h n files that are similar in length

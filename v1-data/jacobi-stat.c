@@ -41,12 +41,85 @@
 static bool match_prime_v1(int64_t v1, bool h_zeromod3);
 static int reverse_count_cmp(const void *a_arg, const void *b_arg);
 static int value_cmp(const void *a_arg, const void *b_arg);
+static int ave_jop_cmp(const void *a_arg, const void *b_arg);
+static void sort_by_jop(ave_jop *ave_jop_p);
 
 /* known valid 1st v(1) for verified Riesel h*2^n-1 primes */
 static int64_t verified_prime_1st_v1_reverse_sorted_by_freq[] = {
     3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59, 65, 69, 81,
     -1  // just be the last value
 };
+
+/*
+ * counter_init - initialize stats counters
+ *
+ * given:
+ *	stats_p		pointer to stats structure
+ *
+ * NOTE: This function does not return on error.
+ */
+void
+counter_init(stats *stats_p)
+{
+    /*
+     * firewall
+     */
+    if (stats_p == NULL) {
+	err(100, __func__, "stats_p is NULL");
+	/*NOTREACHED*/
+    }
+
+    /*
+     * zeroize v(1) counters
+     */
+    memset(&stats_p->found, 0, sizeof(stats_p->found));
+    memset(&stats_p->missed, 0, sizeof(stats_p->missed));
+
+    /*
+     * initialize with_cache values
+     */
+    stats_p->with_cache[E_tally_int].jop_label = LABEL_tally_int;
+    stats_p->with_cache[E_tally_int].jop = 0.0;
+    stats_p->with_cache[E_tally_1stint].jop_label = LABEL_tally_1stint;
+    stats_p->with_cache[E_tally_1stint].jop = 0.0;
+    stats_p->with_cache[E_tally_odd].jop_label = LABEL_tally_odd;
+    stats_p->with_cache[E_tally_odd].jop = 0.0;
+    stats_p->with_cache[E_tally_1stodd].jop_label = LABEL_tally_1stodd;
+    stats_p->with_cache[E_tally_1stodd].jop = 0.0;
+    stats_p->with_cache[E_tally_freq].jop_label = LABEL_tally_freq;
+    stats_p->with_cache[E_tally_freq].jop = 0.0;
+    stats_p->with_cache[E_tally_v1].jop_label = LABEL_tally_v1;
+    stats_p->with_cache[E_tally_v1].jop = 0.0;
+    stats_p->with_cache[E_tally_oddfreq].jop_label = LABEL_tally_oddfreq;
+    stats_p->with_cache[E_tally_oddfreq].jop = 0.0;
+    stats_p->with_cache[E_tally_oddv1].jop_label = LABEL_tally_oddv1;
+    stats_p->with_cache[E_tally_oddv1].jop = 0.0;
+    stats_p->with_cache[E_tally_prime].jop_label = LABEL_tally_prime;
+    stats_p->with_cache[E_tally_prime].jop = 0.0;
+
+    /*
+     * initialize without_cache values
+     */
+    stats_p->without_cache[E_tally_int].jop_label = LABEL_tally_int;
+    stats_p->without_cache[E_tally_int].jop = 0.0;
+    stats_p->without_cache[E_tally_1stint].jop_label = LABEL_tally_1stint;
+    stats_p->without_cache[E_tally_1stint].jop = 0.0;
+    stats_p->without_cache[E_tally_odd].jop_label = LABEL_tally_odd;
+    stats_p->without_cache[E_tally_odd].jop = 0.0;
+    stats_p->without_cache[E_tally_1stodd].jop_label = LABEL_tally_1stodd;
+    stats_p->without_cache[E_tally_1stodd].jop = 0.0;
+    stats_p->without_cache[E_tally_freq].jop_label = LABEL_tally_freq;
+    stats_p->without_cache[E_tally_freq].jop = 0.0;
+    stats_p->without_cache[E_tally_v1].jop_label = LABEL_tally_v1;
+    stats_p->without_cache[E_tally_v1].jop = 0.0;
+    stats_p->without_cache[E_tally_oddfreq].jop_label = LABEL_tally_oddfreq;
+    stats_p->without_cache[E_tally_oddfreq].jop = 0.0;
+    stats_p->without_cache[E_tally_oddv1].jop_label = LABEL_tally_oddv1;
+    stats_p->without_cache[E_tally_oddv1].jop = 0.0;
+    stats_p->without_cache[E_tally_prime].jop_label = LABEL_tally_prime;
+    stats_p->without_cache[E_tally_prime].jop = 0.0;
+    return;
+}
 
 /*
  * tally_init - initialize a Jacobi tally
@@ -585,7 +658,7 @@ value_cmp(const void *a_arg, const void *b_arg)
     count *b;	// b_arg as a count pointer
 
     /*
-     * firewall - reverse paranoia
+     * firewall - forward paranoia
      *
      * While this should never happen, treat NULL ptrs as if it is greater than anything else.
      * Sorting greater means LESS important to restore from.
@@ -601,7 +674,7 @@ value_cmp(const void *a_arg, const void *b_arg)
     b = (count *)b_arg;
 
     /*
-     * reverse compare
+     * forward compare
      */
     if (a->value > b->value) {
 	return 1;	// forward value order
@@ -618,12 +691,59 @@ value_cmp(const void *a_arg, const void *b_arg)
 
 
 /*
+ * ave_jop_cmp - compare ave_jop.jop values
+ *
+ * given:
+ *	a	first object
+ *	b	second object
+ *
+ * returns:
+ *	1	a < b
+ *	0	a == b
+ *	-1	a > b
+ */
+static int
+ave_jop_cmp(const void *a_arg, const void *b_arg)
+{
+    ave_jop *a;	// a_arg as a jop_cmp pointer
+    ave_jop *b;	// b_arg as a jop_cmp pointer
+
+    /*
+     * firewall - forward paranoia
+     *
+     * While this should never happen, treat NULL ptrs as if it is greater than anything else.
+     * Sorting greater means LESS important to restore from.
+     */
+    if (a_arg == NULL && b_arg == NULL) {
+        return 0;
+    } else if (a_arg == NULL) {
+        return -1;	// only a_arg is NULL, so a_arg is LESS important to restore (sorted later)
+    } else if (b_arg == NULL) {
+        return 1;	// only b_arg is NULL, so a_arg is MORE important to restore (sorted earlier)
+    }
+    a = (ave_jop *)a_arg;
+    b = (ave_jop *)b_arg;
+
+    /*
+     * forward compare
+     */
+    if (a->jop > b->jop) {
+	return 1;	// forward value order
+    } else if (a->jop < b->jop) {
+	return -1;	// forward value order
+    } else {
+	return 0;
+    }
+}
+
+
+/*
  * sort_by_value - sort count array by value
  *
  * given:
  *	tally_p		pointer to a tally
  *
- * Reverse sort the count array of a tally by the count element.
+ * Sort the count array of a tally by the count element.
  * Set the sort state.
  *
  * NOTE: This function does not return on error.
@@ -706,19 +826,53 @@ reverse_sort_by_count(tally *tally_p)
 
 
 /*
+ * sort_by_jop - sort ave_jop array by jop
+ *
+ * given:
+ *	ave_jop_p	pointer to a ave_jop
+ *
+ * Sort the ave_jop array of a tally by the jop element.
+ * Set the sort state.
+ *
+ * NOTE: This function does not return on error.
+ */
+static void
+sort_by_jop(ave_jop *ave_jop_p)
+{
+    /*
+     * firewall
+     */
+    if (ave_jop_p == NULL) {
+	err(106, __func__, "ave_jop_p is NULL");
+	/*NOTREACHED*/
+    }
+
+    /*
+     * sort by job
+     */
+    qsort(ave_jop_p, E_TALLY_BEYOND, sizeof(ave_jop_p[0]), ave_jop_cmp);
+    return;
+}
+
+
+/*
  * write_stats - write tally and cache information to an open stream
  *
  * given:
- *	tally_p		pointer to a tally
- *	cache_p		pointer to a cache
- *	filename	name of the opened file
- *	stream		stream open for writing
+ *	tally_p			pointer to a tally
+ *	cache_p			pointer to a cache
+ *	ave_ops_cache_p		pointer to average Jacobi ops with a Jacobi cache
+ *	ave_ops_no_cache_p	pointer to average Jacobi ops w/o a Jacobi cache
+ *	filename		name of the opened file
+ *	stream			stream open for writing
  *
  * NOTE: This function does not return on error.
  */
 void
-write_stats(tally *tally_p, cache *cache_p, const char *filename, FILE *stream)
+write_stats(tally *tally_p, cache *cache_p, double *ave_ops_cache_p,
+	    double *ave_ops_no_cache_p, const char *filename, FILE *stream)
 {
+    double fraction_prime;	// fraction of 1st valid v(1) matching 1st v(1) of a verified prime
     int64_t count_sum;	// sum of all counts
     int64_t i;
 
@@ -736,6 +890,14 @@ write_stats(tally *tally_p, cache *cache_p, const char *filename, FILE *stream)
     if (tally_p->count_alloc <= 0) {
 	err(109, __func__, "tally_p->count_alloc: %"PRIu64" <= 0",
 		 tally_p->count_alloc);
+	/*NOTREACHED*/
+    }
+    if (ave_ops_cache_p == NULL) {
+	err(109, __func__, "ave_ops_cache_p is NULL");
+	/*NOTREACHED*/
+    }
+    if (ave_ops_no_cache_p == NULL) {
+	err(109, __func__, "ave_ops_no_cache_p is NULL");
 	/*NOTREACHED*/
     }
     if (filename == NULL) {
@@ -765,21 +927,35 @@ write_stats(tally *tally_p, cache *cache_p, const char *filename, FILE *stream)
     count_sum += tally_p->out_of_range;
 
     /*
+     * determine average Jacobi ops and fraction of fraction verified prime
+     */
+    if (cache_p->valid_v1_values == 0) {
+	*ave_ops_cache_p = (double)0.0;
+	*ave_ops_no_cache_p = (double)0.0;
+    } else {
+	*ave_ops_cache_p = (double)cache_p->jacobi_w_cache_ops / (double)cache_p->valid_v1_values;
+	*ave_ops_no_cache_p = (double)cache_p->jacobi_wo_cache_ops / (double)cache_p->valid_v1_values;
+    }
+    if ((cache_p->match_prime_v1 + cache_p->nomatch_prime_v1) == 0) {
+	fraction_prime = (double)0.0;
+    } else {
+	fraction_prime = (double)cache_p->match_prime_v1 /
+			 (double)(cache_p->match_prime_v1 + cache_p->nomatch_prime_v1);
+    }
+
+    /*
      * write cache information header
      */
     fprintf(stream, "# filename = %s\n", filename);
     fprintf(stream, "#\n");
-    fprintf(stream, "# ave jacobi ops per valid v(1) with cache = %.3f\n",
-		    (double)cache_p->jacobi_w_cache_ops / (double)cache_p->valid_v1_values);
-    fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.3f\n",
-		    (double)cache_p->jacobi_wo_cache_ops / (double)cache_p->valid_v1_values);
+    fprintf(stream, "# ave jacobi ops per valid v(1) with cache = %.4f\n", *ave_ops_cache_p);
+    fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.4f\n", *ave_ops_no_cache_p);
     fprintf(stream, "#\n");
-    fprintf(stream, "# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = %.3f\n",
-		    (double)cache_p->match_prime_v1 /
-		    (double)(cache_p->match_prime_v1 + cache_p->nomatch_prime_v1));
+    fprintf(stream, "# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = %.4f\n",
+		    fraction_prime);
     fprintf(stream, "#\n");
-    fprintf(stream, "# match_prime_v1   = %"PRIu64"\n", cache_p->match_prime_v1);
-    fprintf(stream, "# nomatch_prime_v1 = %"PRIu64"\n", cache_p->nomatch_prime_v1);
+    fprintf(stream, "# match_prime_v1        = %"PRIu64"\n", cache_p->match_prime_v1);
+    fprintf(stream, "# nomatch_prime_v1      = %"PRIu64"\n", cache_p->nomatch_prime_v1);
     fprintf(stream, "#\n");
     fprintf(stream, "# Jacobi ops ignoring cache = %"PRIu64"\n", cache_p->jacobi_w_cache_ops);
     fprintf(stream, "# Jacobi ops with cache     = %"PRIu64"\n", cache_p->jacobi_wo_cache_ops);
@@ -811,5 +987,110 @@ write_stats(tally *tally_p, cache *cache_p, const char *filename, FILE *stream)
 		tally_p->count[i].count,
 		tally_p->count[i].value);
     }
+    return;
+}
+
+
+/*
+ * write global stats - write global stats
+ *
+ * given:
+ *	stats_p		pointer to stats structure
+ *	stream		stream open for writing
+ */
+void
+write_global_stats(stats *stats_p, FILE *stream)
+{
+    ave_jop ave_sorted[E_TALLY_BEYOND];	// sorted with_cache or without_cache
+    int i;
+
+    /*
+     * firewall
+     */
+    if (stream == NULL) {
+	err(109, __func__, "stream open for writing is NULL");
+	/*NOTREACHED*/
+    }
+    if (stream == NULL) {
+	err(109, __func__, "stream is NULL");
+	/*NOTREACHED*/
+    }
+
+    /*
+     * write average number of Jacobi ops with cache stats
+     */
+    fprintf(stream, "Average number of Jacobi operations with Jacobi cache, sorted from best to worst\n");
+    memcpy(ave_sorted, stats_p->with_cache, sizeof(ave_sorted[0]) * E_TALLY_BEYOND);
+    sort_by_jop(ave_sorted);
+    for (i=0; i < E_TALLY_BEYOND; ++i) {
+	char *label = ave_sorted[i].jop_label;	// label to print if not NULL
+
+	/*
+	 * firewall
+	 */
+	if (label == NULL) {
+	    label = "((NULL label))";
+	}
+
+	/*
+	 * write label and average number of Jacobi ops
+	 */
+	fprintf(stream, "    %7.4f  =#%d-with-cache->  %s\n", ave_sorted[i].jop, i+1, label);
+    }
+    fputc('\n', stream);
+
+    /*
+     * write average number of Jacobi ops without cache stats
+     */
+    fprintf(stream, "Average number of Jacobi operations without Jacobi cache, sorted from best to worst\n");
+    memcpy(ave_sorted, stats_p->without_cache, sizeof(ave_sorted[0]) * E_TALLY_BEYOND);
+    sort_by_jop(ave_sorted);
+    for (i=0; i < E_TALLY_BEYOND; ++i) {
+	char *label = ave_sorted[i].jop_label;	// label to print if not NULL
+
+	/*
+	 * firewall
+	 */
+	if (label == NULL) {
+	    label = "((NULL label))";
+	}
+
+	/*
+	 * write label and average number of Jacobi ops
+	 */
+	fprintf(stream, "    %7.4f  =#%d-w/o-cache->  %s\n", ave_sorted[i].jop, i+1, label);
+    }
+    fputc('\n', stream);
+
+    /*
+     * write found and missed stats
+     */
+    fprintf(stream, "valid v(1) in integer search\n");
+    fprintf(stream, "    found = %"PRId64"\n", stats_p->found.valid_v1);
+    fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.valid_v1);
+    fputc('\n', stream);
+    fprintf(stream, "valid v(1) in odd search\n");
+    fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.valid_odd_v1);
+    fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.valid_odd_v1);
+    fputc('\n', stream);
+    fprintf(stream, "common for 0mod3 case reverse sorted by frequency of use\n");
+    fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_by_freq);
+    fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_by_freq);
+    fputc('\n', stream);
+    fprintf(stream, "common for 0mod3 case sorted by v(1)\n");
+    fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_by_v1);
+    fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_by_v1);
+    fputc('\n', stream);
+    fprintf(stream, "common for 0mod3 case sorted by frequency of use\n");
+    fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_by_oddfreq);
+    fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_by_oddfreq);
+    fputc('\n', stream);
+    fprintf(stream, "common odd for 0mod3 case sorted by v(1)\n");
+    fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_by_oddv1);
+    fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_by_oddv1);
+    fputc('\n', stream);
+    fprintf(stream, "1st valid v(1) from verified primes with h=0mod3, n>=1000\n");
+    fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_prime);
+    fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_prime);
     return;
 }

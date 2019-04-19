@@ -1,0 +1,49 @@
+Average number of Jacobi operations with Jacobi cache, sorted from best to worst
+    4.0582 -> valid odd v(1) for consecutive odd integers
+    4.2920 -> valid v(1) for consecutive integers
+    4.4151 -> common odd for 0mod3 case reverse sorted by frequency of use
+    4.4170 -> 1st valid v(1) from verified primes with h=0mod3, n>=1000
+    4.4177 -> common odd for 0mod3 case sorted by v(1)
+    4.4506 -> common for 0mod3 case reverse sorted by frequency of use
+    4.5370 -> common for 0mod3 case sorted by v(1)
+    4.6598 -> smallest valid odd v(1) for consecutive odd integers
+    7.6362 -> smallest valid v(1) for consecutive integers
+
+Average number of Jacobi operations without Jacobi cache, sorted from best to worst
+    4.9209 -> 1st valid v(1) from verified primes with h=0mod3, n>=1000
+    4.9217 -> common odd for 0mod3 case reverse sorted by frequency of use
+    4.9386 -> common odd for 0mod3 case sorted by v(1)
+    4.9551 -> common for 0mod3 case reverse sorted by frequency of use
+    5.0455 -> common for 0mod3 case sorted by v(1)
+    6.0690 -> smallest valid odd v(1) for consecutive odd integers
+    6.3361 -> valid odd v(1) for consecutive odd integers
+    6.8651 -> valid v(1) for consecutive integers
+    10.1381 -> smallest valid v(1) for consecutive integers
+
+valid v(1) in integer search
+    found = 37716
+    missed = 0
+
+valid v(1) in odd search
+    found  = 37716
+    missed = 0
+
+common for 0mod3 case reverse sorted by frequency of use
+    found  = 37716
+    missed = 0
+
+common for 0mod3 case sorted by v(1)
+    found  = 37716
+    missed = 0
+
+common for 0mod3 case sorted by frequency of use
+    found  = 37716
+    missed = 0
+
+common odd for 0mod3 case sorted by v(1)
+    found  = 37716
+    missed = 0
+
+1st valid v(1) from verified primes with h=0mod3, n>=1000
+    found  = 37716
+    missed = 0

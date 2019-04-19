@@ -31,6 +31,7 @@ SHELL= /bin/bash
 CC= cc
 CFLAGS= -march=native -O3 -g3 -std=c11 -Wall -Werror -pedantic
 RM= rm
+CTAGS= ctags
 
 INSTALL= install
 
@@ -41,13 +42,14 @@ SHELL_TOOLS= form.slurm.sh gen.all.sh gen.job.sh gen.prime-all.sh \
     jacobi.tally.sh check-job-dir.sh gen.prime-small.sh gen.prime-large.sh \
     jacobi.prime-large.sh
 
-C_SRC= debug.c jacobi-parse.c jacobi-stat.c jacobi-gentally.c find-v1.c
+C_MAIN= jacobi-gentally.c find-v1.c
+C_SRC= debug.c jacobi-parse.c jacobi-stat.c
 H_SRC= debug.h jacobi-parse.h jacobi-stat.h
 
 GENTALLY_OBJS= debug.o jacobi-parse.o jacobi-stat.o
 OBJS= ${GENTALLY_OBJS} jacobi-gentally.o find-v1.o
 
-TARGETS= jacobi-gentally find-v1
+TARGETS= tags jacobi-gentally find-v1
 
 all: ${OBJS} ${TARGETS}
 
@@ -72,12 +74,17 @@ find-v1.o: find-v1.c debug.h jacobi-parse.h jacobi-stat.h
 find-v1: ${GENTALLY_OBJS} find-v1.o
 	${CC} ${CFLAGS} ${GENTALLY_OBJS} find-v1.o -o $@
 
+tags: ${C_SRC} ${H_SRC}
+	${RM} -f $@
+	${CTAGS} -t -d ${C_MAIN} ${C_SRC} ${H_SRC}
+
 configure:
 
 clean quick_clean quick_distclean distclean:
 	${RM} -f ${OBJS} ${TARGETS}
 
 clobber quick_clobber: clean
+	${RM} -f ${TAGS} tags
 
 install: all
 	@echo perhaps ${INSTALL} -m 0555 ${TARGETS} ${DESTDIR}

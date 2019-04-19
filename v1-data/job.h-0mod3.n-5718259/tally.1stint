@@ -1,12 +1,12 @@
 # filename = job.h-0mod3.n-5718259/tally.1stint
 #
-# ave jacobi ops per valid v(1) with cache = 7.564
-# ave jacobi ops per valid v(1) w/o cache  = 9.888
+# ave jacobi ops per valid v(1) with cache = 7.5640
+# ave jacobi ops per valid v(1) w/o cache  = 9.8885
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 0.988
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 0.9879
 #
-# match_prime_v1   = 987882
-# nomatch_prime_v1 = 12118
+# match_prime_v1        = 987882
+# nomatch_prime_v1      = 12118
 #
 # Jacobi ops ignoring cache = 7563952
 # Jacobi ops with cache     = 9888488

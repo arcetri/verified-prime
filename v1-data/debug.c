@@ -27,7 +27,7 @@
  */
 
 // Exit codes: none
-// NOTE: Other code calls err() and errp() with various exit codes that may result in zero or non-zero exits
+// NOTE: Other code calls err and errp with various exit codes that may result in zero or non-zero exits
 
 #include "debug.h"		// debug, warning, error and usage macros
 
