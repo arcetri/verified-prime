@@ -1081,7 +1081,7 @@ write_global_stats(stats *stats_p, FILE *stream)
     fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_by_v1);
     fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_by_v1);
     fputc('\n', stream);
-    fprintf(stream, "common for 0mod3 case sorted by frequency of use\n");
+    fprintf(stream, "common odd 0mod3 case reverse sorted by frequency of use\n");
     fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_by_oddfreq);
     fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_by_oddfreq);
     fputc('\n', stream);
