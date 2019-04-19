@@ -36,7 +36,7 @@ common for 0mod3 case sorted by v(1)
     found  = 999998
     missed = 2
 
-common for 0mod3 case sorted by frequency of use
+common odd 0mod3 case reverse sorted by frequency of use
     found  = 999999
     missed = 1
 
