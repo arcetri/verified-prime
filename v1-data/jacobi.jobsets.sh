@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# jacobi.baseline.sh - tally Jacobi stats for all baseline job directories
+# jacobi.baseline.sh - tally Jacobi stats for non-baseline, non-prime job directories
 #
 # usage:
 #	jacobi.baseline.sh [-h]
@@ -39,10 +39,10 @@ elif [[ $# -ne 0 ]]; then
     exit 1
 fi
 export BASE_N="$1"
-export RANGE_H_0MOD3="baseline/job.h-0mod3.baseline"
-export RANGE_H_NOT0MOD3="baseline/job.h-not0mod3.baseline"
+export RANGE_H_0MOD3="job.h-0mod3.jobsets"
+export RANGE_H_NOT0MOD3="job.h-not0mod3.jobsets"
 # exponents that are the baseline job set
-export BASELINE="4194304 4331116 4885002 5209020 6286862 7676777 8388608"
+export JOBSETS="1391827 3727058 5718259 12776050 23059373 56126460 132174368"
 
 # firewall
 #
@@ -67,7 +67,7 @@ fi
 
 # jacobi-gentally processing for 0mod3
 #
-for n in $BASELINE; do
+for n in $JOBSETS; do
     if [[ -d "job.h-0mod3.n-$n" ]]; then
 	echo "using data from jacobi."'*'" files in job.h-0mod3.n-$n"
     else
@@ -76,7 +76,7 @@ for n in $BASELINE; do
     fi
 done
 echo "$JACOBI_GENTALLY" -v 3 "$RANGE_H_0MOD3/global.stats" "$RANGE_H_0MOD3/tally.int" "$RANGE_H_0MOD3/tally.1stint" "$RANGE_H_0MOD3/tally.odd" "$RANGE_H_0MOD3/tally.1stodd" "$RANGE_H_0MOD3/tally.byfreq" "$RANGE_H_0MOD3/tally.byv1" "$RANGE_H_0MOD3/tally.byoddfreq" "$RANGE_H_0MOD3/tally.byoddv1" "$RANGE_H_0MOD3/tally.prime"
-for n in $BASELINE; do
+for n in $JOBSETS; do
     find  "job.h-0mod3.n-$n/" -type f -name 'jacobi.*' -print
 done | xargs cat |
 (
@@ -90,7 +90,7 @@ done | xargs cat |
 
 # jacobi-gentally processing for not0mod3
 #
-for n in $BASELINE; do
+for n in $JOBSETS; do
     if [[ -d "job.h-not0mod3.n-$n" ]]; then
 	echo "using data from jacobi."'*'" files in job.h-not0mod3.n-$n"
     else
@@ -99,7 +99,7 @@ for n in $BASELINE; do
     fi
 done
 echo "$JACOBI_GENTALLY" -v 3 "$RANGE_H_NOT0MOD3/global.stats" "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1" "$RANGE_H_NOT0MOD3/tally.prime"
-for n in $BASELINE; do
+for n in $JOBSETS; do
     find  "job.h-not0mod3.n-$n/" -type f -name 'jacobi.*' -print
 done | xargs cat |
 (

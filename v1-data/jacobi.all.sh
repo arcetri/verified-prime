@@ -31,6 +31,7 @@ export JACOBI_PRIME_SMALL_SH="./jacobi.prime-small.sh"
 export JACOBI_PRIME_LARGE_SH="./jacobi.prime-large.sh"
 export JACOBI_TALLY_SH="./jacobi.tally.sh"
 export JACOBI_BASELINE_SH="./jacobi.baseline.sh"
+export JACOBI_JOBSETS_SH="./jacobi.jobsets.sh"
 export USAGE="usage: $0 [-h]"
 
 # parse args
@@ -77,6 +78,7 @@ fi
 "$JACOBI_TALLY_SH" 23059373
 "$JACOBI_TALLY_SH" 56126460
 "$JACOBI_TALLY_SH" 132174368
+"$JACOBI_JOBSETS_SH"
 "$JACOBI_PRIME_SMALL_SH"
 "$JACOBI_PRIME_LARGE_SH"
 "$JACOBI_PRIME_ALL_SH"
