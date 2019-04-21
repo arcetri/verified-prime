@@ -186,7 +186,7 @@ cd $FULL_PATH
 # use sbatch of we have SLURM, else use the shell
 #
 export RUN_TOOL=\$(which sbatch)
-if [[ -z $RUN_TOOL ]]; then
+if [[ -z \$RUN_TOOL ]]; then
     RUN_TOOL="sh"
 fi
 
