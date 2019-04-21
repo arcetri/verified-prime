@@ -4,12 +4,13 @@
 #
 # usage:
 #
-#	form.slurm.sh [-h] job_dir id > file.slurm
+#	form.slurm.sh [-h] job_dir id len max > file.slurm
 #
 #	-h		print help and exit
 #
 #	job_dir		path of job.* directory
 #	id		list-h-n job ID
+#	max		maximum Jacobi 1st term (we suggest: 256)
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -33,12 +34,12 @@
 # parse args
 #
 if [[ $# -gt 0 && "$1" == '-h' ]]; then
-    echo "usage: $0 [-h] job_dir id" 1>&2
+    echo "usage: $0 [-h] job_dir id max" 1>&2
     exit 0
 fi
-if [[ $# -ne 2 ]]; then
-    echo "$0: FATAL: requires 2 args" 1>&2
-    echo "usage: $0 [-h] job_dir id" 1>&2
+if [[ $# -ne 3 ]]; then
+    echo "$0: FATAL: requires 3 args" 1>&2
+    echo "usage: $0 [-h] job_dir id max" 1>&2
     exit 1
 fi
 REAL_PATH=$(which realpath)
@@ -50,6 +51,11 @@ export JOB_DIR=$("$REAL_PATH" "$1")
 export JOB_DIR_BASE=$(basename "$JOB_DIR")
 export JOB_NAME="${JOB_DIR_BASE#job.}"
 export ID="$2"
+export MAX="$3"
+if [[ ! $MAX =~ ^[0-9]+$ || $MAX -lt 5 ]]; then
+    echo "$0: max must be an integer >= 5" 1>&2
+    exit 3
+fi
 
 # firewall
 #
@@ -67,15 +73,14 @@ cat << EOF
 # SLURM submission parameters
 #
 #SBATCH --job-name=$JOB_NAME	# name of this job
-#SBATCH --partition=arcetri_comp	# cluster partition to use
 #SBATCH --qos=normal			# normal priority job queue
 #SBATCH --ntasks=1			# number of tasks to run
 #SBATCH --mem-per-cpu=1G		# virtual memory per process
-#SBATCH --time=0-04:00:00		# total time limit (D-HH:MM:SS)
+#SBATCH --time=0-08:00:00		# total time limit (D-HH:MM:SS)
 #SBATCH --output=jacobi.$ID		# stdout
 #SBATCH --error=stderr.$ID		# stderr
 #SBATCH --requeue			# job will be requeued after a node failure
 
 cd "$JOB_DIR"
-/usr/bin/time -o "time.$ID" "$CALC_JOB" "list-h-n.$ID" 167
+/usr/bin/time -o "time.$ID" "$CALC_JOB" "list-h-n.$ID" $MAX
 EOF
