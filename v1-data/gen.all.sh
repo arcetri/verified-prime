@@ -73,7 +73,7 @@ fi
 # run gen.job.sh for our set of n values
 #
 "$GEN_BASELIBNE_SH" -b $FORCE
-"$GEN_NON_BASELIBNE_SH" -b $FORCE
+"$GEN_NON_BASELIBNE_SH" $FORCE
 
 # All Done!!! -- Jessica Noll, Age 2
 #
