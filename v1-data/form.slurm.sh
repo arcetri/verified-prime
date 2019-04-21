@@ -41,7 +41,12 @@ if [[ $# -ne 2 ]]; then
     echo "usage: $0 [-h] job_dir id" 1>&2
     exit 1
 fi
-export JOB_DIR=$(realpath "$1")
+REAL_PATH=$(which realpath)
+if [[ -z $REAL_PATH ]]; then
+    echo "$0: cannot find command: realpath" 1>&2
+    exit 2
+fi
+export JOB_DIR=$("$REAL_PATH" "$1")
 export JOB_DIR_BASE=$(basename "$JOB_DIR")
 export JOB_NAME="${JOB_DIR_BASE#job.}"
 export ID="$2"
@@ -51,7 +56,7 @@ export ID="$2"
 export CALC_JOB=$(realpath "$PWD/jacobi-h-n.calc")
 if [[ ! -x "$CALC_JOB" ]]; then
     echo "$0: FATAL: canot find executable: $CALC_JOB" 1>&2
-    exit 2
+    exit 3
 fi
 
 cat << EOF

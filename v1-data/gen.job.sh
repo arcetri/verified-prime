@@ -2,11 +2,7 @@
 #
 # gen.job.sh - generate SLURM job directories and input data files
 #
-# usage:
-#	gen.job.sh [base_n [count]]
-#
-#	base_n		base value for n (def: 4331116)
-#	count		range for n [range_n, range_n+count-1] (def: 1000)
+# See $USAGE below of usage.
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -35,81 +31,149 @@ export FORM_SLURM="form.slurm.sh"
 
 # parse args
 #
-export BASE_N="4331116"
+export BASELINE=
+export BASE_N=
 export COUNT="1000"
-USAGE="usage: $0 [-h] [base_n [count]]"
+USAGE="usage: $0 [-h] [-b] base_n [count]
+
+    -h		print help and exit 0
+
+    -b		create job dir under baseline and symlink under . (def: create job dir under . only)
+
+    base_n	base n value, forms job.h-0mod3.n-base_n and job.h-not0mod3.n-base_n
+    count	form n values over the half open interval [base_n, base_n+count) (def: 1000)"
+while getopts :hb flag; do
+    case "$flag" in
+    h) echo "$USAGE" 1>&2
+       exit 0 ;;
+    b) BASELINE=true
+       ;;
+    \?) echo "$0: invalid option: -$OPTARG" 1>&2
+       echo "$USAGE" 1>&2
+       exit 1
+       ;;
+    :) echo "$0: option -$OPTARG requires an argument" 1>&2
+       echo "$USAGE" 1>&2
+       exit 1
+       ;;
+    esac
+done
+shift $(( OPTIND - 1 ));
 case "$#" in
-0) ;;
-1) if [[ $1 == '-h' ]]; then echo $USAGE 1>&2; exit 0; fi
-   BASE_N="$1" ;;
-2) if [[ $1 == '-h' ]]; then echo $USAGE 1>&2; exit 0; fi
-   BASE_N="$1"; COUNT="$2" ;;
-*) echo $USAGE 1>&2
+1) BASE_N="$1" ;;
+2) BASE_N="$1"; COUNT="$2" ;;
+*) echo "$0: expected 1 or 2 args" 1>&2
+   echo "$USAGE" 1>&2
    exit 1 ;;
 esac
-export RANGE_H_0MOD3="job.h-0mod3.n-$BASE_N"
-export RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
+if [[ ! $BASE_N =~ ^[0-9]+$ || $BASE_N -lt 1 ]]; then
+    echo "$0: base_n must be an integer > 0" 1>&2
+    exit 1
+fi
+export SYMLINK_RANGE_H_0MOD3=
+export SYMLINK_RANGE_H_NOT0MOD3=
+export RANGE_H_0MOD3=
+export RANGE_H_NOT0MOD3=
+if [[ -n "$BASELINE" ]]; then
+    export RANGE_H_0MOD3="baseline/job.h-0mod3.n-$BASE_N"
+    export RANGE_H_NOT0MOD3="baseline/job.h-not0mod3.n-$BASE_N"
+    export SYMLINK_RANGE_H_0MOD3="job.h-0mod3.n-$BASE_N"
+    export SYMLINK_RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
+    if [[ ! -d baseline ]]; then
+	mkdir -p baseline
+	if [[ ! -d baseline ]]; then
+	    echo "$0: unable to form baseline sub-directory" 1>&2
+	    exit 2
+	fi
+    fi
+else
+    export RANGE_H_0MOD3="job.h-0mod3.n-$BASE_N"
+    export RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
+fi
 
 # firewall
 #
 if [[ ! -x $GEN_H0MOD3_CALC ]]; then
     echo "$0: FATAL: cannot find executable: $GEN_H0MOD3_CALC" 1>&2
-    exit 2
+    exit 3
 fi
 if [[ ! -x $GEN_HNOT0MOD3_CALC ]]; then
     echo "$0: FATAL: cannot find executable: $GEN_HNOT0MOD3_CALC" 1>&2
-    exit 3
+    exit 4
 fi
 if [[ ! -x $FORM_SLURM ]]; then
     echo "$0: FATAL: cannot find executable: $FORM_SLURM" 1>&2
-    exit 4
+    exit 5
+fi
+if [[ -z "$RANGE_H_0MOD3" ]]; then
+    echo "$0: FATAL: Internal error: "'$'"RANGE_H_0MOD3 is empty" 1>&2
+    exit 6
+elif [[ -e "$RANGE_H_0MOD3" ]]; then
+    echo "$0: FATAL: already exists: $RANGE_H_0MOD3" 1>&2
+    exit 7
+fi
+if [[ -z "$RANGE_H_NOT0MOD3" ]]; then
+    echo "$0: FATAL: Internal error: "'$'"RANGE_H_NOT0MOD3 is empty" 1>&2
+    exit 8
+elif [[ -e "$RANGE_H_NOT0MOD3" ]]; then
+    echo "$0: FATAL: already exists: $RANGE_H_NOT0MOD3" 1>&2
+    exit 9
+fi
+if [[ -n "$BASELINE" ]]; then
+    if [[ -z $SYMLINK_RANGE_H_0MOD3 ]]; then
+	echo "$0: FATAL: Internal error: "'$'"SYMLINK_RANGE_H_0MOD3 is empty" 1>&2
+	exit 10
+    elif [[ -e $SYMLINK_RANGE_H_0MOD3 ]]; then
+	echo "$0: FATAL: already exists: $SYMLINK_RANGE_H_0MOD3" 1>&2
+	exit 11
+    fi
+    if [[ -z $SYMLINK_RANGE_H_NOT0MOD3 ]]; then
+	echo "$0: FATAL: Internal error: "'$'"SYMLINK_RANGE_H_NOT0MOD3 is empty" 1>&2
+	exit 12
+    elif [[ -e $SYMLINK_RANGE_H_NOT0MOD3 ]]; then
+	echo "$0: FATAL: already exists: $SYMLINK_RANGE_H_NOT0MOD3" 1>&2
+	exit 13
+    fi
+fi
+export REAL_PATH=$(which realpath)
+if [[ -z $REAL_PATH ]]; then
+    echo "$0: cannot find command: realpath" 1>&2
+    exit 14
 fi
 
 # initialize the job directories
 #
-for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
+echo "$0: initialize the job directories"
+mkdir -p -m 0755 "$RANGE_H_0MOD3"
+mkdir -p -m 0755 "$RANGE_H_NOT0MOD3"
+ls -ld "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"
+echo
 
-    # firewall - do not override
-    #
-    if [[ -d "$dir" ]]; then
-	echo "$0: FATAL: job directory exists: $dir" 1>&2
-	exit 5
-    fi
-
-    # make the directory
-    #
-    echo "forming directory $dir"
-    mkdir -p "$dir"
-    if [[ ! -d "$dir" ]]; then
-	echo "$0: FATAL: cannot mkdir: $dir" 1>&2
-	exit 5
-    fi
-
-    # clean out job files in the directory
-    #
-    # NOTE: code not needed if firewall - do not override stops override
-    #
-    chmod 0755 "$dir"
-    echo "cleaning directory $dir"
-    find "$dir" -type f -name 'list-h-n.*' -delete
-    find "$dir" -type f -name 'sbatch.*' -delete
-    find "$dir" -type f -name 'jacobi.*' -delete
-    find "$dir" -type f -name 'stderr.*' -delete
-    find "$dir" -type f -name 'time.*' -delete
-    find "$dir" -type f -name 'run.all.sh' -delete
-    find "$dir" -type f -name 'tally.*' -delete
-    find "$dir" -type f -name 'global.stats' -delete
-done
+# form symlinks if -b
+#
+if [[ -n "$BASELINE" ]]; then
+    echo "$0: setup symlinks due to -b flag"
+    rm -f "$SYMLINK_RANGE_H_0MOD3"
+    echo ln -s "$RANGE_H_0MOD3" "$SYMLINK_RANGE_H_0MOD3"
+    ln -s "$RANGE_H_0MOD3" "$SYMLINK_RANGE_H_0MOD3"
+    rm -f "$SYMLINK_RANGE_H_NOT0MOD3"
+    echo ln -s "$RANGE_H_NOT0MOD3" "$SYMLINK_RANGE_H_NOT0MOD3"
+    ln -s "$RANGE_H_NOT0MOD3" "$SYMLINK_RANGE_H_NOT0MOD3"
+    ls -l "$SYMLINK_RANGE_H_0MOD3" "$SYMLINK_RANGE_H_NOT0MOD3"
+    echo
+fi
 
 # foreach directory, generate lists of h n files that are similar in length
 #
 echo "generaring list-h-n files in $RANGE_H_0MOD3"
 "$GEN_H0MOD3_CALC" "$BASE_N" "$COUNT" | split --lines="$COUNT" --suffix-length=5 - "$RANGE_H_0MOD3/list-h-n."
 find "$RANGE_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo
 #
 echo "generaring list-h-n files in $RANGE_H_NOT0MOD3"
 "$GEN_HNOT0MOD3_CALC" "$BASE_N" "$COUNT" | split --lines="$COUNT" --suffix-length=5 - "$RANGE_H_NOT0MOD3/list-h-n."
 find "$RANGE_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo
 
 # form slurm jobs for each directory
 #
@@ -117,7 +181,7 @@ for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
 
     # determine full path of directory
     #
-    export FULL_PATH=$(realpath "$dir")
+    export FULL_PATH=$("$REAL_PATH" "$dir")
 
     # determine the type
     #
@@ -151,4 +215,5 @@ for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
 	echo "sbatch sbatch.$ID.slurm" >> "$dir/run.all.sh"
     done
     chmod 0555 "$dir/run.all.sh"
+    echo
 done

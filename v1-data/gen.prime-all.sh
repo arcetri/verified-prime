@@ -2,8 +2,7 @@
 #
 # gen.prime-all.sh - generate SLURM job input data for verified primes
 #
-# usage:
-#	gen.prime-all.sh
+# See $USAGE below of usage.
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -35,6 +34,34 @@ export VERIFIED_PRIME_H_NOT0MOD3="../h-not0mod3-n.verified-prime.txt"
 export FORM_SLURM="form.slurm.sh"
 export COUNT=1000
 
+# parse args
+#
+export BASELINE=
+export BASE_N=
+export COUNT="1000"
+USAGE="usage: $0 [-h]
+
+    -h		print help and exit 0"
+while getopts :h flag; do
+    case "$flag" in
+    h) echo "$USAGE" 1>&2
+       exit 0 ;;
+    \?) echo "$0: invalid option: -$OPTARG" 1>&2
+       echo "$USAGE" 1>&2
+       exit 1
+       ;;
+    :) echo "$0: option -$OPTARG requires an argument" 1>&2
+       echo "$USAGE" 1>&2
+       exit 1
+       ;;
+    esac
+done
+shift $(( OPTIND - 1 ));
+if [[ $# -ne 0 ]]; then
+    echo "$0: expected 0 args" 1>&2
+    exit 1
+fi
+
 # firewall
 #
 if [[ ! -x $GEN_H0MOD3_CALC ]]; then
@@ -57,52 +84,45 @@ if [[ ! -x $FORM_SLURM ]]; then
     echo "$0: FATAL: cannot find executable: $FORM_SLURM" 1>&2
     exit 5
 fi
+if [[ -z "$RANGE_H_0MOD3" ]]; then
+    echo "$0: FATAL: Internal error: "'$'"RANGE_H_0MOD3 is empty" 1>&2
+    exit 6
+elif [[ -e "$RANGE_H_0MOD3" ]]; then
+    echo "$0: FATAL: already exists: $RANGE_H_0MOD3" 1>&2
+    exit 7
+fi
+if [[ -z "$RANGE_H_NOT0MOD3" ]]; then
+    echo "$0: FATAL: Internal error: "'$'"RANGE_H_NOT0MOD3 is empty" 1>&2
+    exit 8
+elif [[ -e "$RANGE_H_NOT0MOD3" ]]; then
+    echo "$0: FATAL: already exists: $RANGE_H_NOT0MOD3" 1>&2
+    exit 9
+fi
+export REAL_PATH=$(which realpath)
+if [[ -z $REAL_PATH ]]; then
+    echo "$0: cannot find command: realpath" 1>&2
+    exit 10
+fi
 
 # initialize the job directories
 #
-for dir in "$PRIME_H_0MOD3" "$PRIME_H_NOT0MOD3"; do
-
-    # firewall - do not override
-    #
-    if [[ -d "$dir" ]]; then
-	echo "$0: FATAL: job directory exists: $dir" 1>&2
-	exit 5
-    fi
-
-    # make the directory
-    #
-    echo "forming directory $dir"
-    mkdir -p "$dir"
-    if [[ ! -d "$dir" ]]; then
-	echo "$0: FATAL: cannot mkdir: $dir" 1>&2
-	exit 5
-    fi
-
-    # clean out job files in the directory
-    #
-    # NOTE: code not needed if firewall - do not override stops override
-    #
-    chmod 0755 "$dir"
-    echo "cleaning directory $dir"
-    find "$dir" -type f -name 'list-h-n.*' -delete
-    find "$dir" -type f -name 'sbatch.*' -delete
-    find "$dir" -type f -name 'jacobi.*' -delete
-    find "$dir" -type f -name 'stderr.*' -delete
-    find "$dir" -type f -name 'time.*' -delete
-    find "$dir" -type f -name 'run.all.sh' -delete
-    find "$dir" -type f -name 'tally.*' -delete
-    find "$dir" -type f -name 'global.stats' -delete
-done
+echo "$0: initialize the job directories"
+mkdir -p -m 0755 "$RANGE_H_0MOD3"
+mkdir -p -m 0755 "$RANGE_H_NOT0MOD3"
+ls -ld "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"
+echo
 
 # foreach directory, generate lists of h n files that are similar in length
 #
 echo "generaring list-h-n files in $PRIME_H_0MOD3"
 split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_0MOD3" "$PRIME_H_0MOD3/list-h-n."
 find "$PRIME_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo
 #
 echo "generaring list-h-n files in $PRIME_H_NOT0MOD3"
 split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_NOT0MOD3" "$PRIME_H_NOT0MOD3/list-h-n."
 find "$PRIME_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo
 
 # form slurm jobs for each directory
 #
@@ -110,7 +130,7 @@ for dir in "$PRIME_H_0MOD3" "$PRIME_H_NOT0MOD3"; do
 
     # determine full path of directory
     #
-    export FULL_PATH=$(realpath "$dir")
+    export FULL_PATH=$("$REAL_PATH" "$dir")
 
     # start the run.all.sh file
     #
@@ -140,4 +160,5 @@ for dir in "$PRIME_H_0MOD3" "$PRIME_H_NOT0MOD3"; do
 	echo "sbatch sbatch.$ID.slurm" >> "$dir/run.all.sh"
     done
     chmod 0555 "$dir/run.all.sh"
+    echo
 done
