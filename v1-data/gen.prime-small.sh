@@ -27,12 +27,12 @@
 
 # setup
 #
-export PRIME_H_0MOD3="job.h-0mod3.prime-small"
-export PRIME_H_NOT0MOD3="job.h-not0mod3.prime-small"
+export RANGE_H_0MOD3="job.h-0mod3.prime-small"
+export RANGE_H_NOT0MOD3="job.h-not0mod3.prime-small"
 export GEN_H0MOD3_CALC="./h0mod3-n.calc"
 export GEN_HNOT0MOD3_CALC="./hnot0mod3-n.calc"
-export VERIFIED_PRIME_H_0MOD3="../h-0mod3-n.verified-prime-small.txt"
-export VERIFIED_PRIME_H_NOT0MOD3="../h-not0mod3-n.verified-prime-small.txt"
+export VERIFIED_RANGE_H_0MOD3="../h-0mod3-n.verified-prime-small.txt"
+export VERIFIED_RANGE_H_NOT0MOD3="../h-not0mod3-n.verified-prime-small.txt"
 export FORM_SLURM="form.slurm.sh"
 export COUNT=1000
 
@@ -74,12 +74,12 @@ if [[ ! -x $GEN_HNOT0MOD3_CALC ]]; then
     echo "$0: FATAL: cannot find executable: $GEN_HNOT0MOD3_CALC" 1>&2
     exit 2
 fi
-if [[ ! -r $VERIFIED_PRIME_H_0MOD3 ]]; then
-    echo "$0: FATAL: not a readable file: $VERIFIED_PRIME_H_0MOD3" 1>&2
+if [[ ! -r $VERIFIED_RANGE_H_0MOD3 ]]; then
+    echo "$0: FATAL: not a readable file: $VERIFIED_RANGE_H_0MOD3" 1>&2
     exit 3
 fi
-if [[ ! -r $VERIFIED_PRIME_H_NOT0MOD3 ]]; then
-    echo "$0: FATAL: not a readable file: $VERIFIED_PRIME_H_NOT0MOD3" 1>&2
+if [[ ! -r $VERIFIED_RANGE_H_NOT0MOD3 ]]; then
+    echo "$0: FATAL: not a readable file: $VERIFIED_RANGE_H_NOT0MOD3" 1>&2
     exit 4
 fi
 if [[ ! -x $FORM_SLURM ]]; then
@@ -116,19 +116,19 @@ echo
 
 # foreach directory, generate lists of h n files that are similar in length
 #
-echo "generaring list-h-n files in $PRIME_H_0MOD3"
-split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_0MOD3" "$PRIME_H_0MOD3/list-h-n."
-find "$PRIME_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo "generaring list-h-n files in $RANGE_H_0MOD3"
+split -l "$COUNT" -a 5 "$VERIFIED_RANGE_H_0MOD3" "$RANGE_H_0MOD3/list-h-n."
+find "$RANGE_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 echo
 #
-echo "generaring list-h-n files in $PRIME_H_NOT0MOD3"
-split -l "$COUNT" -a 5 "$VERIFIED_PRIME_H_NOT0MOD3" "$PRIME_H_NOT0MOD3/list-h-n."
-find "$PRIME_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
+echo "generaring list-h-n files in $RANGE_H_NOT0MOD3"
+split -l "$COUNT" -a 5 "$VERIFIED_RANGE_H_NOT0MOD3" "$RANGE_H_NOT0MOD3/list-h-n."
+find "$RANGE_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 echo
 
 # form slurm jobs for each directory
 #
-for dir in "$PRIME_H_0MOD3" "$PRIME_H_NOT0MOD3"; do
+for dir in "$RANGE_H_0MOD3" "$RANGE_H_NOT0MOD3"; do
 
     # determine full path of directory
     #
