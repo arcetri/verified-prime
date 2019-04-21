@@ -52,10 +52,10 @@ const char * usage =
 "	tally.1stint	tally of smallest valid v(1) for consecutive integers\n"
 "	tally.odd	tally of valid odd v(1) for consecutive odd integers\n"
 "	tally.1stodd	tally of smallest valid odd v(1) for consecutive odd integers\n"
-"	tally.byfreq	tally of common for 0mod3 case reverse sorted by frequency of use\n"
-"	tally.byv1	tally of common for 0mod3 case sorted by v(1)\n"
-"	tally.byoddfreq	tally of common odd for 0mod3 case reverse sorted by frequency of use\n"
-"	tally.byoddv1	tally of common odd for 0mod3 case sorted by v(1)\n"
+"	tally.byfreq	tally of common 1st valid v(1) h0mod3 - reverse sorted by freq of use\n"
+"	tally.byv1	tally of common 1st valid v(1) h0mod3 - sorted by v(1)\n"
+"	tally.byoddfreq	tally of common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use\n"
+"	tally.byoddv1	tally of common 1st valid odd v(1) h0mod3 - sorted by v(1)\n"
 "	tally.prime	tally of 1st valid v(1) from verified primes with h=0mod3, n>=1000"
 ;
 
@@ -391,7 +391,7 @@ main(int argc, char *argv[])
 	    dbg(DBG_VHIGH, "parsed line number: %d", jacobi_lineno);
 	}
 	if (parse_jacobi_line_ret < JACOBI_MIN_LEN) {
-	    dbg(DBG_MED, "parse error: %d, skiping line: %d", parse_jacobi_line_ret, jacobi_lineno);
+	    dbg(DBG_LOW, "parse error: %d, skiping line: %d", parse_jacobi_line_ret, jacobi_lineno);
 	    continue;
 	}
 
@@ -495,18 +495,22 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! saw_valid_v1) {
+	    dbg(DBG_MED, LABEL_tally_int
+			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.valid_v1;
 	} else {
 	    ++stats.found.valid_v1;
 	}
 	if (! saw_valid_odd_v1) {
+	    dbg(DBG_MED, LABEL_tally_odd
+			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.valid_odd_v1;
 	} else {
 	    ++stats.found.valid_odd_v1;
 	}
 
 	/*
-	 * loop over: common for 0mod3 case reverse sorted by frequency of use
+	 * loop over: common 1st valid v(1) h0mod3 - reverse sorted by freq of use
 	 */
 	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_freq[i] > 0; ++i) {
@@ -522,13 +526,15 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
+	    dbg(DBG_MED, LABEL_tally_freq
+			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.best_by_freq;
 	} else {
 	    ++stats.found.best_by_freq;
 	}
 
 	/*
-	 * loop over: common for 0mod3 case sorted by v(1)
+	 * loop over: common 1st valid v(1) h0mod3 - sorted by v(1)
 	 */
 	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_v1[i] > 0; ++i) {
@@ -544,13 +550,15 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
+	    dbg(DBG_MED, LABEL_tally_freq
+			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.best_by_v1;
 	} else {
 	    ++stats.found.best_by_v1;
 	}
 
 	/*
-	 * loop over: common odd for 0mod3 case reverse sorted by frequency of use
+	 * loop over: common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
 	 */
 	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_oddfreq[i] > 0; ++i) {
@@ -566,13 +574,15 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
+	    dbg(DBG_MED, LABEL_tally_oddfreq
+			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.best_by_oddfreq;
 	} else {
 	    ++stats.found.best_by_oddfreq;
 	}
 
 	/*
-	 * loop over: common odd for 0mod3 case sorted by v(1)
+	 * loop over: common 1st valid odd v(1) h0mod3 - sorted by v(1)
 	 */
 	v1_found_in_loop = false;
 	for (i=0; best_v1_reverse_sorted_by_oddv1[i] > 0; ++i) {
@@ -588,6 +598,8 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
+	    dbg(DBG_MED, LABEL_tally_oddfreq
+			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.best_by_oddv1;
 	} else {
 	    ++stats.found.best_by_oddv1;
@@ -636,6 +648,8 @@ main(int argc, char *argv[])
 	    dbg(DBG_HIGH, "no valid v(1) found in best_v1_verified_prime[] nor "
 			  "odd values >=  %"PRId64" and <= %d for h: %"PRIu64" n: %"PRIu64,
 			  largest_odd_v1_verified_prime+2, max_v1, h, n);
+	    dbg(DBG_MED, LABEL_tally_prime
+			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.best_prime;
 	} else {
 	    ++stats.found.best_prime;

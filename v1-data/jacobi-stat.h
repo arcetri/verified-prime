@@ -107,23 +107,23 @@ typedef struct s_cache {
  * v1_count - v(1) counters
  */
 typedef struct s_v1_count {
-    int64_t valid_v1;		// count of when we found or missed a valid v(1) in integer search
-    int64_t valid_odd_v1;	// count of when we found or missed a valid v(1) in odd search
-    int64_t best_by_freq;	// count of when we found or missed a common for 0mod3 case reverse sorted by frequency of use
-    int64_t best_by_v1;		// count of when we found or missed a common for 0mod3 case sorted by v(1)
-    int64_t best_by_oddfreq;	// count of when we found or missed a common for 0mod3 case sorted by frequency of use
-    int64_t best_by_oddv1;	// count of when we found or missed a common odd for 0mod3 case sorted by v(1)
-    int64_t best_prime;		// count of when we found or missed a 1st valid v(1) from verified primes with h=0mod3, n>=1000
+    int64_t valid_v1;		// count of found or missed a valid v(1) in integer search
+    int64_t valid_odd_v1;	// count of found or missed a valid v(1) in odd search
+    int64_t best_by_freq;	// count of found or missed a common 1st valid v(1) h0mod3 - reverse sorted by freq of use
+    int64_t best_by_v1;		// count of found or missed a common 1st valid v(1) h0mod3 - sorted by v(1)
+    int64_t best_by_oddfreq;	// count of found or missed a common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
+    int64_t best_by_oddv1;	// count of found or missed a common 1st valid odd v(1) h0mod3 - sorted by v(1)
+    int64_t best_prime;		// count of found or missed a 1st valid v(1) from verified primes with h=0mod3, n>=1000
 } v1_count;
 
 #define LABEL_tally_int "valid v(1) for consecutive integers"
 #define LABEL_tally_1stint "smallest valid v(1) for consecutive integers"
 #define LABEL_tally_odd "valid odd v(1) for consecutive odd integers"
 #define LABEL_tally_1stodd "smallest valid odd v(1) for consecutive odd integers"
-#define LABEL_tally_freq "common for 0mod3 case reverse sorted by frequency of use"
-#define LABEL_tally_v1 "common for 0mod3 case sorted by v(1)"
-#define LABEL_tally_oddfreq "common odd for 0mod3 case reverse sorted by frequency of use"
-#define LABEL_tally_oddv1 "common odd for 0mod3 case sorted by v(1)"
+#define LABEL_tally_freq "common 1st valid v(1) h0mod3 - reverse sorted by freq of use"
+#define LABEL_tally_v1 "common 1st valid v(1) h0mod3 - sorted by v(1)"
+#define LABEL_tally_oddfreq "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use"
+#define LABEL_tally_oddv1 "common 1st valid odd v(1) h0mod3 - sorted by v(1)"
 #define LABEL_tally_prime "1st valid v(1) from verified primes with h=0mod3, n>=1000"
 
 /*

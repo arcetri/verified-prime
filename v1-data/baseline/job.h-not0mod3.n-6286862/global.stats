@@ -3,19 +3,19 @@ Average number of Jacobi operations with Jacobi cache, sorted from best to worst
      4.6892  =#2-with-cache->  valid v(1) for consecutive integers
      4.8822  =#3-with-cache->  valid odd v(1) for consecutive odd integers
      5.5544  =#4-with-cache->  smallest valid odd v(1) for consecutive odd integers
-     5.6339  =#5-with-cache->  common odd for 0mod3 case sorted by v(1)
-     5.7301  =#6-with-cache->  common odd for 0mod3 case reverse sorted by frequency of use
+     5.6339  =#5-with-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
+     5.7301  =#6-with-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
      5.8340  =#7-with-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
-     5.8441  =#8-with-cache->  common for 0mod3 case sorted by v(1)
-     5.8765  =#9-with-cache->  common for 0mod3 case reverse sorted by frequency of use
+     5.8441  =#8-with-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
+     5.8765  =#9-with-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
 
 Average number of Jacobi operations without Jacobi cache, sorted from best to worst
      3.2000  =#1-w/o-cache->  smallest valid v(1) for consecutive integers
-     5.9885  =#2-w/o-cache->  common odd for 0mod3 case sorted by v(1)
-     6.0766  =#3-w/o-cache->  common odd for 0mod3 case reverse sorted by frequency of use
-     6.1142  =#4-w/o-cache->  common for 0mod3 case sorted by v(1)
+     5.9885  =#2-w/o-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
+     6.0766  =#3-w/o-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
+     6.1142  =#4-w/o-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
      6.1188  =#5-w/o-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
-     6.1435  =#6-w/o-cache->  common for 0mod3 case reverse sorted by frequency of use
+     6.1435  =#6-w/o-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
      6.8604  =#7-w/o-cache->  valid v(1) for consecutive integers
      6.9328  =#8-w/o-cache->  smallest valid odd v(1) for consecutive odd integers
      7.0886  =#9-w/o-cache->  valid odd v(1) for consecutive odd integers
@@ -28,19 +28,19 @@ valid v(1) in odd search
     found  = 1000000
     missed = 0
 
-common for 0mod3 case reverse sorted by frequency of use
+common 1st valid v(1) h0mod3 - reverse sorted by freq of use
     found  = 999993
     missed = 7
 
-common for 0mod3 case sorted by v(1)
+common 1st valid v(1) h0mod3 - sorted by v(1)
     found  = 999993
     missed = 7
 
-common odd 0mod3 case reverse sorted by frequency of use
+common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
     found  = 999996
     missed = 4
 
-common odd for 0mod3 case sorted by v(1)
+common 1st valid odd v(1) h0mod3 - sorted by v(1)
     found  = 999996
     missed = 4
 
