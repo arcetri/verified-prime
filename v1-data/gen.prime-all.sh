@@ -72,7 +72,7 @@ echo
 
 # firewall
 #
-echo "#0: checking setup"
+echo "$0: checking setup"
 if [[ ! -x $GEN_H0MOD3_CALC ]]; then
     echo "$0: FATAL: cannot find executable: $GEN_H0MOD3_CALC" 1>&2
     exit 3
