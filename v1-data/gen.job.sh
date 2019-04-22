@@ -29,7 +29,14 @@ export GEN_H0MOD3_CALC="./h0mod3-n.calc"
 export GEN_HNOT0MOD3_CALC="./hnot0mod3-n.calc"
 export FORM_SLURM="form.slurm.sh"
 export COUNT=1000
-export MAX=256
+export MAX=256		# maximum v(1) value we track
+export DEF_MAX_V1=999	# must be same as DEF_MAX_V1 in jacobi-stat.h
+if [[ $MAX -gt $DEF_MAX_V1 ]]; then
+    echo "$0: FATAL: Internal error: MAX: $MAX > DEF_MAX_V1: $DEF_MAX_V1" 1>&2
+    echo "$0: FATAL: Internal error: DEF_MAX_V1 must match DEF_MAX_V1 in jacobi-stat.h" 1>&2
+    echo "$0: FATAL: Internal error: MAX must not exceed $DEF_MAX_V1" 1>&2
+    exit 1
+fi
 
 # parse args
 #

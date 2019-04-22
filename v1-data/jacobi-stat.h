@@ -32,7 +32,25 @@
 #include <stdbool.h>
 
 #define DEF_MIN_V1 (3)			// maximum v(1) value allowed by the Riesel test
-#define DEF_MAX_V1 (165)		// default maximum v(1) value we keep track of
+/*
+ * IMPORTANT:
+ *
+ * The DEF_MAX_V1 definition below needs to match the DEF_MAX_V1 shall variable in these scripts:
+ *
+ *	gen.job.sh
+ *	gen.prime-all.sh
+ *	gen.prime-large.sh
+ *	gen.prime-small.sh
+ *	form.slurm.sh
+ *
+ * in order to avoid false invalid_str_value events.  The DEF_MAX_V1 shell variable
+ * in those scripts is used to prevent the shell variable, MAX, from exceeding the
+ * DEF_MAX_V1 definition below.  If the MAX shell variable were to exceed the
+ * DEF_MAX_V1 definition below, then any charactes used on a Jacobi +-0 value string
+ * that exceeded the DEF_MAX_V1 position would be incorrectly counted as an
+ * invalid_str_value event.
+ */
+#define DEF_MAX_V1 (999)		// default maximum v(1) value we keep track of
 #define DEF_MAX_X (DEF_MAX_V1+2)	// default maximum X value used as 1st Jaboci symbol argument
 #define INVALID_JACOBI_VALUE (-2)	// not a valid value of a Jacobi symbol (valid values are: -1, 0, 1)
 
@@ -97,6 +115,7 @@ typedef struct s_cache {
     int64_t cache_hit_count;	// number of times a Jacobi symbol operations that hit an existing value in our cache
     int64_t out_of_range;	// number of times a value was out of range of the cache range
     int64_t invalid_str_value;	// number of times a Jacobi +-0 value string value was neither +, nor -. nor 0
+				// See also the above comment about DEF_MAX_V1
     int64_t valid_v1_values;	// number of times a valid v(1) value was found
     int64_t match_prime_v1;	// valid v(1) value matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
     int64_t nomatch_prime_v1;	// valid v(1) value does NOT match any valid v(1) for a verified Riesel h*2^n-1 prime

@@ -24,6 +24,10 @@
 # chongo <was here> /\oo/\     http://www.isthe.com/chongo/
 # Share and enjoy!  :-)        http://www.isthe.com/chongo/tech/comp/calc/
 
+# setup
+#
+export DEF_MAX_V1=999	# must be same as DEF_MAX_V1 in jacobi-stat.h
+
 # parse args
 #
 export USAGE="usage: $0 [-h] job_dir id len max > sbatch.xxxxx.slurm
@@ -70,13 +74,19 @@ if [[ ! $MAX =~ ^[0-9]+$ || $MAX -lt 5 ]]; then
     echo "$USAGE" 1>&2
     exit 3
 fi
+if [[ $MAX -gt $DEF_MAX_V1 ]]; then
+    echo "$0: FATAL: Internal error: max arg: $MAX > DEF_MAX_V1: $DEF_MAX_V1" 1>&2
+    echo "$0: FATAL: Internal error: DEF_MAX_V1 must match DEF_MAX_V1 in jacobi-stat.h" 1>&2
+    echo "$0: FATAL: Internal error: max arg must not exceed $DEF_MAX_V1" 1>&2
+    exit 4
+fi
 
 # firewall
 #
 export CALC_JOB=$("$REAL_PATH" "$PWD/jacobi-h-n.calc")
 if [[ ! -x "$CALC_JOB" ]]; then
     echo "$0: FATAL: canot find executable: $CALC_JOB" 1>&2
-    exit 4
+    exit 5
 fi
 
 cat << EOF
