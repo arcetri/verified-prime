@@ -163,7 +163,6 @@ if [[ -n $PROCESS_NOT_0MOD3 ]]; then
     JOB_DIRS="$JOB_DIRS job.h-not0mod3.prime-large"
     JOB_DIRS="$JOB_DIRS job.h-not0mod3.prime-all"
 fi
-JOB_DIRS="RMME" # XXX
 
 # firewall
 #
