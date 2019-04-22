@@ -131,8 +131,8 @@ if [[ -n $PROCESS_0MOD3 ]]; then
     JOB_DIRS="$JOB_DIRS job.h-0mod3.n-3727058"
     JOB_DIRS="$JOB_DIRS job.h-0mod3.n-5718259"
     JOB_DIRS="$JOB_DIRS job.h-0mod3.n-12776050"
-    JOB_DIRS="$JOB_DIRS job.h-0mod3.n-56126460"
     JOB_DIRS="$JOB_DIRS job.h-0mod3.n-23059373"
+    JOB_DIRS="$JOB_DIRS job.h-0mod3.n-56126460"
     JOB_DIRS="$JOB_DIRS job.h-0mod3.n-132174368"
 fi
 if [[ -n $PROCESS_0MOD3 ]]; then
