@@ -99,13 +99,17 @@ if [[ ! -x $JACOBI_GENTALLY ]]; then
     echo "$0: FATAL: cannot find executable: $JACOBI_GENTALLY" 1>&2
     exit 2
 fi
-if [[ ! -d "$RANGE_H_0MOD3" ]]; then
-    echo "$0: FATAL: missing 0mod3 directory: $RANGE_H_0MOD3" 1>&2
-    exit 3
+if [[ -n $PROCESS_0MOD3 ]]; then
+    if [[ ! -d "$RANGE_H_0MOD3" ]]; then
+	echo "$0: FATAL: missing 0mod3 directory: $RANGE_H_0MOD3" 1>&2
+	exit 3
+    fi
 fi
-if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
-    echo "$0: FATAL: missing not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
-    exit 4
+if [[ -n $PROCESS_NOT_0MOD3 ]]; then
+    if [[ ! -d "$RANGE_H_NOT0MOD3" ]]; then
+	echo "$0: FATAL: missing not0mod3 directory: $RANGE_H_NOT0MOD3" 1>&2
+	exit 4
+    fi
 fi
 
 # jacobi-gentally processing for 0mod3
