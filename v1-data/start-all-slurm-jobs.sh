@@ -174,7 +174,7 @@ if [[ ! -x $LAUNCH_JOB_SH ]]; then
     echo "$0: FATAL: cannot find the executable: $LAUNCH_JOB_SH" 1>&2
     exit 4
 fi
-if [[ ! -x $JOB_DIRS ]]; then
+if [[ -z $JOB_DIRS ]]; then
     echo "$0: FATAL: found no job directies to process" 1>&2
     exit 5
 fi
