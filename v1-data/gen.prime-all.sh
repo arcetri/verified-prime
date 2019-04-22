@@ -132,18 +132,20 @@ echo
 
 # foreach directory, generate lists of h n files that are similar in length
 #
-echo "$0: generaring list-h-n files in $RANGE_H_0MOD3"
 if [[ -n $FORCE ]]; then
+    echo "$0: removing list-h-n files in $RANGE_H_0MOD3"
     find "$RANGE_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -delete
 fi
+echo "$0: generaring list-h-n files in $RANGE_H_0MOD3"
 split -l "$COUNT" -a 5 "$VERIFIED_RANGE_H_0MOD3" "$RANGE_H_0MOD3/list-h-n."
 find "$RANGE_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 echo
 #
-echo "$0: generaring list-h-n files in $RANGE_H_NOT0MOD3"
 if [[ -n $FORCE ]]; then
+    echo "$0: removing list-h-n files in $RANGE_H_NOT0MOD3"
     find "$RANGE_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -delete
 fi
+echo "$0: generaring list-h-n files in $RANGE_H_NOT0MOD3"
 split -l "$COUNT" -a 5 "$VERIFIED_RANGE_H_NOT0MOD3" "$RANGE_H_NOT0MOD3/list-h-n."
 find "$RANGE_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 echo
