@@ -28,15 +28,12 @@
 export GEN_H0MOD3_CALC="./h0mod3-n.calc"
 export GEN_HNOT0MOD3_CALC="./hnot0mod3-n.calc"
 export FORM_SLURM="form.slurm.sh"
+export COUNT=1000
 export MAX=256
 
 # parse args
 #
-export BASELINE=
-export BASE_N=
-export COUNT=1000
-export FORCE=
-USAGE="usage: $0 [-h] [-b] [-f] base_n [count]
+export USAGE="usage: $0 [-h] [-b] [-f] base_n [count]
 
     -h		print help and exit 0
 
@@ -46,23 +43,26 @@ USAGE="usage: $0 [-h] [-b] [-f] base_n [count]
 
     base_n	base n value, forms job.h-0mod3.n-base_n and job.h-not0mod3.n-base_n
     count	form n values over the half open interval [base_n, base_n+count) (def: 1000)"
+export BASELINE=
+export BASE_N=
+export FORCE=
 while getopts :hbf flag; do
     case "$flag" in
-    h) echo "$USAGE" 1>&2
-       exit 0
-       ;;
-    b) BASELINE="-b"
-       ;;
-    f) FORCE="-f"
-       ;;
+    h)  echo "$USAGE" 1>&2
+	exit 0
+	;;
+    b)  BASELINE="-b"
+	;;
+    f)  FORCE="-f"
+	;;
     \?) echo "$0: invalid option: -$OPTARG" 1>&2
-       echo "$USAGE" 1>&2
-       exit 1
-       ;;
-    :) echo "$0: option -$OPTARG requires an argument" 1>&2
-       echo "$USAGE" 1>&2
-       exit 1
-       ;;
+	echo "$USAGE" 1>&2
+	exit 1
+	;;
+    :)  echo "$0: option -$OPTARG requires an argument" 1>&2
+	echo "$USAGE" 1>&2
+	exit 1
+	;;
     esac
 done
 shift $(( OPTIND - 1 ));
@@ -75,6 +75,7 @@ case "$#" in
 esac
 if [[ ! $BASE_N =~ ^[0-9]+$ || $BASE_N -lt 1 ]]; then
     echo "$0: base_n must be an integer > 0" 1>&2
+    echo "$USAGE" 1>&2
     exit 1
 fi
 export SYMLINK_RANGE_H_0MOD3=
@@ -101,6 +102,9 @@ else
     export RANGE_H_NOT0MOD3="job.h-not0mod3.n-$BASE_N"
 fi
 echo "$0: starting $BASE_N $BASELINE $FORCE $BASE_N"
+echo
+echo "$0: 0mod3 $RANGE_H_0MOD3"
+echo "$0: not0mod3 $RANGE_H_NOT0MOD3"
 echo
 
 # firewall
@@ -210,18 +214,20 @@ fi
 
 # foreach directory, generate lists of h n files that are similar in length
 #
-echo "$0: generaring list-h-n files in $RANGE_H_0MOD3"
 if [[ -n $FORCE ]]; then
+    echo "$0: removing list-h-n files in $RANGE_H_0MOD3"
     find "$RANGE_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -delete
 fi
+echo "$0: generaring list-h-n files in $RANGE_H_0MOD3"
 "$GEN_H0MOD3_CALC" "$BASE_N" "$COUNT" | split --lines="$COUNT" --suffix-length=5 - "$RANGE_H_0MOD3/list-h-n."
 find "$RANGE_H_0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 echo
 #
-echo "$0: generaring list-h-n files in $RANGE_H_NOT0MOD3"
 if [[ -n $FORCE ]]; then
+    echo "$0: removing list-h-n files in $RANGE_H_NOT0MOD3"
     find "$RANGE_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -delete
 fi
+echo "$0: generaring list-h-n files in $RANGE_H_NOT0MOD3"
 "$GEN_HNOT0MOD3_CALC" "$BASE_N" "$COUNT" | split --lines="$COUNT" --suffix-length=5 - "$RANGE_H_NOT0MOD3/list-h-n."
 find "$RANGE_H_NOT0MOD3/" -mindepth 1 -maxdepth 1 -name 'list-h-n.*' -print0 | xargs -0 chmod 0444
 echo
@@ -258,9 +264,11 @@ cd $FULL_PATH
 
 # use sbatch of we have SLURM, else use the shell
 #
-export RUN_TOOL=\$(which sbatch)
-if [[ -z \$RUN_TOOL ]]; then
-    RUN_TOOL="sh"
+export SBATCH=\$(which sbatch)
+if [[ -n \$SBATCH ]]; then
+    echo "\$0: using sbatch to launch jobs: \$SBATCH"
+else
+    echo "\$0: using shell to launch jobs"
 fi
 
 EOF
@@ -273,6 +281,7 @@ EOF
 	find "$dir/" -mindepth 1 -maxdepth 1 -name 'stderr.*' -delete
 	find "$dir/" -mindepth 1 -maxdepth 1 -name 'time.*' -delete
 	find "$dir/" -mindepth 1 -maxdepth 1 -name 'tally.*' -delete
+	find "$dir/" -mindepth 1 -maxdepth 1 -name 'jacobi.*' -delete
 	find "$dir/" -mindepth 1 -maxdepth 1 -name 'global.stats' -delete
     fi
     find "$dir/" -mindepth 1 -maxdepth 1 -type f -name 'list-h-n.*' -print | while read file; do
@@ -288,14 +297,22 @@ EOF
 
 	# add to the run.all.sh file
 	#
-	echo "\"\$RUN_TOOL\" sbatch.$ID.slurm" >> "$dir/run.all.sh"
-    done
-    cat <<EOF2 >> "$dir/run.all.sh"
+cat <<EOF2 >> "$dir/run.all.sh"
+# launch job for $ID
+#
+if [[ -n \$SBATCH ]]; then
+    "\$SBATCH" "sbatch.$ID.slurm"
+else
+    sh "./sbatch.$ID.slurm" > "jacobi.$ID" 2> "stderr.$ID"
+fi
 
+EOF2
+    done
+    cat <<EOF3 >> "$dir/run.all.sh"
 # All Done!!! -- Jessica Noll, Age 2
 #
 exit 0
-EOF2
+EOF3
     chmod 0555 "$dir/run.all.sh"
     echo
 done

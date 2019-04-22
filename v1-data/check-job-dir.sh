@@ -30,17 +30,20 @@
 #
 # Share and enjoy! :-)
 
-# setup
-#
-export USAGE="usage: $0 [-h] [-v] job.dir"
-export VERBOSE=
-
 # parse args
 #
+export USAGE="usage: $0 [-h] [-v] job.dir
+
+    -h          print help and exit 0
+
+    -v          be verbose
+
+    job.dir	directory to check for bad or missing jobs in a job set"
+export VERBOSE=
 while getopts :hv flag; do
     case "$flag" in
     h)  echo $USAGE 1>&2;
-        exit 0
+	exit 0
 	;;
     v)  VERBOSE=true
 	;;
@@ -54,17 +57,20 @@ while getopts :hv flag; do
 done
 shift $(( OPTIND - 1 ));
 if [[ $# -ne 1 ]]; then
-    echo "$0: FATAL: missing job.dir arg" 1>&2
+    echo "$0: FATAL: expected 1 arg" 1>&2
     echo $USAGE 1>&2
     exit 5
 fi
 export JOB_DIR="$1"
+if [[ -n $VERBOSE ]]; then
+    echo "$0: starting -v $JOB_DIR"
+fi
 
 # firewall
 #
 if [[ ! -d "$JOB_DIR" ]]; then
     echo "$0: FATAL: not a directory: $JOB_DIR" 1>&2
-    exit 6
+    exit 7
 fi
 
 # search based sbatch.jobid.slurm files

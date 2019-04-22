@@ -40,7 +40,8 @@ DESTDIR= /usr/global/bin
 SHELL_TOOLS= form.slurm.sh gen.all.sh gen.job.sh gen.prime-all.sh \
     launch.job.sh jacobi.all.sh jacobi.baseline.sh jacobi.prime-all.sh \
     jacobi.tally.sh check-job-dir.sh gen.prime-small.sh gen.prime-large.sh \
-    jacobi.prime-large.sh jacobi.jobsets.sh gen.all.sh
+    jacobi.prime-large.sh jacobi.jobsets.sh gen.all.sh count-slurm-jobs.sh \
+    wait-until-le-jobcount.sh start-all-slurm-jobs.sh
 
 C_MAIN= jacobi-gentally.c find-v1.c
 C_SRC= debug.c jacobi-parse.c jacobi-stat.c
@@ -76,7 +77,7 @@ find-v1: ${GENTALLY_OBJS} find-v1.o
 
 tags: ${C_SRC} ${H_SRC}
 	${RM} -f $@
-	${CTAGS} -t -d ${C_MAIN} ${C_SRC} ${H_SRC}
+	${CTAGS} ${C_MAIN} ${C_SRC} ${H_SRC}
 
 configure:
 

@@ -2,15 +2,8 @@
 #
 # form.slurm.sh - form a slurm job for generating jacboi +-0 strings
 #
-# usage:
+# See $USAGE below of usage.
 #
-#	form.slurm.sh [-h] job_dir id len max > file.slurm
-#
-#	-h		print help and exit
-#
-#	job_dir		path of job.* directory
-#	id		list-h-n job ID
-#	max		maximum Jacobi 1st term (we suggest: 256)
 
 # Copyright (C) 2019  Landon Curt Noll
 #
@@ -33,13 +26,33 @@
 
 # parse args
 #
-if [[ $# -gt 0 && "$1" == '-h' ]]; then
-    echo "usage: $0 [-h] job_dir id max" 1>&2
-    exit 0
-fi
+export USAGE="usage: $0 [-h] job_dir id len max > sbatch.xxxxx.slurm
+
+    -h		print help and exit 0
+
+    job_dir	path of job.* directory
+    id		list-h-n job ID
+    max		maximum Jacobi 1st term (we suggest: 256)"
+export FORCE=
+while getopts :h flag; do
+    case "$flag" in
+    h)  echo "$USAGE" 1>&2
+	exit 0
+	;;
+    \?) echo "$0: invalid option: -$OPTARG" 1>&2
+	echo "$USAGE" 1>&2
+	exit 1
+	;;
+    :)  echo "$0: option -$OPTARG requires an argument" 1>&2
+	echo "$USAGE" 1>&2
+	exit 1
+	;;
+    esac
+done
+shift $(( OPTIND - 1 ));
 if [[ $# -ne 3 ]]; then
-    echo "$0: FATAL: requires 3 args" 1>&2
-    echo "usage: $0 [-h] job_dir id max" 1>&2
+    echo "$0: expected 3 args" 1>&2
+    echo "$USAGE" 1>&2
     exit 1
 fi
 REAL_PATH=$(which realpath)
@@ -54,15 +67,16 @@ export ID="$2"
 export MAX="$3"
 if [[ ! $MAX =~ ^[0-9]+$ || $MAX -lt 5 ]]; then
     echo "$0: max must be an integer >= 5" 1>&2
+    echo "$USAGE" 1>&2
     exit 3
 fi
 
 # firewall
 #
-export CALC_JOB=$(realpath "$PWD/jacobi-h-n.calc")
+export CALC_JOB=$("$REAL_PATH" "$PWD/jacobi-h-n.calc")
 if [[ ! -x "$CALC_JOB" ]]; then
     echo "$0: FATAL: canot find executable: $CALC_JOB" 1>&2
-    exit 3
+    exit 4
 fi
 
 cat << EOF

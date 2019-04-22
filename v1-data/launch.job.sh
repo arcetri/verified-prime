@@ -27,16 +27,35 @@
 
 # parse args
 #
-USAGE="usage: $0 [-h] job.dir"
+export USAGE="usage: $0 [-h] job.dir
+
+    -h		print help and exit 0
+
+    job.dir	job directory containing run.all.sh"
+while getopts :hs: flag; do
+    case "$flag" in
+    h)  echo "$USAGE" 1>&2
+	exit 0
+	;;
+    \?) echo "$0: invalid option: -$OPTARG" 1>&2
+	echo "$USAGE" 1>&2
+	exit 1
+	;;
+    :)  echo "$0: option -$OPTARG requires an argument" 1>&2
+	echo "$USAGE" 1>&2
+	exit 1
+	;;
+    esac
+done
+shift $(( OPTIND - 1 ));
 if [[ $# -ne 1 ]]; then
-    echo "$0: FATAL: expected 1 arg" 1>&2
-    echo $USAGE 1>&2
+    echo "$0: expected 1 arg" 1>&2
+    echo "$USAGE" 1>&2
     exit 1
-elif [[ $1 = "-h" ]]; then
-    echo $USAGE 1>&2
-    exit 0
 fi
-JOB_DIR="$1"
+export JOB_DIR="$1"
+echo "$0: starting $JOB_DIR"
+echo
 
 # firewall
 #
