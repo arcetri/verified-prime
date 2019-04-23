@@ -550,7 +550,7 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
-	    dbg(DBG_MED, LABEL_tally_freq
+	    dbg(DBG_MED, LABEL_tally_v1
 			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.best_by_v1;
 	} else {
@@ -598,7 +598,7 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
-	    dbg(DBG_MED, LABEL_tally_oddfreq
+	    dbg(DBG_MED, LABEL_tally_oddv1
 			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
 	    ++stats.missed.best_by_oddv1;
 	} else {
