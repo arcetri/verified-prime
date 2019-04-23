@@ -76,13 +76,9 @@ if (!isint(count) || count < 1) {
 }
 
 /*
- * h must be odd, so increase start_n if even
+ * h must be odd, so increase start_h if start_n is even
  */
-start_h = 3*start_n;
-while (iseven(start_h)) {
-    ++start_n;
-    start_h /= 2;
-}
+start_h = 3*start_n + iseven(start_n);
 
 /*
  * setup range
