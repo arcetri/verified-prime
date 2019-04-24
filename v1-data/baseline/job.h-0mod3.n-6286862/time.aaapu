@@ -1,2 +1,2 @@
-433.14user 80.04system 8:34.18elapsed 99%CPU (0avgtext+0avgdata 4592maxresident)k
-32inputs+488outputs (0major+57381300minor)pagefaults 0swaps
+289.35user 58.43system 5:47.85elapsed 99%CPU (0avgtext+0avgdata 4620maxresident)k
+40inputs+280outputs (0major+33766305minor)pagefaults 0swaps

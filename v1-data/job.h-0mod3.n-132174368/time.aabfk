@@ -1,2 +1,2 @@
-10583.99user 1602.29system 3:23:16elapsed 99%CPU (0avgtext+0avgdata 66100maxresident)k
-40inputs+3608outputs (0major+225217315minor)pagefaults 0swaps
+5816.05user 749.71system 1:49:27elapsed 99%CPU (0avgtext+0avgdata 66096maxresident)k
+40inputs+1944outputs (0major+82539903minor)pagefaults 0swaps

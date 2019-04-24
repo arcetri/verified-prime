@@ -1,2 +1,2 @@
-278.26user 47.11system 5:25.44elapsed 99%CPU (0avgtext+0avgdata 3596maxresident)k
-32inputs+448outputs (0major+36517154minor)pagefaults 0swaps
+176.64user 2.20system 2:58.88elapsed 99%CPU (0avgtext+0avgdata 4160maxresident)k
+40inputs+232outputs (0major+1803701minor)pagefaults 0swaps

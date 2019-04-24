@@ -1,2 +1,2 @@
-635.56user 17.04system 10:52.74elapsed 99%CPU (0avgtext+0avgdata 6696maxresident)k
-32inputs+528outputs (0major+9572218minor)pagefaults 0swaps
+336.50user 61.09system 6:38.87elapsed 99%CPU (0avgtext+0avgdata 5632maxresident)k
+40inputs+296outputs (0major+46032508minor)pagefaults 0swaps

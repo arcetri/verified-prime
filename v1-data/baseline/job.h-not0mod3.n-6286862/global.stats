@@ -1,49 +1,53 @@
 Average number of Jacobi operations with Jacobi cache, sorted from best to worst
-     3.2000  =#1-with-cache->  smallest valid v(1) for consecutive integers
-     4.6892  =#2-with-cache->  valid v(1) for consecutive integers
-     4.8822  =#3-with-cache->  valid odd v(1) for consecutive odd integers
-     5.5544  =#4-with-cache->  smallest valid odd v(1) for consecutive odd integers
-     5.6339  =#5-with-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
-     5.7301  =#6-with-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
-     5.8340  =#7-with-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
-     5.8441  =#8-with-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
-     5.8765  =#9-with-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
+     3.0012  =#1-with-cache->  smallest valid v(1) for consecutive integers
+     3.9683  =#2-with-cache->  valid v(1) for consecutive integers
+     4.0313  =#3-with-cache->  valid odd v(1) for consecutive odd integers
+     4.6269  =#4-with-cache->  smallest valid odd v(1) for consecutive odd integers
+     4.6624  =#5-with-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
+     4.7522  =#6-with-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
+     4.8045  =#7-with-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
+     4.8191  =#8-with-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
+     4.8463  =#9-with-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
 
 Average number of Jacobi operations without Jacobi cache, sorted from best to worst
-     3.2000  =#1-w/o-cache->  smallest valid v(1) for consecutive integers
-     5.9885  =#2-w/o-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
-     6.0766  =#3-w/o-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
-     6.1142  =#4-w/o-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
-     6.1188  =#5-w/o-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
-     6.1435  =#6-w/o-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
-     6.8604  =#7-w/o-cache->  valid v(1) for consecutive integers
-     6.9328  =#8-w/o-cache->  smallest valid odd v(1) for consecutive odd integers
-     7.0886  =#9-w/o-cache->  valid odd v(1) for consecutive odd integers
+     3.0012  =#1-w/o-cache->  smallest valid v(1) for consecutive integers
+     4.9041  =#2-w/o-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
+     4.9889  =#3-w/o-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
+     5.0000  =#4-w/o-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
+     5.0091  =#5-w/o-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
+     5.0354  =#6-w/o-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
+     5.7055  =#7-w/o-cache->  smallest valid odd v(1) for consecutive odd integers
+     5.9914  =#8-w/o-cache->  valid v(1) for consecutive integers
+     6.0470  =#9-w/o-cache->  valid odd v(1) for consecutive odd integers
 
 valid v(1) in integer search
-    found = 1000000
+    found = 301269
     missed = 0
 
 valid v(1) in odd search
-    found  = 1000000
+    found  = 301269
     missed = 0
 
 common 1st valid v(1) h0mod3 - reverse sorted by freq of use
-    found  = 999993
-    missed = 7
+    found  = 301269
+    missed = 0
 
 common 1st valid v(1) h0mod3 - sorted by v(1)
-    found  = 999993
-    missed = 7
+    found  = 301269
+    missed = 0
 
 common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
-    found  = 999996
-    missed = 4
+    found  = 301268
+    missed = 1
 
 common 1st valid odd v(1) h0mod3 - sorted by v(1)
-    found  = 999996
-    missed = 4
+    found  = 301268
+    missed = 1
 
 1st valid v(1) from verified primes with h=0mod3, n>=1000
-    found  = 999995
-    missed = 5
+    found  = 301269
+    missed = 0
+
+h n pairs skipped due to finding some Jacobi(X, h*2^n-1) == 0
+    no-zero = 301269
+    skipped = 698731

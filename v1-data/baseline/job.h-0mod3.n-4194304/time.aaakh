@@ -1,2 +1,2 @@
-302.06user 61.36system 6:03.62elapsed 99%CPU (0avgtext+0avgdata 3596maxresident)k
-32inputs+448outputs (0major+36517796minor)pagefaults 0swaps
+155.34user 1.10system 2:36.56elapsed 99%CPU (0avgtext+0avgdata 4156maxresident)k
+40inputs+232outputs (0major+943359minor)pagefaults 0swaps

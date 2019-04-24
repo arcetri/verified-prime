@@ -1,2 +1,2 @@
-1868.15user 402.19system 37:51.01elapsed 99%CPU (0avgtext+0avgdata 12800maxresident)k
-40inputs+968outputs (0major+141067032minor)pagefaults 0swaps
+1066.12user 228.73system 21:36.90elapsed 99%CPU (0avgtext+0avgdata 12844maxresident)k
+40inputs+544outputs (0major+130750900minor)pagefaults 0swaps

@@ -1,2 +1,2 @@
-310.36user 16.04system 5:26.52elapsed 99%CPU (0avgtext+0avgdata 4140maxresident)k
-32inputs+448outputs (0major+12524820minor)pagefaults 0swaps
+177.52user 39.37system 3:37.00elapsed 99%CPU (0avgtext+0avgdata 3552maxresident)k
+40inputs+240outputs (0major+20844264minor)pagefaults 0swaps

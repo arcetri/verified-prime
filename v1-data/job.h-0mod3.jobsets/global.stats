@@ -1,49 +1,53 @@
 Average number of Jacobi operations with Jacobi cache, sorted from best to worst
-     4.3448  =#1-with-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
-     4.3591  =#2-with-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
-     4.3596  =#3-with-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
-     4.3663  =#4-with-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
-     4.4300  =#5-with-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
-     4.6142  =#6-with-cache->  smallest valid odd v(1) for consecutive odd integers
-     4.7415  =#7-with-cache->  valid odd v(1) for consecutive odd integers
-     4.9671  =#8-with-cache->  valid v(1) for consecutive integers
-     7.5534  =#9-with-cache->  smallest valid v(1) for consecutive integers
+     3.6702  =#1-with-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
+     3.6703  =#2-with-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
+     3.6704  =#3-with-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
+     3.6807  =#4-with-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
+     3.7078  =#5-with-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
+     3.8495  =#6-with-cache->  smallest valid odd v(1) for consecutive odd integers
+     3.9680  =#7-with-cache->  valid odd v(1) for consecutive odd integers
+     4.1299  =#8-with-cache->  valid v(1) for consecutive integers
+     5.9484  =#9-with-cache->  smallest valid v(1) for consecutive integers
 
 Average number of Jacobi operations without Jacobi cache, sorted from best to worst
-     4.8467  =#1-w/o-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
-     4.8588  =#2-w/o-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
-     4.8615  =#3-w/o-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
-     4.8703  =#4-w/o-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
-     4.9224  =#5-w/o-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
-     5.8912  =#6-w/o-cache->  smallest valid odd v(1) for consecutive odd integers
-     7.0937  =#7-w/o-cache->  valid odd v(1) for consecutive odd integers
-     7.6116  =#8-w/o-cache->  valid v(1) for consecutive integers
-     9.8708  =#9-w/o-cache->  smallest valid v(1) for consecutive integers
+     4.0002  =#1-w/o-cache->  1st valid v(1) from verified primes with h=0mod3, n>=1000
+     4.0010  =#2-w/o-cache->  common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
+     4.0047  =#3-w/o-cache->  common 1st valid odd v(1) h0mod3 - sorted by v(1)
+     4.0108  =#4-w/o-cache->  common 1st valid v(1) h0mod3 - reverse sorted by freq of use
+     4.0390  =#5-w/o-cache->  common 1st valid v(1) h0mod3 - sorted by v(1)
+     4.7013  =#6-w/o-cache->  smallest valid odd v(1) for consecutive odd integers
+     6.1081  =#7-w/o-cache->  valid odd v(1) for consecutive odd integers
+     6.4792  =#8-w/o-cache->  valid v(1) for consecutive integers
+     7.4026  =#9-w/o-cache->  smallest valid v(1) for consecutive integers
 
 valid v(1) in integer search
-    found = 6999999
-    missed = 1
+    found = 2108472
+    missed = 0
 
 valid v(1) in odd search
-    found  = 6999996
-    missed = 4
+    found  = 2108472
+    missed = 0
 
 common 1st valid v(1) h0mod3 - reverse sorted by freq of use
-    found  = 6999994
-    missed = 6
+    found  = 2108472
+    missed = 0
 
 common 1st valid v(1) h0mod3 - sorted by v(1)
-    found  = 6999994
-    missed = 6
+    found  = 2108472
+    missed = 0
 
 common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
-    found  = 6999995
-    missed = 5
+    found  = 2108472
+    missed = 0
 
 common 1st valid odd v(1) h0mod3 - sorted by v(1)
-    found  = 6999995
-    missed = 5
+    found  = 2108472
+    missed = 0
 
 1st valid v(1) from verified primes with h=0mod3, n>=1000
-    found  = 6999991
-    missed = 9
+    found  = 2108472
+    missed = 0
+
+h n pairs skipped due to finding some Jacobi(X, h*2^n-1) == 0
+    no-zero = 2108472
+    skipped = 4891528

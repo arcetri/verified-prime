@@ -1,2 +1,2 @@
-602.13user 124.46system 12:06.72elapsed 99%CPU (0avgtext+0avgdata 5324maxresident)k
-40inputs+560outputs (0major+71245165minor)pagefaults 0swaps
+327.29user 55.44system 6:22.91elapsed 99%CPU (0avgtext+0avgdata 5316maxresident)k
+40inputs+280outputs (0major+40774085minor)pagefaults 0swaps

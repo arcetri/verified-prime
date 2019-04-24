@@ -1,2 +1,2 @@
-1002.04user 216.58system 20:19.19elapsed 99%CPU (0avgtext+0avgdata 7800maxresident)k
-40inputs+688outputs (0major+121951162minor)pagefaults 0swaps
+568.89user 139.22system 11:48.24elapsed 99%CPU (0avgtext+0avgdata 7784maxresident)k
+40inputs+376outputs (0major+71296269minor)pagefaults 0swaps
