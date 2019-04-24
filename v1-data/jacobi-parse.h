@@ -31,7 +31,8 @@
 
 #define JACOBI_LINE_EOF		(0)	// EOF in reading
 #define JACOBI_LINE_BADFMT	(1)	// unable to parse the: h n jstr
-#define JACOBI_LINE_TOOSHORT	(2)	// Jacobi +-0 string is shorter than JACOBI_MIN_LEN
+#define JACOBI_LINE_TOOSHORT	(2)	// Jacobi +- or 0 string is shorter than JACOBI_MIN_LEN
+#define JACOBI_LINE_IGNORE	(3)	// Jacobi +- or 0 string was just "0" and thus h and n should be ignored
 #define JACOBI_MIN_LEN		(3+2+1)	// Minimin v(1) is 3, need to Jacobi evaluate +2 beyond that,
 					// and the final +1 is because we force strings to start with 0
 

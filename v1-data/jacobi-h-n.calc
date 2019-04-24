@@ -1,6 +1,6 @@
 #!/usr/bin/calc -q -s -f
 /*
- * jacobi-h-n.calc - generate a jacboi +-0 string for each h n pairs
+ * jacobi-h-n.calc - generate a jacboi +- or 0 string for each h n pairs
  *
  * usage:
  *
@@ -11,17 +11,39 @@
  *
  * For each line from standard input, read h and n:
  *
- *	print a line containing h, n followed by +, -, or 0
+ *	print a line containing h, n followed by +, -, or
+ *	print a line contsining h, n, and just 0
  *
- * The +, - and 0 at the end of the line are depending on the Jacobi symbol:
+ * The +, - at the end of the line are depending on the Jacobi symbol:
  *
  *	if J(X, h*2^n-1) == -1 print -
  *	if J(X, h*2^n-1) ==  1 print +
- *	else print 0
  *
  * where X is all values over the range:
  *
  *	1 <= X < max
+ *
+ * However if we happen to find a X such that:
+ *
+ *	J(X, h*2^n-1) == 0
+ *
+ * Then we just print a single "0" indicating that h*2^n-1 is not prime.
+ *
+ *	We do not test cases where h*2^n-1 < X.  Such h*2^n-1 are trivial
+ *	in size and do not need to be primality tested.  So if we find:
+ *
+ *	    J(X, h*2^n-1) == 0
+ *
+ *	This means that:
+ *
+ *	    gcd(X, h*2^n-1) is a factor of h*2^n-1
+ *
+ *	Thus in that case h*2^n-1 is NOT prime, and the v(1) is not relivant.
+ *	So a line of the form:
+ *
+ *	    h n 0
+ *
+ *	means we can ignore that h and n for v(1) analysis.
  *
  * Copyright (C) 2019  Landon Curt Noll
  *
@@ -146,26 +168,59 @@ while (!feof(stream)) {
     testval = h*2^n-1;
 
     /*
-     * print leading h and n in the line
+     * ignore h*2^n-1 is <= max
+     *
+     * The max value is a small value, so if h*2^n-1 <= max,
+     * then h*2^n-1 is a small value.  If we were to test such
+     * tiny value, we would find Jacobi(X, h*2^n-1) == 0, say
+     * because X == h*2^n-1.  Jacobi(X, h*2^n-1) == 0 implies
+     * that gcd(X, h*2^n-1) != 0, and therefore gcd(X, h*2^n-1)
+     * is a factor of h*2^n-1 or X == h*2^n-1.
+     */
+    if (max >= testval) {
+	continue;
+    }
+
+    /*
+     * initialize our output string
      */
     print orig_h, orig_n,;
 
     /*
      * The 1st term of the Jacobi, x, will range over [min,max]
      */
+    ok_to_output_jstr = 1;	/* maybe OK to write string */
+    jstr = "";
     for (x=1; x <= max; ++x) {
 
 	/* generate the jacobi symbol value */
 	jval = jacobi(x, testval);
 
-	/* print a +, - or 0 depending on the jacobi symbol value */
+	/* append a +, -, depending on the jacobi symbol value, skip if 0 */
 	if (jval == 1) {
-	    fputc(stdout, "+");
-    	} else if (jval == -1) {
-	    fputc(stdout, "-");
+	    jstr += '+';
+	} else if (jval == -1) {
+	    jstr += '-';
 	} else {
-	    fputc(stdout, "0");
+
+	    /*
+	     * When jacobi(x, testval) == 0, then gcd(x, testval) != 1.
+	     * And thus when x < testval, then gcd(x, testval) must be a factor of testval,
+	     * and therefore testval is NOT prime. If testval is NOT prime, then the
+	     * analysis of v(1) is pointless. So we skip the output of such valuaes.
+	     */
+	    ok_to_output_jstr = 0;	/* do not write Jacobi +- string */
+	    break;
 	}
     }
-    print;
+
+    /*
+     * Write jacobi +- string if no 0 values were found
+     */
+    if (ok_to_output_jstr != 0) {
+	print jstr;
+    } else {
+	/* indicate we found a X such that jacobi(X, testval) == 0 */
+	print 0;
+    }
 }

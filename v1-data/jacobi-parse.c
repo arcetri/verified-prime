@@ -140,7 +140,7 @@ read_line(char **lineptr, FILE *stream)
 
 
 /*
- * parse_jacobi_line - parse an h, n, Jacobi +-0 line
+ * parse_jacobi_line - parse an h, n, Jacobi +- or 0 line
  *
  * given:
  * 	h_p	pointer to h value parsed (as uint64_t)
@@ -149,15 +149,16 @@ read_line(char **lineptr, FILE *stream)
  * 	stream	open file to read from
  *
  * returns:
- * 	>=5	length of Jacobi +-0 string (>= JACOBI_MIN_LEN)
- * 	2	Jacobi +-0 string too short to process any v(1) (JACOBI_LINE_TOOSHORT)
+ * 	>=5	length of Jacobi +- or 0 string (>= JACOBI_MIN_LEN)
+ * 	3	Jacobi +- or 0 string is just "0", ignore this h an n  (JACOBI_LINE_IGNORE)
+ * 	2	Jacobi +- or 0 string too short to process any v(1) (JACOBI_LINE_TOOSHORT)
  * 	1	line malformed (JACOBI_LINE_BADFMT)
  * 	0	EOF read (JACOBI_LINE_EOF)
  * 	<0	error
  *
  * When a non-NULL is returned, *h_p is updated to the parsed
  * value of h, *n_p is updated to the parsed value of n,
- * *len_p is updated to the length of Jacobi +-0 string.
+ * *len_p is updated to the length of Jacobi +- or 0 string.
  *
  * When NULL is returned, the values pointed at by h_p, n_p, len_p
  * have no meaning and should not be used.
@@ -165,9 +166,10 @@ read_line(char **lineptr, FILE *stream)
  * The buffer used is malloced or realloced on subsequent calls.
  * The contents of string returned should not be modified.
  *
- * NOTE: We "prepend" a '0' character to the front of the Jacobi +-0 string
- *	 so that the index of the Jacobi +-0 string starts with 0,
+ * NOTE: We "prepend" a '*' character to the front of the Jacobi +- 0 string
+ *	 so that the index of the Jacobi +- or 0 string starts with 0,
  *	 and so that the character associated with x is *j_str[x].
+ *	 The '*' character in j_str[0] is ignored.
  *
  * NOTE: This function does not return on error.
  */
@@ -178,12 +180,12 @@ parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream
     int sscanf_ret;		// sscanf() tokens parsed
     uint64_t h = 0;		// parsed h value
     uint64_t n = 0;		// parsed n value
-    size_t jacobi_len;		// length of Jacobi +-0 string
-    size_t scan_len;		// length of +-0's chars in Jacobi +-0 string
+    size_t jacobi_len;		// length of Jacobi +- or 0 string
+    size_t scan_len;		// length of +- or 0's chars in Jacobi +- or 0 string
     char *context = NULL;	// strtok_r context
     char *token_h;		// pointer to 1st token (pointer to h)
     char *token_n;		// pointer to 2nd token (pointer to n)
-    char *token_str;		// pointer to 3nd token (pointer to Jacobi +-0 string)
+    char *token_str;		// pointer to 3nd token (pointer to Jacobi +- or 0 string)
 
     /*
      * firewall
@@ -241,7 +243,7 @@ parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream
     }
     token_str = strtok_r(NULL, " ", &context);
     if (token_str == NULL) {
-	warn(__func__, "unable to find 3rd +-0 string token of line %ld", jacobi_lineno);
+	warn(__func__, "unable to find 3rd +- or 0 string token of line %ld", jacobi_lineno);
 	return JACOBI_LINE_BADFMT;
     }
 
@@ -270,29 +272,38 @@ parse_jacobi_line(uint64_t *h_p, uint64_t *n_p, const char **j_str, FILE *stream
     }
 
     /*
+     * catch the case wher the Jacobi +- or 0 string is 0 (or starts with 0).
+     * This means that h and n are not prime (or too small to bother testing)
+     * and to ignore this line.
+     */
+    if (token_str[0] == '0') {
+	return JACOBI_LINE_IGNORE;
+    }
+
+    /*
      * force the string to start with 0
      *
-     * The Jacobi +-0 strings read from the stream start with Jacobi value for 1.
+     * The Jacobi +- or 0 strings read from the stream start with Jacobi value for 1.
      * We turn the previous deliminater, that was turned into a NUL character
-     * by the last strtok_r() call above, into a '0' and backup token_str to
-     * as to "prepended" a '0' character.
+     * by the last strtok_r() call above, into a '*' and backup token_str to
+     * as to "prepended" a '*' character.
      */
     --token_str;
     if (*token_str != '\0') {
-	warn(__func__, "line %ld delimiter before the +-0 string "
+	warn(__func__, "line %ld delimiter before the +- or 0 string "
 		        "was not converted to NUL by last strtok_r() call",
 			jacobi_lineno);
 	return JACOBI_LINE_BADFMT;
     }
-    *token_str = '0';	// "prepended" a '0' character
+    *token_str = '*';	// "prepended" a '*' character for the 0 index we ignore
 
     /*
      * sanity check the Jacobi string
      */
     jacobi_len = strlen(token_str);
-    scan_len = strspn(token_str, "+-0");
+    scan_len = strspn(token_str, "+-*");
     if (scan_len != jacobi_len) {
-	warn(__func__, "line %ld str length: %u != +-0 length: %d",
+	warn(__func__, "line %ld str length: %u != +-* length: %d",
 	     jacobi_lineno, jacobi_len, scan_len);
 	return JACOBI_LINE_BADFMT;
     }

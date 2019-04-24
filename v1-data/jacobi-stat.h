@@ -1,5 +1,5 @@
 /*
- * jacobi-stat - Keep track of Jacobi +-0 v(1) stats
+ * jacobi-stat - Keep track of Jacobi +- or 0 v(1) stats
  *
  * Copyright (c) 2019 by Landon Curt Noll.  All Rights Reserved.
  *
@@ -46,7 +46,7 @@
  * in order to avoid false invalid_str_value events.  The DEF_MAX_V1 shell variable
  * in those scripts is used to prevent the shell variable, MAX, from exceeding the
  * DEF_MAX_V1 definition below.  If the MAX shell variable were to exceed the
- * DEF_MAX_V1 definition below, then any charactes used on a Jacobi +-0 value string
+ * DEF_MAX_V1 definition below, then any charactes used on a Jacobi +- or 0 value string
  * that exceeded the DEF_MAX_V1 position would be incorrectly counted as an
  * invalid_str_value event.
  */
@@ -87,21 +87,25 @@ typedef struct s_tally {
 /*
  * cache - Jacobi symbol cache
  *
- * The Jacobi +-0 value string starts with the hard coded value for Jacobi(0, h*2^n-1) == '0'.
+ * The Jacobi +- value string starts with the hard coded value for Jacobi(0, h*2^n-1) == '*'.
  * Thus, for X == 1 (i.e., Jacobi(1, h*2^n-1)), the 2nd jacobi_str character or jacobi_str[1] is used.
+ * The value jacobi_str[0] is NOT used.
  *
- * The Jacobi cache array starts with the hard coded value for Jacobi(0, h*2^n-1) == 0.
+ * The Jacobi cache array starts with the hard coded value for Jacobi(0, h*2^n-1) == INVALID_JACOBI_VALUE.
  * Thus, for X == 1 (i.e., Jacobi(1, h*2^n-1)), the 2nd Jacobi cache element jcache[1] is used.
+ * The value jcache[0] is NOT used.
  *
  * The Jacobi cache (jcache) is initialized with the value INVALID_JACOBI_VALUE.  When referenced
- * if the Jacobi cache element == INVALID_JACOBI_VALUE, the corresponding Jacobi +-0 value string
+ * if the Jacobi cache element == INVALID_JACOBI_VALUE, the corresponding Jacobi +- string
  * element to set the Jacobi cache element as follows:
  *
  *       	'-' ==> -1
- *       	'0' ==> 0
  *       	'+' ==> 1
  *
  *	All other Jacobi string values cause INVALID_JACOBI_VALUE to be set.
+ *
+ * NOTE: Jacobi +- strings that start with 0 indicate that h*2^n-1 is not prime or too small
+ * 	 to be worth testing for primality.
  *
  * The cache_load_count + cache_hit_count + out_of_range + invalid_str_value == number of Jacobi symbol operations.
  * The cache_load_count == number of Jacobi symbol operations required with a Jacobi cache.
@@ -114,7 +118,7 @@ typedef struct s_cache {
     int64_t cache_load_count;	// number of times a Jacobi symbol operations that cause our cache to be loaded
     int64_t cache_hit_count;	// number of times a Jacobi symbol operations that hit an existing value in our cache
     int64_t out_of_range;	// number of times a value was out of range of the cache range
-    int64_t invalid_str_value;	// number of times a Jacobi +-0 value string value was neither +, nor -. nor 0
+    int64_t invalid_str_value;	// number of times a Jacobi +- value string value was neither +, nor -. nor 0
 				// See also the above comment about DEF_MAX_V1
     int64_t valid_v1_values;	// number of times a valid v(1) value was found
     int64_t match_prime_v1;	// valid v(1) value matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
@@ -177,6 +181,8 @@ typedef struct s_stats {
     v1_count missed;		// count of when we missed a valid v(1) under a given situation
     ave_jop with_cache[E_TALLY_BEYOND];	// average number of Jacobi ops for various situations with Jacobi cache
     ave_jop without_cache[E_TALLY_BEYOND];	// average number of Jacobi ops for various situations with Jacobi cache
+    int64_t not_skip;		// did not skip h and n as no Jacobi(X, h*2^n-1) == 0 was found
+    int64_t zero_skip;		// h*2^n-1 is not prime, or too small to test: Jacobi(X, h*2^n-1) == 0 was found
 } stats;
 
 /*

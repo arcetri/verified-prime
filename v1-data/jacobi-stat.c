@@ -118,6 +118,12 @@ counter_init(stats *stats_p)
     stats_p->without_cache[E_tally_oddv1].jop = 0.0;
     stats_p->without_cache[E_tally_prime].jop_label = LABEL_tally_prime;
     stats_p->without_cache[E_tally_prime].jop = 0.0;
+
+    /*
+     * zero the zero skip count
+     */
+    stats_p->not_skip = 0;
+    stats_p->zero_skip = 0;
     return;
 }
 
@@ -961,8 +967,8 @@ write_stats(tally *tally_p, cache *cache_p, double *ave_ops_cache_p,
     fprintf(stream, "# Jacobi ops with cache     = %"PRIu64"\n", cache_p->jacobi_wo_cache_ops);
     fprintf(stream, "# valid_v1_values           = %"PRIu64"\n", cache_p->valid_v1_values);
     fprintf(stream, "#\n");
-    fprintf(stream, "# cache_load_count = %"PRIu64"\n", cache_p->cache_load_count);
-    fprintf(stream, "# cache_hit_count  = %"PRIu64"\n", cache_p->cache_hit_count);
+    fprintf(stream, "# cache_load_count  = %"PRIu64"\n", cache_p->cache_load_count);
+    fprintf(stream, "# cache_hit_count   = %"PRIu64"\n", cache_p->cache_hit_count);
     fprintf(stream, "#\n");
     fprintf(stream, "# out_of_range      = %"PRIu64"\n", cache_p->out_of_range);
     fprintf(stream, "# invalid_str_value = %"PRIu64"\n", cache_p->invalid_str_value);
@@ -1092,5 +1098,9 @@ write_global_stats(stats *stats_p, FILE *stream)
     fprintf(stream, "1st valid v(1) from verified primes with h=0mod3, n>=1000\n");
     fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_prime);
     fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_prime);
+    fputc('\n', stream);
+    fprintf(stream, "h n pairs skipped due to finding some Jacobi(X, h*2^n-1) == 0\n");
+    fprintf(stream, "    no-zero = %"PRId64"\n", stats_p->not_skip);
+    fprintf(stream, "    skipped = %"PRId64"\n", stats_p->zero_skip);
     return;
 }

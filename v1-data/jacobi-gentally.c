@@ -383,17 +383,23 @@ main(int argc, char *argv[])
 	h_zeromod3 = ((h % 3) == 0);
 
 	/*
-	 * handle line parse errors
+	 * parsed line number debuging
 	 */
 	if (jacobi_lineno%100000 == 0) {
 	    dbg(DBG_LOW, "parsed line number: %d", jacobi_lineno);
 	} else {
 	    dbg(DBG_VHIGH, "parsed line number: %d", jacobi_lineno);
 	}
-	if (parse_jacobi_line_ret < JACOBI_MIN_LEN) {
-	    dbg(DBG_LOW, "parse error: %d, skiping line: %d", parse_jacobi_line_ret, jacobi_lineno);
+
+	/*
+	 * ignore Jacobi +- or 0 lines that are 0 (or start with 0)
+	 */
+	if (parse_jacobi_line_ret == JACOBI_LINE_IGNORE) {
+	    dbg(DBG_HIGH, "ignoring h: %"PRIu64" n: %"PRIu64" due to finding some Jacobi(X, 2*2^n-1) == 0", h, n);
+	    ++stats.zero_skip;
 	    continue;
 	}
+	++stats.not_skip;
 
 	/*
 	 * configure caches for this Jacobi +-0 line

@@ -68,9 +68,9 @@ main(int argc, char *argv[])
     bool odd_only = false;		// true ==> only search for odd v(1)
     int step_v1 = 1;		// step size for v(1) search (1 or 2)
     ssize_t parse_jacobi_line_ret;	// return from parse_jacobi_line()
-    uint64_t h = 0;			// h multiper from a h, n, Jacobi +-0 line
-    uint64_t n = 0;			// n multiper from a h, n, Jacobi +-0 line
-    const char *jstr = NULL;		// Jacobi +-0 string from a h, n, Jacobi line
+    uint64_t h = 0;			// h multiper from a h, n, Jacobi +- or 0 line
+    uint64_t n = 0;			// n multiper from a h, n, Jacobi +- or 0 line
+    const char *jstr = NULL;		// Jacobi +- or 0 string from a h, n, Jacobi line
     int find_v1;			// v(1) value to look for
     cache cache_int;			// cache for tally.int a line
     long found_v1 = 0;			// number of matchng v(1) found
@@ -133,7 +133,7 @@ main(int argc, char *argv[])
     cache_init(&cache_int);
 
     /*
-     * process stdin for h, n, Jacobi +-0 lines
+     * process stdin for h, n, Jacobi +- or 0 lines
      */
     dbg(DBG_LOW, "about to process stdin");
     while ((parse_jacobi_line_ret = parse_jacobi_line(&h, &n, &jstr, stdin)) > 0) {
@@ -150,13 +150,25 @@ main(int argc, char *argv[])
 	h_zeromod3 = ((h % 3) == 0);
 
 	/*
-	 * handle line parse errors
+	 * parsed line number debuging
 	 */
 	if (jacobi_lineno%100000 == 0) {
 	    dbg(DBG_LOW, "parsed line number: %d", jacobi_lineno);
 	} else {
 	    dbg(DBG_VHIGH, "parsed line number: %d", jacobi_lineno);
 	}
+
+	/*
+	 * ignore Jacobi +- or 0 lines that are 0 (or start with 0)
+	 */
+	if (parse_jacobi_line_ret == JACOBI_LINE_IGNORE) {
+	    dbg(DBG_HIGH, "ignoring h: %"PRIu64" n: %"PRIu64" due to finding some Jacobi(X, 2*2^n-1) == 0", h, n);
+	    continue;
+	}
+
+	/*
+	 * handle line parse errors
+	 */
 	if (parse_jacobi_line_ret < JACOBI_MIN_LEN) {
 	    dbg(DBG_MED, "parse error: %d, skiping line: %d", parse_jacobi_line_ret, jacobi_lineno);
 	    continue;
