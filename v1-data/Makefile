@@ -41,7 +41,7 @@ SHELL_TOOLS= form.slurm.sh gen.all.sh gen.job.sh gen.prime-all.sh \
     launch.job.sh jacobi.all.sh jacobi.baseline.sh jacobi.prime-all.sh \
     jacobi.tally.sh check-job-dir.sh gen.prime-small.sh gen.prime-large.sh \
     jacobi.prime-large.sh jacobi.jobsets.sh gen.all.sh count-slurm-jobs.sh \
-    wait-until-le-jobcount.sh start-all-slurm-jobs.sh
+    wait-until-le-jobcount.sh start-all-slurm-jobs.sh print_best_array.sh
 
 C_MAIN= jacobi-gentally.c find-v1.c
 C_SRC= debug.c jacobi-parse.c jacobi-stat.c

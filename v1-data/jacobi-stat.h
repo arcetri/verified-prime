@@ -150,14 +150,6 @@ typedef struct s_v1_count {
 #define LABEL_tally_prime "1st valid v(1) from verified primes with h=0mod3, n>=1000"
 
 /*
- * ave_jops - average number of Jacobi operations
- */
-typedef struct s_ave_jop {
-    char *jop_label;		// pointer to a Jacobi operations average label
-    double jop;			// average number of Jacobi operations
-} ave_jop;
-
-/*
  * e_tally - enumerate ave_jop array
  */
 enum e_tally {
@@ -174,6 +166,15 @@ enum e_tally {
 };
 
 /*
+ * ave_jops - average number of Jacobi operations
+ */
+typedef struct s_ave_jop {
+    char *jop_label;		// pointer to a Jacobi operations average label
+    double jop;			// average number of Jacobi operations
+    enum e_tally order;		// ave_jop order
+} ave_jop;
+
+/*
  * stats - overall test stats
  */
 typedef struct s_stats {
@@ -184,6 +185,12 @@ typedef struct s_stats {
     int64_t not_skip;		// did not skip h and n as no Jacobi(X, h*2^n-1) == 0 was found
     int64_t zero_skip;		// h*2^n-1 is not prime, or too small to test: Jacobi(X, h*2^n-1) == 0 was found
 } stats;
+
+/*
+ * external variables
+ */
+extern const int64_t best_v1_verified_prime[];
+extern const int64_t largest_odd_v1_verified_prime;
 
 /*
  * external functions

@@ -24,6 +24,22 @@
 #
 # chongo <was here> /\oo/\     http://www.isthe.com/chongo/
 # Share and enjoy!  :-)        http://www.isthe.com/chongo/tech/comp/calc/
+#
+# IMPORTANT NOTE:
+#
+# Collecting data on v(1) for when h != 0 mod 3 is just for curosity.
+# It is not important for developing a v(1) search stragety because
+# when h != 0 mod 3, the optimal search strategy is:
+#
+#      3, 4
+#
+# While 40% of h*2^n-1 when h != 0 mod 3 will be satified with v(1) as 3,
+# 100% of such numbers may use v(1) as 4.  We simply need to test if:
+#
+#      Jacobi(1, h*2^n-1) == 1
+#      Jacobi(5, h*2^n-1) == -1
+#
+# then v(1) == 3 else v(1) == 4.
 
 # setup
 #

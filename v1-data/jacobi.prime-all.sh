@@ -121,6 +121,22 @@ fi
 
 # jacobi-gentally processing for not0mod3
 #
+# IMPORTANT NOTE:
+#
+# Collecting data on v(1) for when h != 0 mod 3 is just for curosity.
+# It is not important for developing a v(1) search stragety because
+# when h != 0 mod 3, the optimal search strategy is:
+#
+#      3, 4
+#
+# While 40% of h*2^n-1 when h != 0 mod 3 will be satified with v(1) as 3,
+# 100% of such numbers may use v(1) as 4.  We simply need to test if:
+#
+#      Jacobi(1, h*2^n-1) == 1
+#      Jacobi(5, h*2^n-1) == -1
+#
+# then v(1) == 3 else v(1) == 4.
+#
 if [[ -n $PROCESS_NOT_0MOD3 ]]; then
     echo "$JACOBI_GENTALLY" -v 3 "$RANGE_H_NOT0MOD3/global.stats" "$RANGE_H_NOT0MOD3/tally.int" "$RANGE_H_NOT0MOD3/tally.1stint" "$RANGE_H_NOT0MOD3/tally.odd" "$RANGE_H_NOT0MOD3/tally.1stodd" "$RANGE_H_NOT0MOD3/tally.byfreq" "$RANGE_H_NOT0MOD3/tally.byv1" "$RANGE_H_NOT0MOD3/tally.byoddfreq" "$RANGE_H_NOT0MOD3/tally.byoddv1" "$RANGE_H_NOT0MOD3/tally.prime"
     find "$RANGE_H_NOT0MOD3/" -type f -name 'jacobi.*' -print0 | xargs0 cat |

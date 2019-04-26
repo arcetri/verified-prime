@@ -44,11 +44,38 @@ static int value_cmp(const void *a_arg, const void *b_arg);
 static int ave_jop_cmp(const void *a_arg, const void *b_arg);
 static void sort_by_jop(ave_jop *ave_jop_p);
 
-/* known valid 1st v(1) for verified Riesel h*2^n-1 primes */
-static int64_t verified_prime_1st_v1_reverse_sorted_by_freq[] = {
-    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59, 65, 69, 81,
-    -1  // just be the last value
+/*
+ * The array:
+ *
+ * 	best_v1_verified_prime[]
+ *
+ * came from job.h-0mod3.prime-large tally files using the best_array.sh script:
+ *
+ * 	./print_best_array.sh -p job.h-0mod3.prime-all
+ *
+ * NOTE: The best_v1_verified_prime list comes from the 1st valid (1)
+ *       for verified primes > 999 and h=0mod3:
+ *
+ *	https://github.com/arcetri/verified-prime/blob/master/h-0mod3-n.verified-prime.txt
+ *
+ * where h*2^n-1 > 1001 and h=0mod3
+ *
+ * NOTE: The > 1001 comes from DEF_MAX_X, which is usally 999+2
+ *
+ * NOTE The -1 value indicates end of list and is not part of the true list.
+ */
+
+// ./print_best_array.sh -p job.h-0mod3.prime-all
+
+/* 1st v(1) from large verified primes > 999 and h=0mod3 rev sorted by freq */
+/*     NOTE: array values are from job.h-0mod3.prime-all/tally.1stint */
+const int64_t best_v1_verified_prime[] = {
+    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59,
+    65, 69, 81,
+    -1	// must be the last value
 };
+// largest value found in best_v1_verified_prime[]
+const int64_t largest_odd_v1_verified_prime = 81;
 
 /*
  * counter_init - initialize stats counters
@@ -80,22 +107,39 @@ counter_init(stats *stats_p)
      */
     stats_p->with_cache[E_tally_int].jop_label = LABEL_tally_int;
     stats_p->with_cache[E_tally_int].jop = 0.0;
+    stats_p->with_cache[E_tally_int].order = E_tally_int;
+    /**/
     stats_p->with_cache[E_tally_1stint].jop_label = LABEL_tally_1stint;
     stats_p->with_cache[E_tally_1stint].jop = 0.0;
+    stats_p->with_cache[E_tally_1stint].order = E_tally_1stint;
+    /**/
     stats_p->with_cache[E_tally_odd].jop_label = LABEL_tally_odd;
     stats_p->with_cache[E_tally_odd].jop = 0.0;
+    stats_p->with_cache[E_tally_odd].order = E_tally_odd;
+    /**/
     stats_p->with_cache[E_tally_1stodd].jop_label = LABEL_tally_1stodd;
     stats_p->with_cache[E_tally_1stodd].jop = 0.0;
+    stats_p->with_cache[E_tally_1stodd].order = E_tally_1stodd;
+    /**/
     stats_p->with_cache[E_tally_freq].jop_label = LABEL_tally_freq;
     stats_p->with_cache[E_tally_freq].jop = 0.0;
+    stats_p->with_cache[E_tally_freq].order = E_tally_freq;
+    /**/
     stats_p->with_cache[E_tally_v1].jop_label = LABEL_tally_v1;
     stats_p->with_cache[E_tally_v1].jop = 0.0;
+    stats_p->with_cache[E_tally_v1].order = E_tally_v1;
+    /**/
     stats_p->with_cache[E_tally_oddfreq].jop_label = LABEL_tally_oddfreq;
     stats_p->with_cache[E_tally_oddfreq].jop = 0.0;
+    stats_p->with_cache[E_tally_oddfreq].order = E_tally_oddfreq;
+    /**/
     stats_p->with_cache[E_tally_oddv1].jop_label = LABEL_tally_oddv1;
     stats_p->with_cache[E_tally_oddv1].jop = 0.0;
+    stats_p->with_cache[E_tally_oddv1].order = E_tally_oddv1;
+    /**/
     stats_p->with_cache[E_tally_prime].jop_label = LABEL_tally_prime;
     stats_p->with_cache[E_tally_prime].jop = 0.0;
+    stats_p->with_cache[E_tally_prime].order = E_tally_prime;
 
     /*
      * initialize without_cache values
@@ -496,8 +540,8 @@ match_prime_v1(int64_t v1, bool h_zeromod3)
 	/*
 	 * case: h == 0 mod 3
 	 */
-	for (i=0; verified_prime_1st_v1_reverse_sorted_by_freq[i] > 0; ++i) {
-	    verified_prime_1st_v1 = verified_prime_1st_v1_reverse_sorted_by_freq[i];
+	for (i=0; best_v1_verified_prime[i] > 0; ++i) {
+	    verified_prime_1st_v1 = best_v1_verified_prime[i];
 	    if (v1 == verified_prime_1st_v1) {
 		return true;	// matches a valid 1st v(1) for a verified Riesel h*2^n-1 prime
 	    }
@@ -713,6 +757,8 @@ ave_jop_cmp(const void *a_arg, const void *b_arg)
 {
     ave_jop *a;	// a_arg as a jop_cmp pointer
     ave_jop *b;	// b_arg as a jop_cmp pointer
+    double a_jop;	// a->jop rounded to 3 digits
+    double b_jop;	// b->jop rounded to 3 digits
 
     /*
      * firewall - forward paranoia
@@ -731,12 +777,22 @@ ave_jop_cmp(const void *a_arg, const void *b_arg)
     b = (ave_jop *)b_arg;
 
     /*
+     * round to 3 digits
+     */
+    a_jop = (double)((int)((a->jop * 1000.0) + 0.5)) / 1000.0;
+    b_jop = (double)((int)((b->jop * 1000.0) + 0.5)) / 1000.0;
+
+    /*
      * forward compare
      */
-    if (a->jop > b->jop) {
+    if (a_jop > b_jop) {
 	return 1;	// forward value order
-    } else if (a->jop < b->jop) {
+    } else if (a_jop < b_jop) {
 	return -1;	// forward value order
+    } else if (a->order > b->order) {
+	return -1;	// reverse value order
+    } else if (a->order < b->order) {
+	return 1;	// reverse value order
     } else {
 	return 0;
     }
@@ -1041,7 +1097,7 @@ write_global_stats(stats *stats_p, FILE *stream)
 	/*
 	 * write label and average number of Jacobi ops
 	 */
-	fprintf(stream, "    %7.4f  =#%d-with-cache->  %s\n", ave_sorted[i].jop, i+1, label);
+	fprintf(stream, "    %7.3f  =#%d-with-cache->  %s\n", ave_sorted[i].jop, i+1, label);
     }
     fputc('\n', stream);
 
@@ -1064,7 +1120,7 @@ write_global_stats(stats *stats_p, FILE *stream)
 	/*
 	 * write label and average number of Jacobi ops
 	 */
-	fprintf(stream, "    %7.4f  =#%d-w/o-cache->  %s\n", ave_sorted[i].jop, i+1, label);
+	fprintf(stream, "    %7.3f  =#%d-w/o-cache->  %s\n", ave_sorted[i].jop, i+1, label);
     }
     fputc('\n', stream);
 

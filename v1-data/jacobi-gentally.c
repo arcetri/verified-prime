@@ -56,8 +56,29 @@ const char * usage =
 "	tally.byv1	tally of common 1st valid v(1) h0mod3 - sorted by v(1)\n"
 "	tally.byoddfreq	tally of common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use\n"
 "	tally.byoddv1	tally of common 1st valid odd v(1) h0mod3 - sorted by v(1)\n"
-"	tally.prime	tally of 1st valid v(1) from verified primes with h=0mod3, n>=1000"
+"	tally.prime	tally of 1st valid v(1) from verified primes > 1001 and h=0mod3"
 ;
+
+/*
+ * IMPORTANT NOTE:
+ *
+ * Collecting data on v(1) for when h != 0 mod 3 is just for curosity.
+ * It is not important for developing a v(1) search stragety because
+ * when h != 0 mod 3, the optimal search strategy is:
+ *
+ * 	3, 4
+ *
+ * While 40% of h*2^n-1 when h != 0 mod 3 will be satified with v(1) as 3,
+ * 100% of such numbers may use v(1) as 4.  We simply need to test if:
+ *
+ * 	Jacobi(1, h*2^n-1) == 1
+ * 	Jacobi(5, h*2^n-1) == -1
+ *
+ * then v(1) == 3 else v(1) == 4.
+ *
+ * The case of h == 0 mod 3 is more complex.  This code and the related
+ * helped programs are designed to exclude the h == 0 mod 3 case.
+ */
 
 /* external variables */
 const char *program = NULL;		// our name
@@ -68,101 +89,53 @@ bool use_syslog = false;		// true ==> use syslog services msgs
 /*
  * recommended v(1) search list
  *
- * Below are the counts associated with non-zero values from
- * all jobs run under:
+ * The following 4 arrays:
  *
- *	baseline/job.h-0mod3.n-4194304/tally.1stint
- *	baseline/job.h-0mod3.n-4331116/tally.1stint
- *	baseline/job.h-0mod3.n-4885002/tally.1stint
- *	baseline/job.h-0mod3.n-5209020/tally.1stint
- *	baseline/job.h-0mod3.n-6286862/tally.1stint
- *	baseline/job.h-0mod3.n-7676777/tally.1stint
- *	baseline/job.h-0mod3.n-8388608/tally.1stint
+ * 	best_v1_reverse_sorted_by_v1[]
+ * 	best_v1_reverse_sorted_by_oddv1[]
+ * 	best_v1_reverse_sorted_by_freq[]
+ * 	best_v1_reverse_sorted_by_oddfreq[]
  *
- * The best_v1_reverse_sorted_by_v1[] is sorted by valid v(1) value.
- * For best_v1_reverse_sorted_by_v1[] (expect the for formatting and final -1) use:
+ * came from job.h-0mod3.baseline tally files using the best_array.sh script:
  *
- *	cat job.h-0mod3.baseline/tally.1stint |
- *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
- *	    sort -n |
- *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
- *
- * The best_v1_reverse_sorted_by_oddv1[] is odd sorted by valid v(1) value.
- * For best_v1_reverse_sorted_by_oddv1[] (expect the for formatting and final -1) use:
- *
- *	cat job.h-0mod3.baseline/tally.1stodd |
- *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
- *	    sort -n |
- *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
- *
- * The best_v1_reverse_sorted_by_freq[] is sorted in reverse order by count.
- * For best_v1_reverse_sorted_by_freq[] (expect the for formatting and final -1) use:
- *
- *	cat job.h-0mod3.baseline/tally.1stint |
- *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
- *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
- *
- * The best_v1_reverse_sorted_by_oddfreq[] is odd sorted in reverse order by count.
- * For best_v1_reverse_sorted_by_oddfreq[] (expect the for formatting and final -1) use:
- *
- *	cat job.h-0mod3.baseline/tally.1stodd |
- *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
- *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
- *
- * The best_v1_verified_prime[] is sorted in reverse order by count.
- * For best_v1_verified_prime[] (expect the for formatting and final -2) use:
- *
- *	cat job.h-0mod3.prime-large/tally.1stint |
- *	    sed -e '/^#/d' -e '/^0 /d' | fld 2 |
- *	    tr '\012' ',' | sed -e 's/,$//' -e 's/,/, /g' -e 's/$/,/'
- *
- * NOTE: The best_v1_verified_prime list comes from the 1at valid (1) for large verified primes:
- *
- *	https://github.com/arcetri/verified-prime/blob/master/h-0mod3-n.verified-prime-large.txt
- *
- * where n >= 1000 and h = 0 mod 3.
+ * 	./print_best_array.sh job.h-0mod3.baseline
  *
  * NOTE The -1 value indicates end of list and is not part of the true list.
  */
 
+// ./print_best_array.sh job.h-0mod3.baseline
+
 /* Known 1st v(1) sorted by v(1) */
-static int64_t best_v1_reverse_sorted_by_v1[] = {
-    3, 5, 9, 11, 15, 17, 20, 21, 27, 29, 32, 35, 36, 39, 41, 44, 45,
-    49, 51, 55, 56, 57, 59, 65, 66, 67, 69, 71, 72, 74, 77, 80, 81, 84,
-    87, 90, 95, 99, 101, 104, 105, 109, 111, 116, 125, 135,
+/*     NOTE: array values are from job.h-0mod3.baseline/tally.1stint */
+static const int64_t best_v1_reverse_sorted_by_v1[] = {
+    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59,
+    65, 69, 71, 81,
     -1	// must be the last value
 };
 
 /* Odd Known 1st v(1) sorted by v(1) */
-static int64_t best_v1_reverse_sorted_by_oddv1[] = {
-    3, 5, 9, 11, 15, 17, 21, 27, 29, 31, 35, 39, 41, 45, 49, 51, 53,
-    55, 57, 59, 65, 67, 69, 71, 77, 81, 83, 85, 87, 95, 99, 101, 105,
-    107, 109, 111, 125, 129, 135, 139, 141, 149, 155, 165,
+/*     NOTE: array values are from job.h-0mod3.baseline/tally.1stodd */
+static const int64_t best_v1_reverse_sorted_by_oddv1[] = {
+    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59,
+    65, 69, 71, 81,
     -1	// must be the last value
 };
 
 /* Known 1st v(1) rev sorted by freq */
-static int64_t best_v1_reverse_sorted_by_freq[] = {
-    3, 5, 9, 11, 15, 17, 21, 29, 20, 27, 35, 36, 39, 41, 45, 32, 51,
-    44, 56, 49, 59, 57, 65, 55, 69, 71, 77, 66, 81, 95, 72, 80, 67, 99,
-    84, 74, 90, 104, 105, 87, 116, 101, 109, 125, 111, 135,
+/*     NOTE: array values are from job.h-0mod3.baseline/tally.1stint */
+static const int64_t best_v1_reverse_sorted_by_freq[] = {
+    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59,
+    65, 69, 71, 81,
     -1	// must be the last value
 };
 
 /* Odd Known 1st v(1) rev sorted by freq */
-static int64_t best_v1_reverse_sorted_by_oddfreq[] = {
-    3, 5, 9, 11, 15, 17, 21, 29, 27, 35, 39, 41, 31, 45, 51, 55, 49,
-    59, 69, 71, 65, 57, 85, 81, 95, 99, 77, 53, 67, 105, 101, 109, 125,
-    87, 129, 83, 111, 155, 107, 135, 139, 141, 149, 165,
+/*     NOTE: array values are from job.h-0mod3.baseline/tally.1stodd */
+static const int64_t best_v1_reverse_sorted_by_oddfreq[] = {
+    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59,
+    65, 69, 71, 81,
     -1	// must be the last value
 };
-
-/* 1st v(1) from large verified primes rev sorted by freq */
-static int64_t best_v1_verified_prime[] = {
-    3, 5, 9, 11, 15, 17, 21, 27, 29, 35, 39, 41, 45, 51, 57, 59, 65, 69, 81,
-    -1	// must be the last value
-};
-static int64_t largest_odd_v1_verified_prime = 81;	// largest in list above
 
 int
 main(int argc, char *argv[])
@@ -372,6 +345,7 @@ main(int argc, char *argv[])
 
 	int v1;			// potential v(1) value
 	int max_v1;		// maximum potential v(1) for a line
+	int max_loop;		// largest v(1) processed in a loop
 	bool valid_v1;		// true ==> v1 is a valid v(1) value
 	bool saw_valid_v1;	// true ==> we have seen a valid v(1) for this line
 	bool saw_valid_odd_v1;	// true ==> we have seen a valid odd v(1) for this line
@@ -501,15 +475,29 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! saw_valid_v1) {
-	    dbg(DBG_MED, LABEL_tally_int
-			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
+	    if (h_zeromod3) {
+		// we care more about not found when h == 0 mod 3
+		dbg(DBG_MED, "\"" LABEL_tally_int "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_v1, h, n);
+	    } else {
+		// we care less about not found when h != 0 mod 3
+		dbg(DBG_HIGH, "\"" LABEL_tally_int "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_v1, h, n);
+	    }
 	    ++stats.missed.valid_v1;
 	} else {
 	    ++stats.found.valid_v1;
 	}
 	if (! saw_valid_odd_v1) {
-	    dbg(DBG_MED, LABEL_tally_odd
-			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
+	    if (h_zeromod3) {
+		// we care more about not found when h == 0 mod 3
+		dbg(DBG_MED, "\"" LABEL_tally_odd "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_v1, h, n);
+	    } else {
+		// we care less about not found when h != 0 mod 3
+		dbg(DBG_HIGH, "\"" LABEL_tally_odd "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_v1, h, n);
+	    }
 	    ++stats.missed.valid_odd_v1;
 	} else {
 	    ++stats.found.valid_odd_v1;
@@ -519,12 +507,16 @@ main(int argc, char *argv[])
 	 * loop over: common 1st valid v(1) h0mod3 - reverse sorted by freq of use
 	 */
 	v1_found_in_loop = false;
+	max_loop = 0;
 	for (i=0; best_v1_reverse_sorted_by_freq[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_freq[i];
+	    if (v1 > max_loop) {
+		max_loop = v1;
+	    }
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_freq)) {
 		tally_value(&tally_best_by_freq, v1);
 		v1_found_in_loop = true;
@@ -532,8 +524,15 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
-	    dbg(DBG_MED, LABEL_tally_freq
-			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
+	    if (h_zeromod3) {
+		// we care more about not found when h == 0 mod 3
+		dbg(DBG_MED, "\"" LABEL_tally_freq "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    } else {
+		// we care less about not found when h != 0 mod 3
+		dbg(DBG_HIGH, "\"" LABEL_tally_freq "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    }
 	    ++stats.missed.best_by_freq;
 	} else {
 	    ++stats.found.best_by_freq;
@@ -543,12 +542,16 @@ main(int argc, char *argv[])
 	 * loop over: common 1st valid v(1) h0mod3 - sorted by v(1)
 	 */
 	v1_found_in_loop = false;
+	max_loop = 0;
 	for (i=0; best_v1_reverse_sorted_by_v1[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_v1[i];
+	    if (v1 > max_loop) {
+		max_loop = v1;
+	    }
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_v1)) {
 		tally_value(&tally_best_by_v1, v1);
 		v1_found_in_loop = true;
@@ -556,8 +559,15 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
-	    dbg(DBG_MED, LABEL_tally_v1
-			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
+	    if (h_zeromod3) {
+		// we care more about not found when h == 0 mod 3
+		dbg(DBG_MED, "\"" LABEL_tally_v1 "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    } else {
+		// we care less about not found when h != 0 mod 3
+		dbg(DBG_HIGH, "\"" LABEL_tally_v1 "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    }
 	    ++stats.missed.best_by_v1;
 	} else {
 	    ++stats.found.best_by_v1;
@@ -567,12 +577,16 @@ main(int argc, char *argv[])
 	 * loop over: common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
 	 */
 	v1_found_in_loop = false;
+	max_loop = 0;
 	for (i=0; best_v1_reverse_sorted_by_oddfreq[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_oddfreq[i];
+	    if (v1 > max_loop) {
+		max_loop = v1;
+	    }
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_oddfreq)) {
 		tally_value(&tally_best_by_oddfreq, v1);
 		v1_found_in_loop = true;
@@ -580,8 +594,15 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
-	    dbg(DBG_MED, LABEL_tally_oddfreq
-			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
+	    if (h_zeromod3) {
+		// we care more about not found when h == 0 mod 3
+		dbg(DBG_MED, "\"" LABEL_tally_oddfreq "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    } else {
+		// we care less about not found when h != 0 mod 3
+		dbg(DBG_HIGH, "\"" LABEL_tally_oddfreq "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    }
 	    ++stats.missed.best_by_oddfreq;
 	} else {
 	    ++stats.found.best_by_oddfreq;
@@ -591,12 +612,16 @@ main(int argc, char *argv[])
 	 * loop over: common 1st valid odd v(1) h0mod3 - sorted by v(1)
 	 */
 	v1_found_in_loop = false;
+	max_loop = 0;
 	for (i=0; best_v1_reverse_sorted_by_oddv1[i] > 0; ++i) {
 
 	    /*
 	     * if v(1) is valid, stop seaching
 	     */
 	    v1 = best_v1_reverse_sorted_by_oddv1[i];
+	    if (v1 > max_loop) {
+		max_loop = v1;
+	    }
 	    if (v1_check(jstr, v1, h_zeromod3, &cache_best_by_oddv1)) {
 		tally_value(&tally_best_by_oddv1, v1);
 		v1_found_in_loop = true;
@@ -604,15 +629,24 @@ main(int argc, char *argv[])
 	    }
 	}
 	if (! v1_found_in_loop) {
-	    dbg(DBG_MED, LABEL_tally_oddv1
-			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
+	    if (h_zeromod3) {
+		// we care more about not found when h == 0 mod 3
+		dbg(DBG_MED, "\"" LABEL_tally_oddv1 "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    } else {
+		// we care less about not found when h != 0 mod 3
+		dbg(DBG_HIGH, "\"" LABEL_tally_oddv1 "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_loop, h, n);
+	    }
 	    ++stats.missed.best_by_oddv1;
 	} else {
 	    ++stats.found.best_by_oddv1;
 	}
 
 	/*
-	 * loop over: 1st valid v(1) from verified primes with h=0mod3, n>=1000
+	 * loop over: 1st valid v(1) from verified primes > 1001 and h=0mod3
+	 *
+	 * NOTE: The > 1001 comes from DEF_MAX_X, which is usally 999+2
 	 *
 	 * If our search falls off the best_v1_verified_prime[] list, then
 	 * we start searching for odd v(1) > the largest value in the list.
@@ -654,8 +688,15 @@ main(int argc, char *argv[])
 	    dbg(DBG_HIGH, "no valid v(1) found in best_v1_verified_prime[] nor "
 			  "odd values >=  %"PRId64" and <= %d for h: %"PRIu64" n: %"PRIu64,
 			  largest_odd_v1_verified_prime+2, max_v1, h, n);
-	    dbg(DBG_MED, LABEL_tally_prime
-			 " not found for h: %"PRIu64" n: %"PRIu64, h, n);
+	    if (h_zeromod3) {
+		// we care more about not found when h == 0 mod 3
+		dbg(DBG_MED, "\"" LABEL_tally_prime "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_v1, h, n);
+	    } else {
+		// we care less about not found when h != 0 mod 3
+		dbg(DBG_HIGH, "\"" LABEL_tally_prime "\""
+			     " must search for v(1) > %d h: %"PRIu64" n: %"PRIu64, max_v1, h, n);
+	    }
 	    ++stats.missed.best_prime;
 	} else {
 	    ++stats.found.best_prime;
