@@ -1151,7 +1151,7 @@ write_global_stats(stats *stats_p, FILE *stream)
     fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_by_oddv1);
     fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_by_oddv1);
     fputc('\n', stream);
-    fprintf(stream, "1st valid v(1) from verified primes with h=0mod3, n>=1000\n");
+    fprintf(stream, "1st valid v(1) from verified primes > %d and h=0mod3\n", DEF_MAX_X);
     fprintf(stream, "    found  = %"PRId64"\n", stats_p->found.best_prime);
     fprintf(stream, "    missed = %"PRId64"\n", stats_p->missed.best_prime);
     fputc('\n', stream);

@@ -136,7 +136,7 @@ typedef struct s_v1_count {
     int64_t best_by_v1;		// count of found or missed a common 1st valid v(1) h0mod3 - sorted by v(1)
     int64_t best_by_oddfreq;	// count of found or missed a common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use
     int64_t best_by_oddv1;	// count of found or missed a common 1st valid odd v(1) h0mod3 - sorted by v(1)
-    int64_t best_prime;		// count of found or missed a 1st valid v(1) from verified primes with h=0mod3, n>=1000
+    int64_t best_prime;		// count of found or missed a 1st valid v(1) from verified primes > 1001 and h=0mod3
 } v1_count;
 
 #define LABEL_tally_int "valid v(1) for consecutive integers"
@@ -147,7 +147,7 @@ typedef struct s_v1_count {
 #define LABEL_tally_v1 "common 1st valid v(1) h0mod3 - sorted by v(1)"
 #define LABEL_tally_oddfreq "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use"
 #define LABEL_tally_oddv1 "common 1st valid odd v(1) h0mod3 - sorted by v(1)"
-#define LABEL_tally_prime "1st valid v(1) from verified primes with h=0mod3, n>=1000"
+#define LABEL_tally_prime "1st valid v(1) from verified primes > 1001 and h=0mod3"
 
 /*
  * e_tally - enumerate ave_jop array
