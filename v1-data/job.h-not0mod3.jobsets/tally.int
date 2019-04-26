@@ -1,9 +1,9 @@
 # filename = job.h-not0mod3.jobsets/tally.int
 #
-# ave jacobi ops per valid v(1) with cache = 3.9688
-# ave jacobi ops per valid v(1) w/o cache  = 5.9922
+# ave jacobi ops per valid v(1) with cache = 3.969
+# ave jacobi ops per valid v(1) w/o cache  = 5.992
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.0000
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.000
 #
 # match_prime_v1        = 134893455
 # nomatch_prime_v1      = 0

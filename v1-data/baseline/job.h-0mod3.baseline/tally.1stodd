@@ -1,9 +1,9 @@
 # filename = baseline/job.h-0mod3.baseline/tally.1stodd
 #
-# ave jacobi ops per valid v(1) with cache = 3.8483
-# ave jacobi ops per valid v(1) w/o cache  = 4.6972
+# ave jacobi ops per valid v(1) with cache = 3.848
+# ave jacobi ops per valid v(1) w/o cache  = 4.697
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.0000
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.000
 #
 # match_prime_v1        = 2105451
 # nomatch_prime_v1      = 3

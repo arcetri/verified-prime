@@ -1,9 +1,9 @@
 # filename = job.h-not0mod3.n-1391827/tally.prime
 #
-# ave jacobi ops per valid v(1) with cache = 4.7890
-# ave jacobi ops per valid v(1) w/o cache  = 4.9827
+# ave jacobi ops per valid v(1) with cache = 4.789
+# ave jacobi ops per valid v(1) w/o cache  = 4.983
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.0000
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.000
 #
 # match_prime_v1        = 300855
 # nomatch_prime_v1      = 0

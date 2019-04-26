@@ -1,43 +1,46 @@
 # filename = job.h-not0mod3.n-1391827/tally.byv1
 #
-# ave jacobi ops per valid v(1) with cache = 4.8067
-# ave jacobi ops per valid v(1) w/o cache  = 4.9953
+# ave jacobi ops per valid v(1) with cache = 4.791
+# ave jacobi ops per valid v(1) w/o cache  = 4.983
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.0000
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.000
 #
-# match_prime_v1        = 300855
+# match_prime_v1        = 300534
 # nomatch_prime_v1      = 0
 #
-# Jacobi ops ignoring cache = 1446110
-# Jacobi ops with cache     = 1502858
-# valid_v1_values           = 300855
+# Jacobi ops ignoring cache = 1439738
+# Jacobi ops with cache     = 1497649
+# valid_v1_values           = 300534
 #
-# cache_load_count  = 1446110
-# cache_hit_count   = 56748
+# cache_load_count  = 1439738
+# cache_hit_count   = 57911
 #
 # out_of_range      = 0
 # invalid_str_value = 0
 #
-# non_zero_count = 13
-# zero_count     = 987
+# non_zero_count = 16
+# zero_count     = 984
 # out_of_range   = 0
 #
-# count sum = 300855
+# count sum = 300534
 #
 # count value
 150457 3
 56734 11
 37594 9
 28403 15
-9198 20
-6977 27
-4656 21
-4450 36
-894 49
-547 39
-486 45
-241 51
-218 55
+10444 27
+7010 21
+2395 39
+2265 51
+1708 35
+1666 45
+921 57
+410 59
+211 69
+164 65
+101 81
+51 71
 0 0
 0 1
 0 2
@@ -54,6 +57,7 @@
 0 17
 0 18
 0 19
+0 20
 0 22
 0 23
 0 24
@@ -66,7 +70,7 @@
 0 32
 0 33
 0 34
-0 35
+0 36
 0 37
 0 38
 0 40
@@ -77,26 +81,23 @@
 0 46
 0 47
 0 48
+0 49
 0 50
 0 52
 0 53
 0 54
+0 55
 0 56
-0 57
 0 58
-0 59
 0 60
 0 61
 0 62
 0 63
 0 64
-0 65
 0 66
 0 67
 0 68
-0 69
 0 70
-0 71
 0 72
 0 73
 0 74
@@ -106,7 +107,6 @@
 0 78
 0 79
 0 80
-0 81
 0 82
 0 83
 0 84

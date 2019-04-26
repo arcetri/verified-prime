@@ -1,3 +1,5 @@
+# NOTE: This information is out of date - we will update this soon
+
 # v1-data
 
 The v1-data subdirectory:

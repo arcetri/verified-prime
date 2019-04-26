@@ -1,19 +1,19 @@
 # filename = job.h-0mod3.prime-all/tally.byoddv1
 #
-# ave jacobi ops per valid v(1) with cache = 4.4844
-# ave jacobi ops per valid v(1) w/o cache  = 5.0246
+# ave jacobi ops per valid v(1) with cache = 4.484
+# ave jacobi ops per valid v(1) w/o cache  = 5.006
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.0000
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.000
 #
 # match_prime_v1        = 84972
 # nomatch_prime_v1      = 0
 #
-# Jacobi ops ignoring cache = 381051
-# Jacobi ops with cache     = 426952
+# Jacobi ops ignoring cache = 380981
+# Jacobi ops with cache     = 425374
 # valid_v1_values           = 84972
 #
-# cache_load_count  = 381051
-# cache_hit_count   = 45901
+# cache_load_count  = 380981
+# cache_hit_count   = 44393
 #
 # out_of_range      = 0
 # invalid_str_value = 0

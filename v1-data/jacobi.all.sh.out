@@ -1,0 +1,1477 @@
+./jacobi.all.sh: starting 
+
+./jacobi.tally.sh: starting  4194304
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-4194304
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-4194304
+
+./jacobi-gentally -v 3 job.h-0mod3.n-4194304/global.stats job.h-0mod3.n-4194304/tally.int job.h-0mod3.n-4194304/tally.1stint job.h-0mod3.n-4194304/tally.odd job.h-0mod3.n-4194304/tally.1stodd job.h-0mod3.n-4194304/tally.byfreq job.h-0mod3.n-4194304/tally.byv1 job.h-0mod3.n-4194304/tally.byoddfreq job.h-0mod3.n-4194304/tally.byoddv1 job.h-0mod3.n-4194304/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-4194304/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-4194304/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-4194304/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-4194304/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-4194304/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-4194304/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-4194304/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-4194304/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-4194304/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-4194304/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-4194304/global.stats job.h-not0mod3.n-4194304/tally.int job.h-not0mod3.n-4194304/tally.1stint job.h-not0mod3.n-4194304/tally.odd job.h-not0mod3.n-4194304/tally.1stodd job.h-not0mod3.n-4194304/tally.byfreq job.h-not0mod3.n-4194304/tally.byv1 job.h-not0mod3.n-4194304/tally.byoddfreq job.h-not0mod3.n-4194304/tally.byoddv1 job.h-not0mod3.n-4194304/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-4194304/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-4194304/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-4194304/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-4194304/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-4194304/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-4194304/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-4194304/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-4194304/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-4194304/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-4194304/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  4331116
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-4331116
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-4331116
+
+./jacobi-gentally -v 3 job.h-0mod3.n-4331116/global.stats job.h-0mod3.n-4331116/tally.int job.h-0mod3.n-4331116/tally.1stint job.h-0mod3.n-4331116/tally.odd job.h-0mod3.n-4331116/tally.1stodd job.h-0mod3.n-4331116/tally.byfreq job.h-0mod3.n-4331116/tally.byv1 job.h-0mod3.n-4331116/tally.byoddfreq job.h-0mod3.n-4331116/tally.byoddv1 job.h-0mod3.n-4331116/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-4331116/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-4331116/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-4331116/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-4331116/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-4331116/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-4331116/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-4331116/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-4331116/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-4331116/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-4331116/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-4331116/global.stats job.h-not0mod3.n-4331116/tally.int job.h-not0mod3.n-4331116/tally.1stint job.h-not0mod3.n-4331116/tally.odd job.h-not0mod3.n-4331116/tally.1stodd job.h-not0mod3.n-4331116/tally.byfreq job.h-not0mod3.n-4331116/tally.byv1 job.h-not0mod3.n-4331116/tally.byoddfreq job.h-not0mod3.n-4331116/tally.byoddv1 job.h-not0mod3.n-4331116/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-4331116/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-4331116/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-4331116/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-4331116/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-4331116/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-4331116/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-4331116/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-4331116/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-4331116/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-4331116/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  4885002
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-4885002
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-4885002
+
+./jacobi-gentally -v 3 job.h-0mod3.n-4885002/global.stats job.h-0mod3.n-4885002/tally.int job.h-0mod3.n-4885002/tally.1stint job.h-0mod3.n-4885002/tally.odd job.h-0mod3.n-4885002/tally.1stodd job.h-0mod3.n-4885002/tally.byfreq job.h-0mod3.n-4885002/tally.byv1 job.h-0mod3.n-4885002/tally.byoddfreq job.h-0mod3.n-4885002/tally.byoddv1 job.h-0mod3.n-4885002/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-4885002/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-4885002/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-4885002/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-4885002/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-4885002/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-4885002/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-4885002/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-4885002/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-4885002/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-4885002/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-4885002/global.stats job.h-not0mod3.n-4885002/tally.int job.h-not0mod3.n-4885002/tally.1stint job.h-not0mod3.n-4885002/tally.odd job.h-not0mod3.n-4885002/tally.1stodd job.h-not0mod3.n-4885002/tally.byfreq job.h-not0mod3.n-4885002/tally.byv1 job.h-not0mod3.n-4885002/tally.byoddfreq job.h-not0mod3.n-4885002/tally.byoddv1 job.h-not0mod3.n-4885002/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-4885002/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-4885002/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-4885002/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-4885002/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-4885002/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-4885002/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-4885002/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-4885002/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-4885002/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-4885002/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  5209020
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-5209020
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-5209020
+
+./jacobi-gentally -v 3 job.h-0mod3.n-5209020/global.stats job.h-0mod3.n-5209020/tally.int job.h-0mod3.n-5209020/tally.1stint job.h-0mod3.n-5209020/tally.odd job.h-0mod3.n-5209020/tally.1stodd job.h-0mod3.n-5209020/tally.byfreq job.h-0mod3.n-5209020/tally.byv1 job.h-0mod3.n-5209020/tally.byoddfreq job.h-0mod3.n-5209020/tally.byoddv1 job.h-0mod3.n-5209020/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-5209020/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-5209020/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-5209020/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-5209020/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-5209020/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-5209020/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-5209020/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-5209020/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-5209020/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-5209020/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-5209020/global.stats job.h-not0mod3.n-5209020/tally.int job.h-not0mod3.n-5209020/tally.1stint job.h-not0mod3.n-5209020/tally.odd job.h-not0mod3.n-5209020/tally.1stodd job.h-not0mod3.n-5209020/tally.byfreq job.h-not0mod3.n-5209020/tally.byv1 job.h-not0mod3.n-5209020/tally.byoddfreq job.h-not0mod3.n-5209020/tally.byoddv1 job.h-not0mod3.n-5209020/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-5209020/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-5209020/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-5209020/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-5209020/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-5209020/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-5209020/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-5209020/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-5209020/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-5209020/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-5209020/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  6286862
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-6286862
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-6286862
+
+./jacobi-gentally -v 3 job.h-0mod3.n-6286862/global.stats job.h-0mod3.n-6286862/tally.int job.h-0mod3.n-6286862/tally.1stint job.h-0mod3.n-6286862/tally.odd job.h-0mod3.n-6286862/tally.1stodd job.h-0mod3.n-6286862/tally.byfreq job.h-0mod3.n-6286862/tally.byv1 job.h-0mod3.n-6286862/tally.byoddfreq job.h-0mod3.n-6286862/tally.byoddv1 job.h-0mod3.n-6286862/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-6286862/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-6286862/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-6286862/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-6286862/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-6286862/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-6286862/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-6286862/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-6286862/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-6286862/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-6286862/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-6286862/global.stats job.h-not0mod3.n-6286862/tally.int job.h-not0mod3.n-6286862/tally.1stint job.h-not0mod3.n-6286862/tally.odd job.h-not0mod3.n-6286862/tally.1stodd job.h-not0mod3.n-6286862/tally.byfreq job.h-not0mod3.n-6286862/tally.byv1 job.h-not0mod3.n-6286862/tally.byoddfreq job.h-not0mod3.n-6286862/tally.byoddv1 job.h-not0mod3.n-6286862/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-6286862/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-6286862/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-6286862/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-6286862/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-6286862/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-6286862/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-6286862/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-6286862/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-6286862/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-6286862/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  7676777
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-7676777
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-7676777
+
+./jacobi-gentally -v 3 job.h-0mod3.n-7676777/global.stats job.h-0mod3.n-7676777/tally.int job.h-0mod3.n-7676777/tally.1stint job.h-0mod3.n-7676777/tally.odd job.h-0mod3.n-7676777/tally.1stodd job.h-0mod3.n-7676777/tally.byfreq job.h-0mod3.n-7676777/tally.byv1 job.h-0mod3.n-7676777/tally.byoddfreq job.h-0mod3.n-7676777/tally.byoddv1 job.h-0mod3.n-7676777/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-7676777/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-7676777/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-7676777/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-7676777/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-7676777/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-7676777/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-7676777/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-7676777/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-7676777/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-7676777/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-7676777/global.stats job.h-not0mod3.n-7676777/tally.int job.h-not0mod3.n-7676777/tally.1stint job.h-not0mod3.n-7676777/tally.odd job.h-not0mod3.n-7676777/tally.1stodd job.h-not0mod3.n-7676777/tally.byfreq job.h-not0mod3.n-7676777/tally.byv1 job.h-not0mod3.n-7676777/tally.byoddfreq job.h-not0mod3.n-7676777/tally.byoddv1 job.h-not0mod3.n-7676777/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-7676777/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-7676777/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-7676777/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-7676777/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-7676777/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-7676777/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-7676777/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-7676777/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-7676777/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-7676777/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  8388608
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-8388608
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-8388608
+
+./jacobi-gentally -v 3 job.h-0mod3.n-8388608/global.stats job.h-0mod3.n-8388608/tally.int job.h-0mod3.n-8388608/tally.1stint job.h-0mod3.n-8388608/tally.odd job.h-0mod3.n-8388608/tally.1stodd job.h-0mod3.n-8388608/tally.byfreq job.h-0mod3.n-8388608/tally.byv1 job.h-0mod3.n-8388608/tally.byoddfreq job.h-0mod3.n-8388608/tally.byoddv1 job.h-0mod3.n-8388608/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-8388608/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-8388608/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-8388608/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-8388608/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-8388608/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-8388608/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-8388608/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-8388608/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-8388608/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-8388608/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-8388608/global.stats job.h-not0mod3.n-8388608/tally.int job.h-not0mod3.n-8388608/tally.1stint job.h-not0mod3.n-8388608/tally.odd job.h-not0mod3.n-8388608/tally.1stodd job.h-not0mod3.n-8388608/tally.byfreq job.h-not0mod3.n-8388608/tally.byv1 job.h-not0mod3.n-8388608/tally.byoddfreq job.h-not0mod3.n-8388608/tally.byoddv1 job.h-not0mod3.n-8388608/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-8388608/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-8388608/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-8388608/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-8388608/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-8388608/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-8388608/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-8388608/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-8388608/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-8388608/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-8388608/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.baseline.sh: starting 
+
+./jacobi.baseline.sh: 0mod3 baseline/job.h-0mod3.baseline
+./jacobi.baseline.sh: not0mod3 baseline/job.h-not0mod3.baseline
+
+using data from jacobi.* files in job.h-0mod3.n-4194304
+using data from jacobi.* files in job.h-0mod3.n-4331116
+using data from jacobi.* files in job.h-0mod3.n-4885002
+using data from jacobi.* files in job.h-0mod3.n-5209020
+using data from jacobi.* files in job.h-0mod3.n-6286862
+using data from jacobi.* files in job.h-0mod3.n-7676777
+using data from jacobi.* files in job.h-0mod3.n-8388608
+./jacobi-gentally -v 3 baseline/job.h-0mod3.baseline/global.stats baseline/job.h-0mod3.baseline/tally.int baseline/job.h-0mod3.baseline/tally.1stint baseline/job.h-0mod3.baseline/tally.odd baseline/job.h-0mod3.baseline/tally.1stodd baseline/job.h-0mod3.baseline/tally.byfreq baseline/job.h-0mod3.baseline/tally.byv1 baseline/job.h-0mod3.baseline/tally.byoddfreq baseline/job.h-0mod3.baseline/tally.byoddv1 baseline/job.h-0mod3.baseline/tally.prime
+Debug[1]: global.stats filename: baseline/job.h-0mod3.baseline/global.stats
+Debug[1]: tally.int filename: baseline/job.h-0mod3.baseline/tally.int
+Debug[1]: filename_tally_1stint filename: baseline/job.h-0mod3.baseline/tally.1stint
+Debug[1]: filename_tally_odd filename: baseline/job.h-0mod3.baseline/tally.odd
+Debug[1]: filename_tally_1stodd filename: baseline/job.h-0mod3.baseline/tally.1stodd
+Debug[1]: filename_best_by_freq filename: baseline/job.h-0mod3.baseline/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: baseline/job.h-0mod3.baseline/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: baseline/job.h-0mod3.baseline/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: baseline/job.h-0mod3.baseline/tally.byoddv1
+Debug[1]: filename_best_prime filename: baseline/job.h-0mod3.baseline/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: parsed line number: 1100000
+Debug[1]: parsed line number: 1200000
+Debug[1]: parsed line number: 1300000
+Debug[1]: parsed line number: 1400000
+Debug[1]: parsed line number: 1500000
+Debug[1]: parsed line number: 1600000
+Debug[1]: parsed line number: 1700000
+Debug[1]: parsed line number: 1800000
+Debug[1]: parsed line number: 1900000
+Debug[1]: parsed line number: 2000000
+Debug[1]: parsed line number: 2100000
+Debug[1]: parsed line number: 2200000
+Debug[1]: parsed line number: 2300000
+Debug[1]: parsed line number: 2400000
+Debug[1]: parsed line number: 2500000
+Debug[1]: parsed line number: 2600000
+Debug[1]: parsed line number: 2700000
+Debug[1]: parsed line number: 2800000
+Debug[1]: parsed line number: 2900000
+Debug[1]: parsed line number: 3000000
+Debug[1]: parsed line number: 3100000
+Debug[1]: parsed line number: 3200000
+Debug[1]: parsed line number: 3300000
+Debug[1]: parsed line number: 3400000
+Debug[1]: parsed line number: 3500000
+Debug[1]: parsed line number: 3600000
+Debug[1]: parsed line number: 3700000
+Debug[1]: parsed line number: 3800000
+Debug[1]: parsed line number: 3900000
+Debug[1]: parsed line number: 4000000
+Debug[1]: parsed line number: 4100000
+Debug[1]: parsed line number: 4200000
+Debug[1]: parsed line number: 4300000
+Debug[1]: parsed line number: 4400000
+Debug[1]: parsed line number: 4500000
+Debug[1]: parsed line number: 4600000
+Debug[1]: parsed line number: 4700000
+Debug[1]: parsed line number: 4800000
+Debug[1]: parsed line number: 4900000
+Debug[1]: parsed line number: 5000000
+Debug[1]: parsed line number: 5100000
+Debug[1]: parsed line number: 5200000
+Debug[1]: parsed line number: 5300000
+Debug[1]: parsed line number: 5400000
+Debug[1]: parsed line number: 5500000
+Debug[1]: parsed line number: 5600000
+Debug[1]: parsed line number: 5700000
+Debug[1]: parsed line number: 5800000
+Debug[1]: parsed line number: 5900000
+Debug[1]: parsed line number: 6000000
+Debug[1]: parsed line number: 6100000
+Debug[1]: parsed line number: 6200000
+Debug[1]: parsed line number: 6300000
+Debug[1]: parsed line number: 6400000
+Debug[1]: parsed line number: 6500000
+Debug[1]: parsed line number: 6600000
+Debug[1]: parsed line number: 6700000
+Debug[1]: parsed line number: 6800000
+Debug[1]: parsed line number: 6900000
+Debug[1]: parsed line number: 7000000
+Debug[1]: stdin lines read: 7000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+using data from jacobi.* files in job.h-not0mod3.n-4194304
+using data from jacobi.* files in job.h-not0mod3.n-4331116
+using data from jacobi.* files in job.h-not0mod3.n-4885002
+using data from jacobi.* files in job.h-not0mod3.n-5209020
+using data from jacobi.* files in job.h-not0mod3.n-6286862
+using data from jacobi.* files in job.h-not0mod3.n-7676777
+using data from jacobi.* files in job.h-not0mod3.n-8388608
+./jacobi-gentally -v 3 baseline/job.h-not0mod3.baseline/global.stats baseline/job.h-not0mod3.baseline/tally.int baseline/job.h-not0mod3.baseline/tally.1stint baseline/job.h-not0mod3.baseline/tally.odd baseline/job.h-not0mod3.baseline/tally.1stodd baseline/job.h-not0mod3.baseline/tally.byfreq baseline/job.h-not0mod3.baseline/tally.byv1 baseline/job.h-not0mod3.baseline/tally.byoddfreq baseline/job.h-not0mod3.baseline/tally.byoddv1 baseline/job.h-not0mod3.baseline/tally.prime
+Debug[1]: global.stats filename: baseline/job.h-not0mod3.baseline/global.stats
+Debug[1]: tally.int filename: baseline/job.h-not0mod3.baseline/tally.int
+Debug[1]: filename_tally_1stint filename: baseline/job.h-not0mod3.baseline/tally.1stint
+Debug[1]: filename_tally_odd filename: baseline/job.h-not0mod3.baseline/tally.odd
+Debug[1]: filename_tally_1stodd filename: baseline/job.h-not0mod3.baseline/tally.1stodd
+Debug[1]: filename_best_by_freq filename: baseline/job.h-not0mod3.baseline/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: baseline/job.h-not0mod3.baseline/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: baseline/job.h-not0mod3.baseline/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: baseline/job.h-not0mod3.baseline/tally.byoddv1
+Debug[1]: filename_best_prime filename: baseline/job.h-not0mod3.baseline/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: parsed line number: 1100000
+Debug[1]: parsed line number: 1200000
+Debug[1]: parsed line number: 1300000
+Debug[1]: parsed line number: 1400000
+Debug[1]: parsed line number: 1500000
+Debug[1]: parsed line number: 1600000
+Debug[1]: parsed line number: 1700000
+Debug[1]: parsed line number: 1800000
+Debug[1]: parsed line number: 1900000
+Debug[1]: parsed line number: 2000000
+Debug[1]: parsed line number: 2100000
+Debug[1]: parsed line number: 2200000
+Debug[1]: parsed line number: 2300000
+Debug[1]: parsed line number: 2400000
+Debug[1]: parsed line number: 2500000
+Debug[1]: parsed line number: 2600000
+Debug[1]: parsed line number: 2700000
+Debug[1]: parsed line number: 2800000
+Debug[1]: parsed line number: 2900000
+Debug[1]: parsed line number: 3000000
+Debug[1]: parsed line number: 3100000
+Debug[1]: parsed line number: 3200000
+Debug[1]: parsed line number: 3300000
+Debug[1]: parsed line number: 3400000
+Debug[1]: parsed line number: 3500000
+Debug[1]: parsed line number: 3600000
+Debug[1]: parsed line number: 3700000
+Debug[1]: parsed line number: 3800000
+Debug[1]: parsed line number: 3900000
+Debug[1]: parsed line number: 4000000
+Debug[1]: parsed line number: 4100000
+Debug[1]: parsed line number: 4200000
+Debug[1]: parsed line number: 4300000
+Debug[1]: parsed line number: 4400000
+Debug[1]: parsed line number: 4500000
+Debug[1]: parsed line number: 4600000
+Debug[1]: parsed line number: 4700000
+Debug[1]: parsed line number: 4800000
+Debug[1]: parsed line number: 4900000
+Debug[1]: parsed line number: 5000000
+Debug[1]: parsed line number: 5100000
+Debug[1]: parsed line number: 5200000
+Debug[1]: parsed line number: 5300000
+Debug[1]: parsed line number: 5400000
+Debug[1]: parsed line number: 5500000
+Debug[1]: parsed line number: 5600000
+Debug[1]: parsed line number: 5700000
+Debug[1]: parsed line number: 5800000
+Debug[1]: parsed line number: 5900000
+Debug[1]: parsed line number: 6000000
+Debug[1]: parsed line number: 6100000
+Debug[1]: parsed line number: 6200000
+Debug[1]: parsed line number: 6300000
+Debug[1]: parsed line number: 6400000
+Debug[1]: parsed line number: 6500000
+Debug[1]: parsed line number: 6600000
+Debug[1]: parsed line number: 6700000
+Debug[1]: parsed line number: 6800000
+Debug[1]: parsed line number: 6900000
+Debug[1]: parsed line number: 7000000
+Debug[1]: stdin lines read: 7000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  1391827
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-1391827
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-1391827
+
+./jacobi-gentally -v 3 job.h-0mod3.n-1391827/global.stats job.h-0mod3.n-1391827/tally.int job.h-0mod3.n-1391827/tally.1stint job.h-0mod3.n-1391827/tally.odd job.h-0mod3.n-1391827/tally.1stodd job.h-0mod3.n-1391827/tally.byfreq job.h-0mod3.n-1391827/tally.byv1 job.h-0mod3.n-1391827/tally.byoddfreq job.h-0mod3.n-1391827/tally.byoddv1 job.h-0mod3.n-1391827/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-1391827/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-1391827/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-1391827/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-1391827/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-1391827/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-1391827/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-1391827/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-1391827/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-1391827/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-1391827/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-1391827/global.stats job.h-not0mod3.n-1391827/tally.int job.h-not0mod3.n-1391827/tally.1stint job.h-not0mod3.n-1391827/tally.odd job.h-not0mod3.n-1391827/tally.1stodd job.h-not0mod3.n-1391827/tally.byfreq job.h-not0mod3.n-1391827/tally.byv1 job.h-not0mod3.n-1391827/tally.byoddfreq job.h-not0mod3.n-1391827/tally.byoddv1 job.h-not0mod3.n-1391827/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-1391827/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-1391827/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-1391827/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-1391827/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-1391827/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-1391827/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-1391827/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-1391827/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-1391827/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-1391827/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  3727058
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-3727058
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-3727058
+
+./jacobi-gentally -v 3 job.h-0mod3.n-3727058/global.stats job.h-0mod3.n-3727058/tally.int job.h-0mod3.n-3727058/tally.1stint job.h-0mod3.n-3727058/tally.odd job.h-0mod3.n-3727058/tally.1stodd job.h-0mod3.n-3727058/tally.byfreq job.h-0mod3.n-3727058/tally.byv1 job.h-0mod3.n-3727058/tally.byoddfreq job.h-0mod3.n-3727058/tally.byoddv1 job.h-0mod3.n-3727058/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-3727058/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-3727058/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-3727058/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-3727058/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-3727058/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-3727058/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-3727058/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-3727058/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-3727058/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-3727058/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-3727058/global.stats job.h-not0mod3.n-3727058/tally.int job.h-not0mod3.n-3727058/tally.1stint job.h-not0mod3.n-3727058/tally.odd job.h-not0mod3.n-3727058/tally.1stodd job.h-not0mod3.n-3727058/tally.byfreq job.h-not0mod3.n-3727058/tally.byv1 job.h-not0mod3.n-3727058/tally.byoddfreq job.h-not0mod3.n-3727058/tally.byoddv1 job.h-not0mod3.n-3727058/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-3727058/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-3727058/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-3727058/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-3727058/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-3727058/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-3727058/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-3727058/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-3727058/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-3727058/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-3727058/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  5718259
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-5718259
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-5718259
+
+./jacobi-gentally -v 3 job.h-0mod3.n-5718259/global.stats job.h-0mod3.n-5718259/tally.int job.h-0mod3.n-5718259/tally.1stint job.h-0mod3.n-5718259/tally.odd job.h-0mod3.n-5718259/tally.1stodd job.h-0mod3.n-5718259/tally.byfreq job.h-0mod3.n-5718259/tally.byv1 job.h-0mod3.n-5718259/tally.byoddfreq job.h-0mod3.n-5718259/tally.byoddv1 job.h-0mod3.n-5718259/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-5718259/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-5718259/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-5718259/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-5718259/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-5718259/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-5718259/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-5718259/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-5718259/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-5718259/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-5718259/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-5718259/global.stats job.h-not0mod3.n-5718259/tally.int job.h-not0mod3.n-5718259/tally.1stint job.h-not0mod3.n-5718259/tally.odd job.h-not0mod3.n-5718259/tally.1stodd job.h-not0mod3.n-5718259/tally.byfreq job.h-not0mod3.n-5718259/tally.byv1 job.h-not0mod3.n-5718259/tally.byoddfreq job.h-not0mod3.n-5718259/tally.byoddv1 job.h-not0mod3.n-5718259/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-5718259/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-5718259/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-5718259/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-5718259/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-5718259/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-5718259/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-5718259/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-5718259/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-5718259/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-5718259/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  12776050
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-12776050
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-12776050
+
+./jacobi-gentally -v 3 job.h-0mod3.n-12776050/global.stats job.h-0mod3.n-12776050/tally.int job.h-0mod3.n-12776050/tally.1stint job.h-0mod3.n-12776050/tally.odd job.h-0mod3.n-12776050/tally.1stodd job.h-0mod3.n-12776050/tally.byfreq job.h-0mod3.n-12776050/tally.byv1 job.h-0mod3.n-12776050/tally.byoddfreq job.h-0mod3.n-12776050/tally.byoddv1 job.h-0mod3.n-12776050/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-12776050/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-12776050/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-12776050/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-12776050/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-12776050/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-12776050/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-12776050/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-12776050/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-12776050/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-12776050/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-12776050/global.stats job.h-not0mod3.n-12776050/tally.int job.h-not0mod3.n-12776050/tally.1stint job.h-not0mod3.n-12776050/tally.odd job.h-not0mod3.n-12776050/tally.1stodd job.h-not0mod3.n-12776050/tally.byfreq job.h-not0mod3.n-12776050/tally.byv1 job.h-not0mod3.n-12776050/tally.byoddfreq job.h-not0mod3.n-12776050/tally.byoddv1 job.h-not0mod3.n-12776050/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-12776050/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-12776050/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-12776050/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-12776050/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-12776050/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-12776050/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-12776050/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-12776050/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-12776050/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-12776050/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  23059373
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-23059373
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-23059373
+
+./jacobi-gentally -v 3 job.h-0mod3.n-23059373/global.stats job.h-0mod3.n-23059373/tally.int job.h-0mod3.n-23059373/tally.1stint job.h-0mod3.n-23059373/tally.odd job.h-0mod3.n-23059373/tally.1stodd job.h-0mod3.n-23059373/tally.byfreq job.h-0mod3.n-23059373/tally.byv1 job.h-0mod3.n-23059373/tally.byoddfreq job.h-0mod3.n-23059373/tally.byoddv1 job.h-0mod3.n-23059373/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-23059373/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-23059373/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-23059373/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-23059373/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-23059373/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-23059373/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-23059373/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-23059373/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-23059373/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-23059373/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-23059373/global.stats job.h-not0mod3.n-23059373/tally.int job.h-not0mod3.n-23059373/tally.1stint job.h-not0mod3.n-23059373/tally.odd job.h-not0mod3.n-23059373/tally.1stodd job.h-not0mod3.n-23059373/tally.byfreq job.h-not0mod3.n-23059373/tally.byv1 job.h-not0mod3.n-23059373/tally.byoddfreq job.h-not0mod3.n-23059373/tally.byoddv1 job.h-not0mod3.n-23059373/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-23059373/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-23059373/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-23059373/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-23059373/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-23059373/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-23059373/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-23059373/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-23059373/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-23059373/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-23059373/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  56126460
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-56126460
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-56126460
+
+./jacobi-gentally -v 3 job.h-0mod3.n-56126460/global.stats job.h-0mod3.n-56126460/tally.int job.h-0mod3.n-56126460/tally.1stint job.h-0mod3.n-56126460/tally.odd job.h-0mod3.n-56126460/tally.1stodd job.h-0mod3.n-56126460/tally.byfreq job.h-0mod3.n-56126460/tally.byv1 job.h-0mod3.n-56126460/tally.byoddfreq job.h-0mod3.n-56126460/tally.byoddv1 job.h-0mod3.n-56126460/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-56126460/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-56126460/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-56126460/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-56126460/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-56126460/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-56126460/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-56126460/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-56126460/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-56126460/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-56126460/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-56126460/global.stats job.h-not0mod3.n-56126460/tally.int job.h-not0mod3.n-56126460/tally.1stint job.h-not0mod3.n-56126460/tally.odd job.h-not0mod3.n-56126460/tally.1stodd job.h-not0mod3.n-56126460/tally.byfreq job.h-not0mod3.n-56126460/tally.byv1 job.h-not0mod3.n-56126460/tally.byoddfreq job.h-not0mod3.n-56126460/tally.byoddv1 job.h-not0mod3.n-56126460/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-56126460/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-56126460/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-56126460/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-56126460/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-56126460/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-56126460/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-56126460/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-56126460/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-56126460/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-56126460/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.tally.sh: starting  132174368
+
+./jacobi.tally.sh: 0mod3 job.h-0mod3.n-132174368
+./jacobi.tally.sh: not0mod3 job.h-not0mod3.n-132174368
+
+./jacobi-gentally -v 3 job.h-0mod3.n-132174368/global.stats job.h-0mod3.n-132174368/tally.int job.h-0mod3.n-132174368/tally.1stint job.h-0mod3.n-132174368/tally.odd job.h-0mod3.n-132174368/tally.1stodd job.h-0mod3.n-132174368/tally.byfreq job.h-0mod3.n-132174368/tally.byv1 job.h-0mod3.n-132174368/tally.byoddfreq job.h-0mod3.n-132174368/tally.byoddv1 job.h-0mod3.n-132174368/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.n-132174368/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.n-132174368/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.n-132174368/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.n-132174368/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.n-132174368/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.n-132174368/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.n-132174368/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.n-132174368/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.n-132174368/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.n-132174368/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.n-132174368/global.stats job.h-not0mod3.n-132174368/tally.int job.h-not0mod3.n-132174368/tally.1stint job.h-not0mod3.n-132174368/tally.odd job.h-not0mod3.n-132174368/tally.1stodd job.h-not0mod3.n-132174368/tally.byfreq job.h-not0mod3.n-132174368/tally.byv1 job.h-not0mod3.n-132174368/tally.byoddfreq job.h-not0mod3.n-132174368/tally.byoddv1 job.h-not0mod3.n-132174368/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.n-132174368/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.n-132174368/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.n-132174368/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.n-132174368/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.n-132174368/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.n-132174368/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.n-132174368/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.n-132174368/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.n-132174368/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.n-132174368/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: stdin lines read: 1000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.jobsets.sh: starting 
+
+./jacobi.jobsets.sh: 0mod3 job.h-0mod3.jobsets
+./jacobi.jobsets.sh: not0mod3 job.h-not0mod3.jobsets
+
+using data from jacobi.* files in job.h-0mod3.n-1391827
+using data from jacobi.* files in job.h-0mod3.n-3727058
+using data from jacobi.* files in job.h-0mod3.n-5718259
+using data from jacobi.* files in job.h-0mod3.n-12776050
+using data from jacobi.* files in job.h-0mod3.n-23059373
+using data from jacobi.* files in job.h-0mod3.n-56126460
+using data from jacobi.* files in job.h-0mod3.n-132174368
+./jacobi-gentally -v 3 job.h-0mod3.jobsets/global.stats job.h-0mod3.jobsets/tally.int job.h-0mod3.jobsets/tally.1stint job.h-0mod3.jobsets/tally.odd job.h-0mod3.jobsets/tally.1stodd job.h-0mod3.jobsets/tally.byfreq job.h-0mod3.jobsets/tally.byv1 job.h-0mod3.jobsets/tally.byoddfreq job.h-0mod3.jobsets/tally.byoddv1 job.h-0mod3.jobsets/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.jobsets/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.jobsets/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.jobsets/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.jobsets/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.jobsets/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.jobsets/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.jobsets/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.jobsets/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.jobsets/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.jobsets/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 4177635 n: 1392575
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: parsed line number: 1100000
+Debug[1]: parsed line number: 1200000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 11184255 n: 3727349
+Debug[1]: parsed line number: 1300000
+Debug[1]: parsed line number: 1400000
+Debug[1]: parsed line number: 1500000
+Debug[1]: parsed line number: 1600000
+Debug[1]: parsed line number: 1700000
+Debug[1]: parsed line number: 1800000
+Debug[1]: parsed line number: 1900000
+Debug[1]: parsed line number: 2000000
+Debug[1]: parsed line number: 2100000
+Debug[1]: parsed line number: 2200000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 17156565 n: 5718540
+Debug[1]: parsed line number: 2300000
+Debug[1]: parsed line number: 2400000
+Debug[1]: parsed line number: 2500000
+Debug[1]: parsed line number: 2600000
+Debug[1]: parsed line number: 2700000
+Debug[1]: parsed line number: 2800000
+Debug[1]: parsed line number: 2900000
+Debug[1]: parsed line number: 3000000
+Debug[1]: parsed line number: 3100000
+Debug[1]: parsed line number: 3200000
+Debug[1]: parsed line number: 3300000
+Debug[1]: parsed line number: 3400000
+Debug[1]: parsed line number: 3500000
+Debug[1]: parsed line number: 3600000
+Debug[1]: parsed line number: 3700000
+Debug[1]: parsed line number: 3800000
+Debug[1]: parsed line number: 3900000
+Debug[1]: parsed line number: 4000000
+Debug[1]: parsed line number: 4100000
+Debug[1]: parsed line number: 4200000
+Debug[1]: parsed line number: 4300000
+Debug[1]: parsed line number: 4400000
+Debug[1]: parsed line number: 4500000
+Debug[1]: parsed line number: 4600000
+Debug[1]: parsed line number: 4700000
+Debug[1]: parsed line number: 4800000
+Debug[1]: parsed line number: 4900000
+Debug[1]: parsed line number: 5000000
+Debug[1]: parsed line number: 5100000
+Debug[1]: parsed line number: 5200000
+Debug[1]: parsed line number: 5300000
+Debug[1]: parsed line number: 5400000
+Debug[1]: parsed line number: 5500000
+Debug[1]: parsed line number: 5600000
+Debug[1]: parsed line number: 5700000
+Debug[1]: parsed line number: 5800000
+Debug[1]: parsed line number: 5900000
+Debug[1]: parsed line number: 6000000
+Debug[1]: parsed line number: 6100000
+Debug[1]: parsed line number: 6200000
+Debug[1]: parsed line number: 6300000
+Debug[1]: parsed line number: 6400000
+Debug[1]: parsed line number: 6500000
+Debug[1]: parsed line number: 6600000
+Debug[1]: parsed line number: 6700000
+Debug[1]: parsed line number: 6800000
+Debug[1]: parsed line number: 6900000
+Debug[3]: "common 1st valid v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[3]: "common 1st valid v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[3]: "common 1st valid odd v(1) h0mod3 - reverse sorted by freq of use" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[3]: "common 1st valid odd v(1) h0mod3 - sorted by v(1)" must search for v(1) > 81 h: 396528345 n: 132175294
+Debug[1]: parsed line number: 7000000
+Debug[1]: stdin lines read: 7000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+using data from jacobi.* files in job.h-not0mod3.n-1391827
+using data from jacobi.* files in job.h-not0mod3.n-3727058
+using data from jacobi.* files in job.h-not0mod3.n-5718259
+using data from jacobi.* files in job.h-not0mod3.n-12776050
+using data from jacobi.* files in job.h-not0mod3.n-23059373
+using data from jacobi.* files in job.h-not0mod3.n-56126460
+using data from jacobi.* files in job.h-not0mod3.n-132174368
+./jacobi-gentally -v 3 job.h-not0mod3.jobsets/global.stats job.h-not0mod3.jobsets/tally.int job.h-not0mod3.jobsets/tally.1stint job.h-not0mod3.jobsets/tally.odd job.h-not0mod3.jobsets/tally.1stodd job.h-not0mod3.jobsets/tally.byfreq job.h-not0mod3.jobsets/tally.byv1 job.h-not0mod3.jobsets/tally.byoddfreq job.h-not0mod3.jobsets/tally.byoddv1 job.h-not0mod3.jobsets/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.jobsets/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.jobsets/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.jobsets/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.jobsets/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.jobsets/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.jobsets/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.jobsets/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.jobsets/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.jobsets/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.jobsets/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: parsed line number: 100000
+Debug[1]: parsed line number: 200000
+Debug[1]: parsed line number: 300000
+Debug[1]: parsed line number: 400000
+Debug[1]: parsed line number: 500000
+Debug[1]: parsed line number: 600000
+Debug[1]: parsed line number: 700000
+Debug[1]: parsed line number: 800000
+Debug[1]: parsed line number: 900000
+Debug[1]: parsed line number: 1000000
+Debug[1]: parsed line number: 1100000
+Debug[1]: parsed line number: 1200000
+Debug[1]: parsed line number: 1300000
+Debug[1]: parsed line number: 1400000
+Debug[1]: parsed line number: 1500000
+Debug[1]: parsed line number: 1600000
+Debug[1]: parsed line number: 1700000
+Debug[1]: parsed line number: 1800000
+Debug[1]: parsed line number: 1900000
+Debug[1]: parsed line number: 2000000
+Debug[1]: parsed line number: 2100000
+Debug[1]: parsed line number: 2200000
+Debug[1]: parsed line number: 2300000
+Debug[1]: parsed line number: 2400000
+Debug[1]: parsed line number: 2500000
+Debug[1]: parsed line number: 2600000
+Debug[1]: parsed line number: 2700000
+Debug[1]: parsed line number: 2800000
+Debug[1]: parsed line number: 2900000
+Debug[1]: parsed line number: 3000000
+Debug[1]: parsed line number: 3100000
+Debug[1]: parsed line number: 3200000
+Debug[1]: parsed line number: 3300000
+Debug[1]: parsed line number: 3400000
+Debug[1]: parsed line number: 3500000
+Debug[1]: parsed line number: 3600000
+Debug[1]: parsed line number: 3700000
+Debug[1]: parsed line number: 3800000
+Debug[1]: parsed line number: 3900000
+Debug[1]: parsed line number: 4000000
+Debug[1]: parsed line number: 4100000
+Debug[1]: parsed line number: 4200000
+Debug[1]: parsed line number: 4300000
+Debug[1]: parsed line number: 4400000
+Debug[1]: parsed line number: 4500000
+Debug[1]: parsed line number: 4600000
+Debug[1]: parsed line number: 4700000
+Debug[1]: parsed line number: 4800000
+Debug[1]: parsed line number: 4900000
+Debug[1]: parsed line number: 5000000
+Debug[1]: parsed line number: 5100000
+Debug[1]: parsed line number: 5200000
+Debug[1]: parsed line number: 5300000
+Debug[1]: parsed line number: 5400000
+Debug[1]: parsed line number: 5500000
+Debug[1]: parsed line number: 5600000
+Debug[1]: parsed line number: 5700000
+Debug[1]: parsed line number: 5800000
+Debug[1]: parsed line number: 5900000
+Debug[1]: parsed line number: 6000000
+Debug[1]: parsed line number: 6100000
+Debug[1]: parsed line number: 6200000
+Debug[1]: parsed line number: 6300000
+Debug[1]: parsed line number: 6400000
+Debug[1]: parsed line number: 6500000
+Debug[1]: parsed line number: 6600000
+Debug[1]: parsed line number: 6700000
+Debug[1]: parsed line number: 6800000
+Debug[1]: parsed line number: 6900000
+Debug[1]: parsed line number: 7000000
+Debug[1]: stdin lines read: 7000000
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.prime-small.sh: starting 
+
+./jacobi.prime-small.sh: 0mod3 job.h-0mod3.prime-small
+./jacobi.prime-small.sh: not0mod3 job.h-not0mod3.prime-small
+
+./jacobi-gentally -v 3 job.h-0mod3.prime-small/global.stats job.h-0mod3.prime-small/tally.int job.h-0mod3.prime-small/tally.1stint job.h-0mod3.prime-small/tally.odd job.h-0mod3.prime-small/tally.1stodd job.h-0mod3.prime-small/tally.byfreq job.h-0mod3.prime-small/tally.byv1 job.h-0mod3.prime-small/tally.byoddfreq job.h-0mod3.prime-small/tally.byoddv1 job.h-0mod3.prime-small/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.prime-small/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.prime-small/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.prime-small/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.prime-small/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.prime-small/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.prime-small/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.prime-small/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.prime-small/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.prime-small/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.prime-small/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: stdin lines read: 37711
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.prime-small/global.stats job.h-not0mod3.prime-small/tally.int job.h-not0mod3.prime-small/tally.1stint job.h-not0mod3.prime-small/tally.odd job.h-not0mod3.prime-small/tally.1stodd job.h-not0mod3.prime-small/tally.byfreq job.h-not0mod3.prime-small/tally.byv1 job.h-not0mod3.prime-small/tally.byoddfreq job.h-not0mod3.prime-small/tally.byoddv1 job.h-not0mod3.prime-small/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.prime-small/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.prime-small/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.prime-small/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.prime-small/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.prime-small/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.prime-small/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.prime-small/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.prime-small/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.prime-small/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.prime-small/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: stdin lines read: 28148
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.prime-large.sh: starting 
+
+./jacobi.prime-large.sh: 0mod3 job.h-0mod3.prime-large
+./jacobi.prime-large.sh: not0mod3 job.h-not0mod3.prime-large
+
+./jacobi-gentally -v 3 job.h-0mod3.prime-large/global.stats job.h-0mod3.prime-large/tally.int job.h-0mod3.prime-large/tally.1stint job.h-0mod3.prime-large/tally.odd job.h-0mod3.prime-large/tally.1stodd job.h-0mod3.prime-large/tally.byfreq job.h-0mod3.prime-large/tally.byv1 job.h-0mod3.prime-large/tally.byoddfreq job.h-0mod3.prime-large/tally.byoddv1 job.h-0mod3.prime-large/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.prime-large/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.prime-large/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.prime-large/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.prime-large/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.prime-large/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.prime-large/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.prime-large/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.prime-large/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.prime-large/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.prime-large/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: stdin lines read: 47261
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.prime-large/global.stats job.h-not0mod3.prime-large/tally.int job.h-not0mod3.prime-large/tally.1stint job.h-not0mod3.prime-large/tally.odd job.h-not0mod3.prime-large/tally.1stodd job.h-not0mod3.prime-large/tally.byfreq job.h-not0mod3.prime-large/tally.byv1 job.h-not0mod3.prime-large/tally.byoddfreq job.h-not0mod3.prime-large/tally.byoddv1 job.h-not0mod3.prime-large/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.prime-large/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.prime-large/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.prime-large/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.prime-large/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.prime-large/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.prime-large/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.prime-large/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.prime-large/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.prime-large/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.prime-large/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: stdin lines read: 33424
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi.prime-all.sh: starting 
+
+./jacobi.prime-all.sh: 0mod3 job.h-0mod3.prime-all
+./jacobi.prime-all.sh: not0mod3 job.h-not0mod3.prime-all
+
+./jacobi-gentally -v 3 job.h-0mod3.prime-all/global.stats job.h-0mod3.prime-all/tally.int job.h-0mod3.prime-all/tally.1stint job.h-0mod3.prime-all/tally.odd job.h-0mod3.prime-all/tally.1stodd job.h-0mod3.prime-all/tally.byfreq job.h-0mod3.prime-all/tally.byv1 job.h-0mod3.prime-all/tally.byoddfreq job.h-0mod3.prime-all/tally.byoddv1 job.h-0mod3.prime-all/tally.prime
+Debug[1]: global.stats filename: job.h-0mod3.prime-all/global.stats
+Debug[1]: tally.int filename: job.h-0mod3.prime-all/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-0mod3.prime-all/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-0mod3.prime-all/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-0mod3.prime-all/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-0mod3.prime-all/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-0mod3.prime-all/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-0mod3.prime-all/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-0mod3.prime-all/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-0mod3.prime-all/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: stdin lines read: 84972
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+
+./jacobi-gentally -v 3 job.h-not0mod3.prime-all/global.stats job.h-not0mod3.prime-all/tally.int job.h-not0mod3.prime-all/tally.1stint job.h-not0mod3.prime-all/tally.odd job.h-not0mod3.prime-all/tally.1stodd job.h-not0mod3.prime-all/tally.byfreq job.h-not0mod3.prime-all/tally.byv1 job.h-not0mod3.prime-all/tally.byoddfreq job.h-not0mod3.prime-all/tally.byoddv1 job.h-not0mod3.prime-all/tally.prime
+Debug[1]: global.stats filename: job.h-not0mod3.prime-all/global.stats
+Debug[1]: tally.int filename: job.h-not0mod3.prime-all/tally.int
+Debug[1]: filename_tally_1stint filename: job.h-not0mod3.prime-all/tally.1stint
+Debug[1]: filename_tally_odd filename: job.h-not0mod3.prime-all/tally.odd
+Debug[1]: filename_tally_1stodd filename: job.h-not0mod3.prime-all/tally.1stodd
+Debug[1]: filename_best_by_freq filename: job.h-not0mod3.prime-all/tally.byfreq
+Debug[1]: filename_best_by_v1 filename: job.h-not0mod3.prime-all/tally.byv1
+Debug[1]: filename_best_by_oddfreq filename: job.h-not0mod3.prime-all/tally.byoddfreq
+Debug[1]: filename_best_by_oddv1 filename: job.h-not0mod3.prime-all/tally.byoddv1
+Debug[1]: filename_best_prime filename: job.h-not0mod3.prime-all/tally.prime
+Debug[1]: about to initialize counters
+Debug[1]: about to initialize tallies
+Debug[1]: about to initialize caches
+Debug[1]: about to process stdin
+Debug[1]: stdin lines read: 61572
+Debug[1]: about to reverse sort count array by count
+Debug[1]: write information to tally files
+Debug[1]: write global stats
+

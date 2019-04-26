@@ -1,25 +1,25 @@
 # filename = job.h-0mod3.n-5209020/tally.byoddfreq
 #
-# ave jacobi ops per valid v(1) with cache = 3.6718
-# ave jacobi ops per valid v(1) w/o cache  = 4.0013
+# ave jacobi ops per valid v(1) with cache = 3.672
+# ave jacobi ops per valid v(1) w/o cache  = 4.000
 #
-# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.0000
+# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = 1.000
 #
-# match_prime_v1        = 300439
-# nomatch_prime_v1      = 4
+# match_prime_v1        = 300442
+# nomatch_prime_v1      = 1
 #
-# Jacobi ops ignoring cache = 1103180
-# Jacobi ops with cache     = 1202175
+# Jacobi ops ignoring cache = 1103128
+# Jacobi ops with cache     = 1201874
 # valid_v1_values           = 300443
 #
-# cache_load_count  = 1103180
-# cache_hit_count   = 98995
+# cache_load_count  = 1103128
+# cache_hit_count   = 98746
 #
 # out_of_range      = 0
 # invalid_str_value = 0
 #
-# non_zero_count = 18
-# zero_count     = 982
+# non_zero_count = 19
+# zero_count     = 981
 # out_of_range   = 0
 #
 # count sum = 300443
@@ -32,17 +32,18 @@
 9451 15
 4682 17
 2321 21
-1179 29
-610 27
+1201 27
+588 29
 296 35
 145 39
 71 41
 34 45
 22 51
-17 59
-5 69
-4 71
+13 57
+8 59
+4 69
 2 65
+1 71
 0 0
 0 1
 0 2
@@ -86,7 +87,6 @@
 0 54
 0 55
 0 56
-0 57
 0 58
 0 60
 0 61
