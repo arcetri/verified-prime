@@ -40,13 +40,14 @@
  * usage
  */
 const char * usage =
-"usage: %s [-h] [-v lvl] [-s] [-o] v1\n"
+"usage: %s [-h] [-v lvl] [-s] [-o] [-p] v1\n"
 "\n"
 "	-h	print usage message and exit\n"
 "	-v lvl	set debugging level (def: 0 ==> none)\n"
 "\n"
 "	-s	search only for v(1) that are the first valid v(1)\n"
 "	-o	search for odd v(1) only\n"
+"	-p	print valid v(1) values and ignore the v1 arg (conflicts woth -s)\n"
 "\n"
 "	v1	print h and n from stdin where v1 is a valid v(1) for\n"
 "		testing the primality of h*2^n-1"
@@ -66,7 +67,8 @@ main(int argc, char *argv[])
     int opt;				// getopt() return
     bool first_only = false;		// true ==> only search for v(1) that are the first valid v(1)
     bool odd_only = false;		// true ==> only search for odd v(1)
-    int step_v1 = 1;		// step size for v(1) search (1 or 2)
+    bool print_only = false;		// true ==> print valid v(1) found, ignore the v1 arg
+    int step_v1 = 1;			// step size for v(1) search (1 or 2)
     ssize_t parse_jacobi_line_ret;	// return from parse_jacobi_line()
     uint64_t h = 0;			// h multiper from a h, n, Jacobi +- or 0 line
     uint64_t n = 0;			// n multiper from a h, n, Jacobi +- or 0 line
@@ -79,7 +81,7 @@ main(int argc, char *argv[])
      * parse command line
      */
     program = argv[0];	// save our program name
-    while ((opt = getopt(argc, argv, "hv:so")) != -1) {
+    while ((opt = getopt(argc, argv, "hv:sop")) != -1) {
 	switch (opt) {
 	case 'h':
 	    usage_msg(0, program);
@@ -101,29 +103,60 @@ main(int argc, char *argv[])
 	    odd_only = true;
 	    step_v1 = 2;
 	    break;
+	case 'p':
+	    print_only = true;
+	    break;
 	default:
 	    usage_err(2, __func__, "unknown option: -%c", opt);
 	    /*NOTREACHED*/
 	    break;
 	}
     }
+    if (first_only && print_only) {
+	usage_err(2, __func__, "-s and -p conflict");
+	/*NOTREACHED*/
+    }
     /* advance over getopt() parsed args */
     argc -= optind;
     argv += optind;
-    if (argc != 1) {
-	usage_err(2, __func__, "expected 1 argument");
-	/*NOTREACHED*/
-    }
-    errno = 0;
-    find_v1 = strtol(argv[0], NULL, 0);
-    if (errno != 0) {
-	usage_err(2, __func__, "cannot parse v1 arg: %s");
-	/*NOTREACHED*/
-    }
-    if (first_only) {
-	dbg(DBG_LOW, "searching for h and n where %d is the first valid v(1)", find_v1);
+    if (print_only) {
+	if (argc > 1) {
+	    usage_err(2, __func__, "expected 0 or 1 arguments");
+	    /*NOTREACHED*/
+	}
+	find_v1 = 0;
     } else {
-	dbg(DBG_LOW, "searching for h and n where %s is the a valid v(1)", find_v1);
+	if (argc != 1) {
+	    usage_err(2, __func__, "expected 1 argument");
+	    /*NOTREACHED*/
+	}
+	errno = 0;
+	find_v1 = strtol(argv[0], NULL, 0);
+	if (errno != 0) {
+	    usage_err(2, __func__, "cannot parse v1 arg: %s");
+	    /*NOTREACHED*/
+	}
+    }
+    if (print_only) {
+	if (odd_only) {
+	    dbg(DBG_LOW, "print valid odd v(1) as they are found");
+        } else {
+	    dbg(DBG_LOW, "print valid v(1) as they are found");
+	}
+    } else {
+	if (odd_only) {
+	    if (first_only) {
+		dbg(DBG_LOW, "searching for h and n where %d is the first valid odd v(1)", find_v1);
+	    } else {
+		dbg(DBG_LOW, "searching for h and n where %s is the a valid odd v(1)", find_v1);
+	    }
+        } else {
+	    if (first_only) {
+		dbg(DBG_LOW, "searching for h and n where %d is the first valid v(1)", find_v1);
+	    } else {
+		dbg(DBG_LOW, "searching for h and n where %s is the a valid v(1)", find_v1);
+	    }
+	}
     }
 
     /*
@@ -215,7 +248,11 @@ main(int argc, char *argv[])
 	     */
 	    valid_v1 = v1_check(jstr, v1, h_zeromod3, &cache_int);
 	    if (valid_v1) {
-		dbg(DBG_VHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is valid", h, n, v1);
+		if (print_only) {
+		    printf("h = %"PRIu64" n = %"PRIu64" v1 = %d\n", h, n, v1);
+		} else {
+		    dbg(DBG_VHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is valid", h, n, v1);
+		}
 		saw_valid_v1 = true;
 	    } else {
 		dbg(DBG_VVHIGH, "h: %"PRIu64" n: %"PRIu64" v1: %d is NOT valid", h, n, v1);
