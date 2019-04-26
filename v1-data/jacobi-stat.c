@@ -1010,10 +1010,10 @@ write_stats(tally *tally_p, cache *cache_p, double *ave_ops_cache_p,
      */
     fprintf(stream, "# filename = %s\n", filename);
     fprintf(stream, "#\n");
-    fprintf(stream, "# ave jacobi ops per valid v(1) with cache = %.4f\n", *ave_ops_cache_p);
-    fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.4f\n", *ave_ops_no_cache_p);
+    fprintf(stream, "# ave jacobi ops per valid v(1) with cache = %.3f\n", *ave_ops_cache_p);
+    fprintf(stream, "# ave jacobi ops per valid v(1) w/o cache  = %.3f\n", *ave_ops_no_cache_p);
     fprintf(stream, "#\n");
-    fprintf(stream, "# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = %.4f\n",
+    fprintf(stream, "# fraction of 1st valid v(1) matching 1st v(1) of a verified prime = %.3f\n",
 		    fraction_prime);
     fprintf(stream, "#\n");
     fprintf(stream, "# match_prime_v1        = %"PRIu64"\n", cache_p->match_prime_v1);
